@@ -1,0 +1,149 @@
+.searchBox {
+    background: #252525;
+    height: 40px;
+    border-radius: 40px;
+    padding: 10px;
+}
+  
+.searchBox:hover > .searchInput {
+    width: 240px;
+    padding: 0 6px;
+}
+  
+.searchBox:hover > .searchButton {
+  color: #252525;
+}
+  
+.searchButton {
+    color: white;
+    float: right;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.4s;
+    cursor: pointer;
+}
+  
+.searchInput {
+    border:none;
+    background: none;
+    outline: none;
+    float: left;
+    padding: 0;
+    color: white;
+    font-size: 16px;
+    transition: 0.4s;
+    line-height: 40px;
+    width: 0px;
+    border: 0px;
+}
+
+::placeholder { /* Most modern browsers support this now. */
+    font-weight: bold;
+    color: #4a4a4a;
+}
+  
+@media screen and (max-width: 620px) {
+  H1{
+    font-size: 1rem;
+    text-align: center;
+  }
+  .searchBox:hover > .searchInput {
+    width: 200px;
+    padding: 0 6px;
+  }
+}
+
+button {
+    background: none;
+    border: 0px;
+}
+
+.button {
+    position: relative;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    vertical-align: middle;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+  
+.btn-join {
+    letter-spacing: .1em;
+    cursor: pointer;
+    font-size: 14px;
+    max-height: 14px;
+    max-width: 100px;
+    padding: 12px 20px 12px 20px;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+    vertical-align: middle;
+    width: 100%;
+    border-radius: 10px;
+}
+  
+.effect01 {
+    color: #fff;
+    border: 4px solid #38b000;
+    box-shadow: inset 0 0 0 1px #38b000;
+    background-color: #38b000;
+    overflow: hidden;
+    position: relative;
+    transition: all .3s ease-in-out;
+}
+  
+.effect01:hover {
+    border: 4px solid #70e000;
+    background-color: #70e000;
+    box-shadow: 0 0 25px 0 #70e000;
+}
+  
+.effect01 span {
+    transition: all .2s ease-out;
+    z-index: 2;
+}
+  
+.effect01:hover span {
+    letter-spacing: .13em;
+    color: #fff;
+}
+  
+.effect01:after {
+    background: #70e000;
+    border: 0 solid #70e000;
+    content: '';
+    height: 155px;
+    left: -75px;
+    opacity: .8;
+    position: absolute;
+    top: -50px;
+    transform: rotate(35deg);
+    width: 50px;
+    transition: all 1s cubic-bezier(.075, .82, .165, 1);
+    z-index: 1;
+}
+  
+.effect01:hover::after {
+    background: #60c000;
+    border: 20px solid #60c000;
+    opacity: 0;
+    left: 120%;
+    transform: rotate(40deg);
+}
+
+.square-rounded-icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 10px;
+    pointer-events: none;
+}
