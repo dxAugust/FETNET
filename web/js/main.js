@@ -70,14 +70,10 @@ let request = new XMLHttpRequest();
 let absoluteURL = window.location.origin;
 let userAPI = absoluteURL + "/api/user";
 
-// TODO: Авторизация - связать Backend и FrontEnd часть
 let authAPI = absoluteURL + "/api/user/auth";
 function authUser(username, password) {
     request.open("GET", authAPI + `?username=${username}&password=${password}`, true); 
     request.setRequestHeader("Content-type", "application/json");
-
-    request.setRequestHeader ("Authorization", `Basic `);
-
     request.onloadend = function () {
         if (request.readyState == request.DONE) {   
             if (request.status === 200)
@@ -100,9 +96,8 @@ function authUser(username, password) {
                         expires = "; expires=" + date.toUTCString();
                     }
                     document.cookie = "accessToken" + "=" + userObject.data[0].accessToken  + expires + "; path=/";
-
-                    console.log(document.cookie);
                     
+                    window.location.reload();
                 }
             }
 
@@ -114,7 +109,18 @@ function authUser(username, password) {
                 errorMessage.textContent = "Неверный пароль";
             }
 
-            console.log(request.status);
+            if (request.status === 404)
+            {
+                const errorBlock = document.querySelector(".login-form-error");
+                errorBlock.style.display = 'flex';
+                const errorMessage = document.querySelector(".login-form-error-text");
+                errorMessage.textContent = "Аккаунт не существует";
+            }
+
+            if (request.status === 410)
+            {
+                window.location.href = "/ban";
+            }
         }
     }
 
@@ -128,8 +134,7 @@ let registerAPI = absoluteURL + "/api/user/register";
 function registerUser(username, password, email) {
     request.open("POST", registerAPI + `?username=${username}&password=${password}&email=${email}`, true); 
     request.setRequestHeader("Content-type", "application/json");
-    request.send(); 
-    request.onreadystatechange = function () {
+    request.onloadend = function () {
         if (request.readyState == request.DONE) {   
             if (request.status === 200)
             {
@@ -150,4 +155,12 @@ function registerUser(username, password, email) {
             }
         }
     }
+
+    request.send();
+}
+
+// TODO: BACKEND - Доделать загрузку профиля
+function fetchUserInfo()
+{
+
 }

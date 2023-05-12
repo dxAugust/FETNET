@@ -11,10 +11,12 @@ const db = new sqlite3.Database('database.db');
 /*
     Error codes:
 
-    1 - Account not found
-    2 - Wrong password
-    3 - Username is already busy
-    4 - Not enough params
+    1 - Account not found (HTTP: 404)
+    2 - Wrong password (HTTP: 401)
+    3 - Username is already busy (HTTP: 401)
+    4 - Not enough params (HTTP: 404)
+
+    5 - Account was banned (HTTP: 410)
 */
 
 router.get('/auth', function(request, response){
@@ -202,7 +204,7 @@ router.get('/fetch', function(request, response){
     }
 });
 
-router.get('/info', function(request, response){
+router.get('/user', function(request, response){
     if (request.query.accessToken)
     {
         let accessToken = request.query.accessToken;
@@ -282,7 +284,7 @@ router.post('/register', function(request, response){
                 };
                 errorObject[key].push(data);
     
-                response.statusCode = 200;
+                response.statusCode = 401;
                 response.send(JSON.stringify(errorObject));
             } else {
                 let accessToken = '';
@@ -334,7 +336,7 @@ router.post('/register', function(request, response){
         };
         errorObject[key].push(data);
     
-        response.statusCode = 200;
+        response.statusCode = 404;
         response.send(JSON.stringify(errorObject));
     }
 });

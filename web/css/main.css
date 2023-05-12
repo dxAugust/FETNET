@@ -82,6 +82,16 @@ li a {
     margin-top: 20px;
 }
 
+.form-terms {
+    color: #202020;
+    display: flex;
+    justify-content: center;
+
+    align-items: center;
+
+    font-size: 12px;
+}
+
 .register-form {
     position: absolute;
     z-index: 3;

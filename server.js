@@ -16,7 +16,22 @@ app.use(API_ROOT + '/user', userRoute);
 /* ------------ */
 
 if (serverConfig.web) {
-    app.use(express.static(__dirname + '/web'), router);
+    let fs = require('fs');
+    let publicdir = __dirname + '/web';
+
+    app.use(function(req, res, next) {
+    if (req.path.indexOf('.') === -1) {
+        let file = publicdir + req.path + '.html';
+        fs.exists(file, function(exists) {
+        if (exists)
+            req.url += '.html';
+        next();
+        });
+    }
+    else
+        next();
+    });
+    app.use(express.static(publicdir), router);
 }
 
 const httpServer = http.createServer(app).listen(serverConfig.port);
