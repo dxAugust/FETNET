@@ -1,0 +1,211 @@
+@font-face {
+    font-family: 'Montserrat', sans-serif;
+    src: url(./fonts/Montserrat.ttf);
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+
+    background-color: #141414;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+.main-nav {
+    position: sticky;
+    z-index: 2;
+
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    list-style-type: none;
+    background-color: #202020;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.logotype {
+    width: 64px;
+    height: 64px;
+    padding: 12px;
+}
+
+.main-nav li {
+    display: flex;
+    vertical-align: middle;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 16px;
+    text-decoration: none;
+}
+
+
+.login-form {
+    position: absolute;
+    z-index: 3;
+
+    display: none;
+
+    vertical-align: middle;
+
+    margin: auto;
+
+    right: 11%;
+
+    border-radius: 10%;
+    background-color: white;
+    width: 230px;
+    height: 260px;
+
+    animation: formAnimation 1s forwards;
+}
+
+.form-title {
+    color: #202020;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+
+    margin-top: 20px;
+}
+
+.register-form {
+    position: absolute;
+    z-index: 3;
+
+    display: none;
+
+    vertical-align: middle;
+
+    margin: auto;
+
+    right: 11%;
+
+    border-radius: 10%;
+    background-color: white;
+    width: 230px;
+    height: 300px;
+
+    animation: formAnimation 1s forwards;
+}
+
+.login-form-error {
+    color: #202020;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    display: none;
+
+    color: #CC0000;
+
+    margin-top: 10px;
+
+    font-size: 12px;
+}
+
+.login-form-error-text {
+    text-shadow: #CC0000 0 0 10px;
+}
+
+.user-icon {
+    background: url(../img/icons/icon-user.svg) no-repeat left;
+    background-size: 20px;
+}
+
+.email-icon {
+    background: url(../img/icons/icon-email.svg) no-repeat left;
+    background-size: 20px;
+}
+
+.pass-icon {
+    background: url(../img/icons/icon-lock.svg) no-repeat left;
+    background-size: 20px;
+}
+
+.loginInput {
+    margin: 10px 19px 5px 19px;
+    padding: 10px 10px 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    width: 70%;
+
+    border: 0;
+    border-radius: 10px;
+    background-color: #cdcdcd;
+    color: black;
+}
+
+.loginInput::placeholder{
+    color: #929292;
+}
+
+.loginButton {
+    padding: 15px 30px 15px 30px;
+
+    margin: 5px;
+
+    border-radius: 7px;
+    background-color: #000000;
+    color: white;
+
+    text-transform: uppercase;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    transition: background-color 0.2s linear;
+}
+
+.loginButton:hover {
+    background-color: #353535;
+}
+
+.labelButton {
+    font-size: 12px;
+    transition: color 0.5s;
+    text-align: center;
+}
+
+.labelButton:hover {
+    color: #cdcdcd;
+}
+
+.buttonBlock {
+    display: flex;
+    justify-content: center;
+}
+
+@keyframes formAnimation {
+    0% {
+        transform: translateY(50%); 
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0); 
+        opacity: 1;
+    }
+}
+
+@media screen and (max-width: 935px) {
+    .login-form {
+        right: 0;
+    }
+    .register-form {
+        right: 0;
+    }
+}

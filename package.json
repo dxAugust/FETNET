@@ -1,0 +1,25 @@
+{
+  "name": "fetnet",
+  "version": "1.0.0",
+  "description": "A simple streaming social network",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dxAugust/FETNET.git"
+  },
+  "author": "fet1sov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dxAugust/FETNET/issues"
+  },
+  "homepage": "https://github.com/dxAugust/FETNET#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "geoip-lite": "^1.4.7",
+    "http": "0.0.1-security",
+    "sqlite3": "^5.1.6"
+  }
+}
