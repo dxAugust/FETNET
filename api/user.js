@@ -223,6 +223,11 @@ router.get('/access', function(request, response){
                 let banStatus = row.banned_date;
                 let data = {};
 
+                let updateQuery = 
+                `UPDATE users SET last_online='${Date.now()}' WHERE id=${row.id}`;
+
+                db.run(updateQuery);
+
                 if (banStatus)
                 {
                     data = {

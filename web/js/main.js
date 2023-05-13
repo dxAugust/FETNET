@@ -149,13 +149,10 @@ function fetchUserInfo()
                 if (request.status === 200)
                 {
                     let response = request.responseText;
-
-                    console.log(response);
                     let userObject = JSON.parse(response); 
 
                     if (userObject)
                     {
-                        
                         /* Clearing the trash */
                         const loginForm = document.getElementById('loginForm');
                         const registerForm = document.getElementById('registerForm');
@@ -169,8 +166,6 @@ function fetchUserInfo()
                             <div class="profile-name">${userObject.data[0].username}</div>
                         </div>
                         `;
-
-                        console.log(userObject.data[0].id);
                     }
                 }
             }

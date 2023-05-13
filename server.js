@@ -13,6 +13,8 @@ const API_ROOT = "/api";
 const userRoute = require("./api/user.js");
 app.use(API_ROOT + '/user', userRoute);
 
+const serviceRoute = require("./api/service.js");
+app.use(API_ROOT + '/service', serviceRoute);
 /* ------------ */
 
 if (serverConfig.web) {
