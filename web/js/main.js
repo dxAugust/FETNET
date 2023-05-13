@@ -1,31 +1,3 @@
-window.addEventListener("DOMContentLoaded", (event) => {
-    const loginHeaderButton = document.getElementById('btn-join');
-
-    const loginButton = document.getElementById('loginButton');
-    const registerButton = document.getElementById('registerButton');
-
-    if (loginHeaderButton) {
-        loginHeaderButton.addEventListener('click', showLoginForm, false);
-    }
-
-    if (registerButton) {
-        registerButton.addEventListener('click', showRegisterForm, false);
-    }
-    if (loginButton) {
-        loginButton.addEventListener('click', showLoginForm, false);
-    }
-
-    document.querySelector("#loginForm").addEventListener("submit", function(e){
-        e.preventDefault();
-        authUser(document.getElementById('loginInput').value, document.getElementById('passwordInput').value);
-    });
-
-    document.querySelector("#registerForm").addEventListener("submit", function(e){
-        e.preventDefault();
-        registerUser();
-    });
-});
-
 function showLoginForm() {
     const registerForm = document.getElementById('registerForm');
     const loginForm = document.getElementById('loginForm');
@@ -83,7 +55,6 @@ function authUser(username, password) {
                 const errorMessage = document.querySelector(".login-form-error");
                 errorMessage.style.display = 'none';
 
-                console.log(response);
                 let userObject = JSON.parse(response); 
 
                 if (userObject)
@@ -160,7 +131,81 @@ function registerUser(username, password, email) {
 }
 
 // TODO: BACKEND - Доделать загрузку профиля
+let fetchAPI = absoluteURL + "/api/user/access";
+let avatarAPI = absoluteURL + "/api/user/avatar/"
 function fetchUserInfo()
 {
+    let sessionToken = getCookie("accessToken");
+    if (sessionToken == null)
+    {
 
+    } else {
+        request.open("GET", fetchAPI, true); 
+        request.setRequestHeader("Content-type", "application/json");
+        request.setRequestHeader("Authorization", sessionToken);
+
+        request.onloadend = function () {
+            if (request.readyState == request.DONE) {   
+                if (request.status === 200)
+                {
+                    let response = request.responseText;
+
+                    console.log(response);
+                    let userObject = JSON.parse(response); 
+
+                    if (userObject)
+                    {
+                        
+                        /* Clearing the trash */
+                        const loginForm = document.getElementById('loginForm');
+                        const registerForm = document.getElementById('registerForm');
+                        const profileSection = document.getElementById('profile-item-section');
+                        loginForm.remove();
+                        registerForm.remove();
+                        profileSection.innerHTML = 
+                        `
+                        <div class="profile-section">
+                            <img class="profile-picture" src="${avatarAPI + userObject.data[0].id}">
+                            <div class="profile-name">${userObject.data[0].username}</div>
+                        </div>
+                        `;
+
+                        console.log(userObject.data[0].id);
+                    }
+                }
+            }
+        }
+
+        request.send();
+    }
 }
+
+window.addEventListener("DOMContentLoaded", (event) => {
+    const loginHeaderButton = document.getElementById('btn-join');
+
+    const loginButton = document.getElementById('loginButton');
+    const registerButton = document.getElementById('registerButton');
+
+    this.fetchUserInfo();
+
+    if (loginHeaderButton) {
+        loginHeaderButton.addEventListener('click', showLoginForm, false);
+    }
+
+    if (registerButton) {
+        registerButton.addEventListener('click', showRegisterForm, false);
+    }
+    if (loginButton) {
+        loginButton.addEventListener('click', showLoginForm, false);
+    }
+
+    document.querySelector("#loginForm").addEventListener("submit", function(e){
+        e.preventDefault();
+        authUser(document.getElementById('loginInput').value, document.getElementById('passwordInput').value);
+    });
+
+    document.querySelector("#registerForm").addEventListener("submit", function(e){
+        e.preventDefault();
+        registerUser();
+    });
+});

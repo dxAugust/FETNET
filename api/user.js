@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
+const path = require('path');
+const fs = require('fs')
+
 const crypto = require('crypto');
 
 const { lookup } = require('geoip-lite');
@@ -204,10 +207,10 @@ router.get('/fetch', function(request, response){
     }
 });
 
-router.get('/user', function(request, response){
-    if (request.query.accessToken)
+router.get('/access', function(request, response){
+    if (request.headers.authorization)
     {
-        let accessToken = request.query.accessToken;
+        let accessToken = request.headers.authorization;
         let query = `SELECT * FROM users WHERE accessToken='${accessToken}'`;
 
         db.get(query, function(err, row) {
@@ -338,6 +341,19 @@ router.post('/register', function(request, response){
     
         response.statusCode = 404;
         response.send(JSON.stringify(errorObject));
+    }
+});
+
+/* User data */
+router.get('/avatar/:userid', function (request, response) {
+    const rootDir = path.join(__dirname, '..');
+
+    if (fs.existsSync(rootDir + "/profiles/avatars/" + request.params.userid + ".png")) {
+        response.sendFile(rootDir + "/profiles/avatars/" + request.params.userid + ".png");
+    } else if (fs.existsSync(rootDir + "/profiles/avatars/" + request.params.userid + ".gif")) {
+        response.sendFile(rootDir + "/profiles/avatars/" + request.params.userid + ".gif");
+    } else {
+        response.sendFile(rootDir + "/profiles/avatars/noname.png");
     }
 });
 
