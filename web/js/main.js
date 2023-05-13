@@ -116,13 +116,17 @@ function registerUser(username, password, email) {
 
                 if (userObject)
                 {
+                    let days = 30;
+                    var expires = "";
+                    if (days) {
+                        var date = new Date();
+                        date.setTime(date.getTime() + (days*24*60*60*1000));
+                        expires = "; expires=" + date.toUTCString();
+                    }
+                    document.cookie = "accessToken" + "=" + userObject.execData[0].accessToken  + expires + "; path=/";
                     
+                    window.location.reload();
                 }
-            }
-
-            if (request.status === 401)
-            {
-                alert("WRONG PASSWORD");
             }
         }
     }
@@ -156,16 +160,22 @@ function fetchUserInfo()
                         /* Clearing the trash */
                         const loginForm = document.getElementById('loginForm');
                         const registerForm = document.getElementById('registerForm');
-                        const profileSection = document.getElementById('profile-item-section');
+                        const profileItemSection = document.getElementById('profile-item-section');
                         loginForm.remove();
                         registerForm.remove();
-                        profileSection.innerHTML = 
+                        profileItemSection.innerHTML = 
                         `
-                        <div class="profile-section">
+                        <div class="profile-section" id="profileSection">
                             <img class="profile-picture" src="${avatarAPI + userObject.data[0].id}">
                             <div class="profile-name">${userObject.data[0].username}</div>
                         </div>
                         `;
+
+                        const profileSection = document.getElementById('profileSection');
+                        if (profileSection)
+                        {
+                            profileSection.addEventListener('click', showProfileMenu, false);
+                        }
                     }
                 }
             }
@@ -173,6 +183,25 @@ function fetchUserInfo()
 
         request.send();
     }
+}
+
+/* Profile menu */
+function showProfileMenu() {
+    console.log("wadawd");
+
+    const profileMenu = document.getElementById('profileMenu');
+
+    if (profileMenu.style.display === 'none') {
+        profileMenu.style.display = 'flex';
+    } else {
+        profileMenu.style.display = 'none';
+    }
+}
+
+function logoutUser()
+{
+    eraseCookie("accessToken");
+    window.location.reload();
 }
 
 window.addEventListener("DOMContentLoaded", (event) => {
@@ -201,6 +230,13 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     document.querySelector("#registerForm").addEventListener("submit", function(e){
         e.preventDefault();
-        registerUser();
+        registerUser(document.getElementById('registerLoginInput').value, 
+                    document.getElementById('registerPasswordInput').value,
+                    document.getElementById('registerEmailInput').value);
     });
+
+    const logoutButton = document.getElementById('logoutButton');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', logoutUser, false);
+    }
 });

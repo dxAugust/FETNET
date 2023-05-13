@@ -24,7 +24,7 @@
     <link rel="icon" href="favicon.ico" />
 </head>
 <body>
-    <nav>
+    <nav id="main_nav">
         <ul class="main-nav">
             <li class="logotype">
                 <img src="./img/logotype.png">
@@ -49,7 +49,6 @@
         </ul>
 
         <form class="login-form" id="loginForm">
-            
             <div class="form-title">Авторизация</div>
             <input class="loginInput user-icon" type="text" id="loginInput" placeholder="Логин" required>
             <input class="loginInput pass-icon" type="password" id="passwordInput" placeholder="Пароль" required>
@@ -95,6 +94,23 @@
                 </a>
             </div>
         </form>
+
+        <div class="profile-menu" id="profileMenu">
+            <ul>
+                <li class="profileButton" id="userButton">
+                    <img class="smaller-icon" src="./img/icons/icon-square-user.svg">
+                    Профиль
+                </li>
+                <li class="profileButton" id="settingsButton">
+                    <img class="smaller-icon" src="./img/icons/icon-settings.svg">
+                    Настройки
+                </li>
+                <li class="profileButton logoutButton" id="logoutButton">
+                    <img class="small-icon" src="./img/icons/icon-turnoff.svg">
+                    Выйти
+                </li>
+            </ul>
+        </div>
     </nav>
 
     <div class="main-page">

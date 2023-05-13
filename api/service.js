@@ -7,12 +7,13 @@ const fs = require('fs')
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('database.db');
 
-/* User data */
+/* Platform statistic data */
 router.get('/stats', function (request, response) {
     let query = `SELECT last_online FROM users`;
 
     let responseObject = {
         online: 0,
+        dayOnline: 0,
         registered: 0,
     };
 
@@ -30,14 +31,14 @@ router.get('/stats', function (request, response) {
     
                 if (secondsBetweenDates < 300) {
                     responseObject.online++;
+                } else if (secondsBetweenDates < 86400) {
+                    responseObject.dayOnline++;
                 }
             }
         });
         response.statusCode = 200;
         response.send(JSON.stringify(responseObject)); 
     });
-
-    
 });
 
 module.exports = router;

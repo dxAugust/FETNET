@@ -317,7 +317,7 @@ router.post('/register', function(request, response){
                 let regDate = year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
 
                 let accountQuery = 
-                `INSERT INTO users VALUES (NULL, '${accessToken}', '${request.query.username}', '${request.query.email}', '${passMD5}', '${request.socket.remoteAddress.split(":")[3]}', '${regDate}', '${regDate}', '0', '0', '', '')`;
+                `INSERT INTO users VALUES (NULL, '${accessToken}', '${request.query.username}', '${request.query.email}', '${passMD5}', '${request.socket.remoteAddress.split(":")[3]}', '${regDate}', '${date_ob.getTime()}', '0', '0', '', '', NULL)`;
 
                 db.run(accountQuery);
 
