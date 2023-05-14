@@ -100,7 +100,6 @@ function authUser(username, password) {
     } catch (err) {}
 }
 
-// TODO: Регистрация - связать Backend и FrontEnd часть
 let registerAPI = absoluteURL + "/api/user/register";
 function registerUser(username, password, email) {
     request.open("POST", registerAPI + `?username=${username}&password=${password}&email=${email}`, true); 
@@ -134,7 +133,6 @@ function registerUser(username, password, email) {
     request.send();
 }
 
-// TODO: BACKEND - Доделать загрузку профиля
 let fetchAPI = absoluteURL + "/api/user/access";
 let avatarAPI = absoluteURL + "/api/user/avatar/"
 function fetchUserInfo()

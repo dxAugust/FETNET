@@ -14,16 +14,14 @@
 
     <link href="./css/style.css" rel="stylesheet" />
     <link href="./css/main.css" rel="stylesheet" />
-    <link href="./css/general.css" rel="stylesheet" />
-
-    <script type="module" src="./js/globe.js"></script>
+    <link href="./css/profile.css" rel="stylesheet" />
 
     <script src="./js/main.js"></script>
 
     <link rel="icon" href="favicon.ico" />
 </head>
 <body>
-    <nav>
+    <nav id="main_nav">
         <ul class="main-nav">
             <li class="logotype">
                 <img src="./img/logotype.png">
@@ -38,7 +36,7 @@
                 </div>
             </li>
 
-            <li>
+            <li id="profile-item-section">
                 <div class="button">
                     <a id="btn-join" class="btn-join effect01">
                       <span>Войти</span>
@@ -48,7 +46,6 @@
         </ul>
 
         <form class="login-form" id="loginForm">
-            
             <div class="form-title">Авторизация</div>
             <input class="loginInput user-icon" type="text" id="loginInput" placeholder="Логин" required>
             <input class="loginInput pass-icon" type="password" id="passwordInput" placeholder="Пароль" required>
@@ -77,6 +74,11 @@
             <input class="loginInput email-icon" type="email" id="registerEmailInput" placeholder="Почта" required>
             <input class="loginInput pass-icon" type="password" id="registerPasswordInput" placeholder="Пароль" required>
             
+            <div class="form-terms">
+                <input type="checkbox" id="terms" required>
+                <a href="/term">Принимаю условия</a>
+            </div>
+
             <div class="buttonBlock">
                 <button class="loginButton">
                     Зарегаться
@@ -89,6 +91,23 @@
                 </a>
             </div>
         </form>
+
+        <div class="profile-menu" id="profileMenu">
+            <ul>
+                <li class="profileButton" id="userButton">
+                    <img class="smaller-icon" src="./img/icons/icon-square-user.svg">
+                    Профиль
+                </li>
+                <li class="profileButton" id="settingsButton">
+                    <img class="smaller-icon" src="./img/icons/icon-settings.svg">
+                    Настройки
+                </li>
+                <li class="profileButton logoutButton" id="logoutButton">
+                    <img class="small-icon" src="./img/icons/icon-turnoff.svg">
+                    Выйти
+                </li>
+            </ul>
+        </div>
     </nav>
 
     <div class="main-page">

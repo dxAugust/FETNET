@@ -12,11 +12,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FETNET</title>
 
-    <link href="./css/style.css" rel="stylesheet" />
-    <link href="./css/main.css" rel="stylesheet" />
-    <link href="./css/profile.css" rel="stylesheet" />
+    <link href="../../css/style.css" rel="stylesheet" />
+    <link href="../../css/main.css" rel="stylesheet" />
+    <link href="../../css/profile.css" rel="stylesheet" />
 
-    <script src="./js/main.js"></script>
+    <script src="../../js/main.js"></script>
+    <script src="../../js/profile.js"></script>
 
     <link rel="icon" href="favicon.ico" />
 </head>
@@ -24,14 +25,14 @@
     <nav id="main_nav">
         <ul class="main-nav">
             <li class="logotype">
-                <img src="./img/logotype.png">
+                <img src="../../img/logotype.png">
             </li>
 
             <li>
                 <div class="searchBox">
                     <input class="searchInput" type="search" name="" placeholder="Поиск...">
                     <button class="searchButton" href="#">
-                      <img src="./img/icons/icon-search.svg" width="32px" height="32px">
+                      <img src="../../img/icons/icon-search.svg" width="32px" height="32px">
                     </button>
                 </div>
             </li>
@@ -51,7 +52,7 @@
             <input class="loginInput pass-icon" type="password" id="passwordInput" placeholder="Пароль" required>
             
             <div class="login-form-error">
-                <img src="./img/icons/icon-warning.svg" width="32" height="32">
+                <img src="../../img/icons/icon-warning.svg" width="32" height="32">
                 <div class="login-form-error-text">ТЕСТОВАЯ ОШИБКА</div>
             </div>
 
@@ -95,15 +96,15 @@
         <div class="profile-menu" id="profileMenu">
             <ul>
                 <li class="profileButton" id="userButton">
-                    <img class="smaller-icon" src="./img/icons/icon-square-user.svg">
+                    <img class="smaller-icon" src="../../img/icons/icon-square-user.svg">
                     Профиль
                 </li>
                 <li class="profileButton" id="settingsButton">
-                    <img class="smaller-icon" src="./img/icons/icon-settings.svg">
+                    <img class="smaller-icon" src="../../img/icons/icon-settings.svg">
                     Настройки
                 </li>
                 <li class="profileButton logoutButton" id="logoutButton">
-                    <img class="small-icon" src="./img/icons/icon-turnoff.svg">
+                    <img class="small-icon" src="../../img/icons/icon-turnoff.svg">
                     Выйти
                 </li>
             </ul>
@@ -111,7 +112,15 @@
     </nav>
 
     <div class="main-page">
-        
+        <div class="profile-container">
+            <div><img class="profile-pic" src="../../api/user/avatar/1"></div>
+            <div class="profile-name">$UserName$</div>
+            <div class="profile-mood">$profileMood$</div>
+
+            <div class="profile-followers-amount">100</div>
+            <div class="profile-follow-button"></div>
+            <div class="profile-separator"></div>
+        </div>
     </div>
 
 </body>

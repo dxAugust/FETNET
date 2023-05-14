@@ -1,0 +1,65 @@
+.profile-container {
+    background-color: #1D1D1D;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-direction: column;
+
+    padding: 5px 15px 5px 10px;
+    margin: 0 auto;
+
+    margin-top: 10%;
+
+    border-radius: 10px;
+
+    color: #FFFFFF;
+
+    max-width: 600px;
+    height: 250px;
+}
+
+.profile-pic {
+    min-width: 80px;
+    min-height: 80px;
+
+    max-width: 150px;
+    max-height: 150px;
+
+    border-radius: 50%;
+}
+
+.profile-name {
+    padding: 10px;
+
+    font-size: 20px;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+.profile-mood {
+    padding: 5px;
+
+    font-size: 14px;
+    font-weight: bold;
+    color: #353535;
+}
+
+.profile-separator {
+    background-color: #262626;
+    height: 1px;
+    width: 70%;
+}
+
+/*
+    TODO: Закончить вёрстку страницы с профилем
+*/
+
+.profile-followers-amount {
+    
+}
+
+.profile-follow-button {
+
+}

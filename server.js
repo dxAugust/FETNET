@@ -18,6 +18,9 @@ app.use(API_ROOT + '/service', serviceRoute);
 /* ------------ */
 
 if (serverConfig.web) {
+    const profilesRoute = require("./api/u.js");
+    app.use('/', profilesRoute);
+
     let fs = require('fs');
     let publicdir = __dirname + '/web';
 
