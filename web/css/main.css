@@ -22,7 +22,6 @@ a {
     text-decoration: none;
 }
 
-
 .main-nav {
     position: sticky;
     z-index: 2;
@@ -57,7 +56,6 @@ li a {
     padding: 16px;
     text-decoration: none;
 }
-
 
 .login-form {
     position: absolute;

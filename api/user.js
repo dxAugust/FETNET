@@ -97,36 +97,32 @@ router.get('/fetch', function(request, response){
                 let key = 'data';
                 errorObject[key] = [];
     
-                let banStatus = row.banned_date;
                 let data = {};
 
-                if (banStatus)
-                {
-                    data = {
-                        id: row.id,
-                        username: row.username,
-                        reg_date: row.reg_date,
-                        last_online: row.last_online,
-                        partner: row.partner,
-                        role: row.role,
-                        countryCode: lookup(row.reg_ip).country,
-                        status: row.status,
-                        mood: row.mood
-                    };
+                data = {
+                    id: row.id,
+                    username: row.username,
+                    reg_date: row.reg_date,
+                    partner: row.partner,
+                    role: row.role,
+                    countryCode: lookup(row.reg_ip).country,
+                    status: row.status,
+                    mood: row.mood,
+                };
+
+                let timeNow = Date.now();
+                let lastActivity = row.last_online;
+                let difference = timeNow - lastActivity;
+    
+                let secondsBetween = difference / 1000;
+                let secondsBetweenDates = Math.abs(secondsBetween);
+    
+                if (secondsBetweenDates < 300) {
+                    data.online = "online";
                 } else {
-                    data = {
-                        id: row.id,
-                        username: row.username,
-                        reg_date: row.reg_date,
-                        last_online: row.last_online,
-                        partner: row.partner,
-                        role: row.role,
-                        countryCode: lookup(row.reg_ip).country,
-                        status: row.status,
-                        mood: row.mood,
-                        banned_date: row.banned_date
-                    };
+                    data.online = lastActivity;
                 }
+
                 errorObject[key].push(data);
     
                 response.statusCode = 200;

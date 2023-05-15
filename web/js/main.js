@@ -133,7 +133,7 @@ function registerUser(username, password, email) {
     request.send();
 }
 
-let fetchAPI = absoluteURL + "/api/user/access";
+let accessAPI = absoluteURL + "/api/user/access";
 let avatarAPI = absoluteURL + "/api/user/avatar/"
 function fetchUserInfo()
 {
@@ -142,19 +142,26 @@ function fetchUserInfo()
     {
 
     } else {
-        request.open("GET", fetchAPI, true); 
+        console.log("whats wrong?");
+        console.log(accessAPI);
+
+        request.open("GET", accessAPI, true); 
         request.setRequestHeader("Content-type", "application/json");
         request.setRequestHeader("Authorization", sessionToken);
 
-        request.onloadend = function () {
+        request.onreadystatechange = function () {
             if (request.readyState == request.DONE) {   
                 if (request.status === 200)
                 {
                     let response = request.responseText;
                     let userObject = JSON.parse(response); 
 
+                    console.log(response);
+
                     if (userObject)
                     {
+                        
+
                         /* Clearing the trash */
                         const loginForm = document.getElementById('loginForm');
                         const registerForm = document.getElementById('registerForm');

@@ -24,8 +24,10 @@
 <body>
     <nav id="main_nav">
         <ul class="main-nav">
-            <li class="logotype">
-                <img src="../../img/logotype.png">
+            <li>
+                <a class="logotype" href="../../">
+                    <img width="64px" height="64px" class="logotype-button" src="../../img/logotype.png">
+                </a>
             </li>
 
             <li>
@@ -112,14 +114,19 @@
     </nav>
 
     <div class="main-page">
-        <div class="profile-container">
-            <div><img class="profile-pic" src="../../api/user/avatar/1"></div>
-            <div class="profile-name">$UserName$</div>
-            <div class="profile-mood">$profileMood$</div>
+        <div class="profile-container" id="profileContainer">
+            <div><img class="profile-pic" id="profilePic" src="../../api/user/avatar/1"></div>
+            <div class="profile-title">
+                <div class="profile-name-title" id="profileName">$UserName$</div>
+                <!--<img class="profile-country" id="profileCountry" src="../../img/flags/">-->
+                <div class="online-status" id="onlineStatus"></div>
+            </div>
+            <div class="profile-mood" id="profileMood">$profileMood$</div>
 
-            <div class="profile-followers-amount">100</div>
-            <div class="profile-follow-button"></div>
-            <div class="profile-separator"></div>
+            <div class="followers-amount-block">
+                <div class="profile-followers-amount">100</div>
+                <div class="profile-follow-button"></div>
+            </div>
         </div>
     </div>
 
