@@ -18,6 +18,21 @@
 
     max-width: 600px;
     height: 250px;
+
+    opacity: 0;
+    transform: translateY(100%);
+    animation: loaded 2s forwards;
+}
+
+@keyframes loaded {
+    0% {
+        transform: translateY(100%); 
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0); 
+        opacity: 1;
+    }
 }
 
 .profile-pic {
@@ -64,7 +79,8 @@
 */
 
 .profile-followers-amount {
-    
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .profile-follow-button {

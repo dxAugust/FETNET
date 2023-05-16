@@ -49,6 +49,19 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 </div>
                 `;
             }
+
+            if (profileRequest.status === 423) {
+                const profileContainer = document.getElementById('profileContainer');
+                profileContainer.remove();
+
+                const mainPage = document.querySelector(".main-page");
+                mainPage.innerHTML = `
+                <div class="profile-message-container">
+                    <img width="192" height="192" src="../../img/icons/icon-sad.svg">
+                    <div class="profile-message">Заблокировано за нарушение условий использования</div>
+                </div>
+                `;
+            }
         }
     }
 

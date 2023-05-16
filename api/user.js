@@ -93,40 +93,56 @@ router.get('/fetch', function(request, response){
         db.get(query, function(err, row) {
             if (typeof row != "undefined")
             {
-                let errorObject = {};
-                let key = 'data';
-                errorObject[key] = [];
-    
-                let data = {};
+                let banQuery = `SELECT * FROM bans WHERE banned_id='${row.id}'`;
 
-                data = {
-                    id: row.id,
-                    username: row.username,
-                    reg_date: row.reg_date,
-                    partner: row.partner,
-                    role: row.role,
-                    countryCode: lookup(row.reg_ip).country,
-                    status: row.status,
-                    mood: row.mood,
-                };
+                db.get(banQuery, function(err, banRow) {
+                    let userObject = {};
+                    let key = 'data';
+                    userObject[key] = [];
+            
+                    let data = {};
 
-                let timeNow = Date.now();
-                let lastActivity = row.last_online;
-                let difference = timeNow - lastActivity;
-    
-                let secondsBetween = difference / 1000;
-                let secondsBetweenDates = Math.abs(secondsBetween);
-    
-                if (secondsBetweenDates < 300) {
-                    data.online = "online";
-                } else {
-                    data.online = lastActivity;
-                }
+                    data = {
+                        id: row.id,
+                        username: row.username,
+                        reg_date: row.reg_date,
+                        partner: row.partner,
+                        role: row.role,
+                        countryCode: lookup(row.reg_ip).country,
+                        status: row.status,
+                        mood: row.mood,
+                    };
 
-                errorObject[key].push(data);
-    
-                response.statusCode = 200;
-                response.send(JSON.stringify(errorObject));
+                    let timeNow = Date.now();
+                    let lastActivity = row.last_online;
+                    let difference = timeNow - lastActivity;
+        
+                    let secondsBetween = difference / 1000;
+                    let secondsBetweenDates = Math.abs(secondsBetween);
+        
+                    if (secondsBetweenDates < 300) {
+                        data.online = "online";
+                    } else {
+                        data.online = lastActivity;
+                    }
+
+                    userObject[key].push(data);
+
+                    if (typeof banRow != "undefined")
+                    {
+                        if (Date.now() > banRow.until)
+                        {
+                            response.statusCode = 200;
+                            response.send(JSON.stringify(userObject));
+                        } else {
+                            response.statusCode = 423;
+                            response.send();
+                        }
+                    } else {
+                        response.statusCode = 200;
+                        response.send(JSON.stringify(userObject));
+                    }
+                });
             } else {
                 let errorObject = {};
                 let key = 'errorData';
@@ -148,44 +164,58 @@ router.get('/fetch', function(request, response){
         db.get(query, function(err, row) {
             if (typeof row != "undefined")
             {
-                let errorObject = {};
-                let key = 'data';
-                errorObject[key] = [];
+                let banQuery = `SELECT * FROM bans WHERE banned_id='${row.id}'`;
 
-                let banStatus = row.banned_date;
-                let data = {};
+                db.get(banQuery, function(err, banRow) {
+                    let userObject = {};
+                    let key = 'data';
+                    userObject[key] = [];
+            
+                    let data = {};
 
-                if (banStatus)
-                {
                     data = {
                         id: row.id,
                         username: row.username,
                         reg_date: row.reg_date,
-                        last_online: row.last_online,
-                        partner: row.partner,
-                        role: row.role,
-                        countryCode: lookup(row.reg_ip).country,
-                        status: row.status,
-                        mood: row.mood
-                    };
-                } else {
-                    data = {
-                        id: row.id,
-                        username: row.username,
-                        reg_date: row.reg_date,
-                        last_online: row.last_online,
                         partner: row.partner,
                         role: row.role,
                         countryCode: lookup(row.reg_ip).country,
                         status: row.status,
                         mood: row.mood,
-                        banned_date: row.banned_date
                     };
-                }
-                errorObject[key].push(data);
-    
-                response.statusCode = 200;
-                response.send(JSON.stringify(errorObject));
+
+                    let timeNow = Date.now();
+                    let lastActivity = row.last_online;
+                    let difference = timeNow - lastActivity;
+        
+                    let secondsBetween = difference / 1000;
+                    let secondsBetweenDates = Math.abs(secondsBetween);
+        
+                    if (secondsBetweenDates < 300) {
+                        data.online = "online";
+                    } else {
+                        data.online = lastActivity;
+                    }
+
+                    userObject[key].push(data);
+
+                    if (typeof banRow != "undefined")
+                    {
+                        if (banRow < Date.now())
+                        {
+                            console.log(banRow);
+                            console.log(Date.now());
+                            response.statusCode = 423;
+                            response.send();
+                        } else {
+                            response.statusCode = 200;
+                            response.send(JSON.stringify(userObject));
+                        }
+                    } else {
+                        response.statusCode = 200;
+                        response.send(JSON.stringify(userObject));
+                    }
+                });
             } else {
                 let errorObject = {};
                 let key = 'errorData';
@@ -313,7 +343,7 @@ router.post('/register', function(request, response){
                 let regDate = year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
 
                 let accountQuery = 
-                `INSERT INTO users VALUES (NULL, '${accessToken}', '${request.query.username}', '${request.query.email}', '${passMD5}', '${request.socket.remoteAddress.split(":")[3]}', '${regDate}', '${date_ob.getTime()}', '0', '0', '', '', NULL)`;
+                `INSERT INTO users VALUES (NULL, '${accessToken}', '${request.query.username}', '${request.query.email}', '${passMD5}', '${request.socket.remoteAddress.split(":")[3]}', '${regDate}', '${date_ob.getTime()}', '0', '0', '', '')`;
 
                 db.run(accountQuery);
 

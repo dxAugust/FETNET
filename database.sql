@@ -10,8 +10,7 @@ CREATE TABLE users (
     partner     INT (10),
     role        TEXT (255),
     status      TEXT (1024),
-    mood        TEXT (255),
-    banned_date TEXT (255) 
+    mood        TEXT (255) 
 );
 
 CREATE TABLE subscription (
@@ -19,4 +18,13 @@ CREATE TABLE subscription (
     sub_id     INT (255),
     belongs_id INT (255),
     sub_date   TEXT (255) 
+);
+
+CREATE TABLE bans (
+    id        INT (255)    PRIMARY KEY,
+    banned_ip INT (255),
+    banned_id INT (255),
+    date      STRING (255),
+    until     STRING (255),
+    admin_id  INT (255) 
 );
