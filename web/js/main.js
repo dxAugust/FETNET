@@ -142,9 +142,6 @@ function fetchUserInfo()
     {
 
     } else {
-        console.log("whats wrong?");
-        console.log(accessAPI);
-
         request.open("GET", accessAPI, true); 
         request.setRequestHeader("Content-type", "application/json");
         request.setRequestHeader("Authorization", sessionToken);
@@ -156,12 +153,8 @@ function fetchUserInfo()
                     let response = request.responseText;
                     let userObject = JSON.parse(response); 
 
-                    console.log(response);
-
                     if (userObject)
                     {
-                        
-
                         /* Clearing the trash */
                         const loginForm = document.getElementById('loginForm');
                         const registerForm = document.getElementById('registerForm');
@@ -172,7 +165,7 @@ function fetchUserInfo()
                         `
                         <div class="profile-section" id="profileSection">
                             <img class="profile-picture" src="${avatarAPI + userObject.data[0].id}">
-                            <div class="profile-name">${userObject.data[0].username}</div>
+                            <div class="profile-name" id="selfProfileName">${userObject.data[0].username}</div>
                         </div>
                         `;
 
@@ -192,8 +185,6 @@ function fetchUserInfo()
 
 /* Profile menu */
 function showProfileMenu() {
-    console.log("wadawd");
-
     const profileMenu = document.getElementById('profileMenu');
 
     if (profileMenu.style.display === 'none') {
@@ -207,6 +198,16 @@ function logoutUser()
 {
     eraseCookie("accessToken");
     window.location.reload();
+}
+
+function sendUserToProfile()
+{
+    window.location.href = absoluteURL + "/u/" + document.getElementById("selfProfileName").textContent;
+}
+
+function sendUserToSettings()
+{
+    window.location.href = absoluteURL + "/account/settings";
 }
 
 window.addEventListener("DOMContentLoaded", (event) => {
@@ -239,6 +240,17 @@ window.addEventListener("DOMContentLoaded", (event) => {
                     document.getElementById('registerPasswordInput').value,
                     document.getElementById('registerEmailInput').value);
     });
+
+    /* User Menu button handlers here */
+    const userButton = document.getElementById('userButton');
+    if (userButton) {
+        userButton.addEventListener('click', sendUserToProfile, false);
+    }
+
+    const settingsButton = document.getElementById('settingsButton');
+    if (settingsButton) {
+        settingsButton.addEventListener('click', sendUserToSettings, false);
+    }
 
     const logoutButton = document.getElementById('logoutButton');
     if (logoutButton) {

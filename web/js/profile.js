@@ -44,7 +44,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 const mainPage = document.querySelector(".main-page");
                 mainPage.innerHTML = `
                 <div class="profile-message-container">
-                    <img width="192" height="192" src="../../img/icons/icon-sad.svg">
+                    <img class="exist-icon" src="../../img/icons/icon-sad.svg">
                     <div class="profile-message">Учётная запись не существует</div>
                 </div>
                 `;
@@ -57,7 +57,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 const mainPage = document.querySelector(".main-page");
                 mainPage.innerHTML = `
                 <div class="profile-message-container">
-                    <img width="192" height="192" src="../../img/icons/icon-sad.svg">
+                    <img class="exist-icon" src="../../img/icons/icon-sad.svg">
                     <div class="profile-message">Заблокировано за нарушение условий использования</div>
                 </div>
                 `;

@@ -125,3 +125,15 @@
 .profile-message-container > .profile-message {
     margin-left: 30px;
 }
+
+.exist-icon {
+    width: 192px;
+    height: 192px;
+}
+
+@media screen and (max-width: 935px) {
+    .exist-icon {
+        width: 128px;
+        height: 128px;
+    }
+}
