@@ -14,7 +14,7 @@
 
     <link href="../../css/style.css" rel="stylesheet" />
     <link href="../../css/main.css" rel="stylesheet" />
-    <link href="../../css/profile.css" rel="stylesheet" />
+    <link href="../../css/userpages/settings.css" rel="stylesheet" />
 
     <script src="../../js/main.js"></script>
     <script src="../../js/settings.js"></script>
@@ -114,7 +114,25 @@
     </nav>
 
     <div class="main-page">
-        
+        <div class="settings-profile-container">
+
+            <div class="settings-profile-avatars">
+                <img class="profile-pic-highres" id="profilePicHighRes" src="">
+                <img class="profile-pic-medres" id="profilePicMediumRes" src="">
+                <img class="profile-pic-lowres" id="profilePicLowRes" src="">
+            </div>
+
+            <label for="moodInput">
+            Статус: <input 
+                class="moodInput" 
+                type="text" 
+                id="moodInput" placeholder="Я люблю пиво">
+            </label>
+
+            <a id="btn-save" class="btn-save effect01">
+                <span>Сохранить</span>
+            </a>
+        </div>
     </div>
 
 </body>

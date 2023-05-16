@@ -164,7 +164,7 @@ function fetchUserInfo()
                         profileItemSection.innerHTML = 
                         `
                         <div class="profile-section" id="profileSection">
-                            <img class="profile-picture" src="${avatarAPI + userObject.data[0].id}">
+                            <img class="profile-picture" id="profilePic" src="${avatarAPI + userObject.data[0].id}">
                             <div class="profile-name" id="selfProfileName">${userObject.data[0].username}</div>
                         </div>
                         `;
