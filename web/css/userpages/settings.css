@@ -118,3 +118,35 @@ label {
     height: 32px;
     border-radius: 50%;
 }
+
+.btn-load-image {
+    letter-spacing: .1em;
+    cursor: pointer;
+    font-size: 14px;
+    max-height: 14px;
+    max-width: 100px;
+    padding: 12px 20px 12px 20px;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+
+    background-color: #262626;
+
+    transition: background-color 0.2s ease-in;
+
+    font-weight: bold;
+
+    margin: 20px;
+
+    vertical-align: middle;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.btn-load-image span {
+    user-select: none;
+}
+
+.btn-load-image:hover {
+    background-color: #353535;
+}

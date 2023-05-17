@@ -116,15 +116,15 @@
     <div class="main-page">
         <div class="settings-profile-container">
 
-            <div class="settings-profile-avatars">
+            <div id="dropImgArea" class="settings-profile-avatars">
                 <img class="profile-pic-highres" id="profilePicHighRes" src="">
                 <img class="profile-pic-medres" id="profilePicMediumRes" src="">
-                <img class="profile-pic-lowres" id="profilePicLowRes" src="">
+                <img class="profile-pic-lowres" id="profilePicLowRes" src=""> 
             </div>
 
-            <!--
-                TODO: Нужно сделать кнопку для загрузки
-            -->
+            <a id="btnLoadImage" class="btn-load-image">
+                <span>Загрузить</span>
+            </a>
 
             <label for="moodInput">
             Статус: <input 
