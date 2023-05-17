@@ -1,0 +1,18 @@
+.page-message-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15%;
+
+    color: #505050;
+    font-size: 32px;
+}
+
+.page-message-container > .page-message {
+    margin-left: 30px;
+}
+
+.meme-icon {
+    width: 192px;
+    height: 192px;
+}

@@ -41,13 +41,17 @@ if (serverConfig.web) {
         next();
     });
     app.use(express.static(publicdir), router);
+
+    app.get('*', function(request, response){
+        response.statusCode = 404;
+        response.sendFile("404.html", { root: path.join(__dirname, '/web') });
+    });
 }
 
 let httpServer = null;
 
 if (serverConfig.https)
 {
-
     let options = {};
 
     if (fs.existsSync(path.join(__dirname,'./cert/key.pem')) 

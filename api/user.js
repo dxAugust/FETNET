@@ -1,4 +1,6 @@
 const express = require('express');
+const fileUpload = require("express-fileupload");
+
 const router = express.Router();
 
 const path = require('path');
@@ -385,6 +387,134 @@ router.get('/avatar/:userid', function (request, response) {
         response.sendFile(rootDir + "/profiles/avatars/" + request.params.userid + ".gif");
     } else {
         response.sendFile(rootDir + "/profiles/avatars/noname.png");
+    }
+});
+
+/* User profile updates */
+router.use(fileUpload());
+router.post('/avatar/load/', function (request, response) {
+    if (request.headers.authorization)
+    {
+        if (request.files && Object.keys(request.files).length !== 0) 
+        {
+            const uploadedFile = request.files.avatar;
+            if (uploadedFile)
+            {
+                if (uploadedFile.size < 10485760)
+                {
+                    const rootDir = path.join(__dirname, '..');
+
+                    let accessToken = request.headers.authorization;
+                    let query = `SELECT * FROM users WHERE accessToken='${accessToken}'`;
+
+                    db.get(query, function(err, row) {
+                        if (typeof row != "undefined")
+                        {
+                            const uploadedFileExtension = uploadedFile.mimetype.split("/")[1];
+
+                            let uploadPath = "";
+
+                            if (uploadedFileExtension === "png")
+                            {
+                                uploadPath = rootDir
+                                    + "/profiles/avatars/" + row.id + "." + uploadedFile.mimetype.split("/")[1];
+                            } else if (uploadedFileExtension === "gif") {
+                                if (row.partner >= 1)
+                                {
+                                    uploadPath = rootDir
+                                        + "/profiles/avatars/" + row.id + "." + uploadedFile.mimetype.split("/")[1];
+                                } else {
+                                    response.statusCode = 409;
+                                    response.send({ status: "Not enough POWER!!" });
+                                    return;
+                                }
+                            } else {
+                                response.statusCode = 418;
+                                response.send({ status: "Wrong file extension" });
+                                return;
+                            }
+
+                            const pngProfilePic = rootDir
+                            + "/profiles/avatars/" + row.id + ".png";
+                            const gifProfilePic = rootDir
+                            + "/profiles/avatars/" + row.id + ".gif";
+                
+                            if (fs.existsSync(pngProfilePic)) {
+                                fs.unlink(pngProfilePic, () => {});
+                            } else if (fs.existsSync(gifProfilePic)) {
+                                fs.unlink(gifProfilePic, () => {});
+                            }
+                            
+                            try {
+                                uploadedFile.mv(uploadPath, function (err) {
+                                    if (err) {
+                                        response.statusCode = 503;
+                                        response.send({ status: "WRONG" });
+                                        return;
+                                    } else {
+                                        response.statusCode = 200;
+                                        response.send({ status: "OK" });
+                                        return;
+                                    }
+                                });
+                            } catch {
+
+                            }
+                        } else {
+                            let errorObject = {};
+                            let key = 'errorData';
+                            errorObject[key] = []; 
+                
+                            let data = {
+                                code: '1'
+                            };
+                            errorObject[key].push(data);
+                
+                            response.statusCode = 404;
+                            response.send(JSON.stringify(errorObject));
+                        }
+                    });
+                } else {
+                    response.statusCode = 503;
+                    response.send({ status: "File is too large" });
+                    return;
+                }
+            }
+        }
+    }
+});
+
+router.use(fileUpload());
+router.post('/update/', function (request, response) {
+    if (request.headers.authorization)
+    {
+        let accessToken = request.headers.authorization;
+        let query = `SELECT * FROM users WHERE accessToken='${accessToken}'`;
+
+        db.get(query, function(err, row) {
+            if (typeof row != "undefined")
+            {
+                let updateQuery = 
+                `UPDATE users SET mood='${request.body.mood}' last_online='${Date.now()}' WHERE id=${row.id}`;
+
+                db.run(updateQuery);
+
+                response.statusCode = 200;
+                response.send({ status: "OK" });
+            } else {
+                let errorObject = {};
+                let key = 'errorData';
+                errorObject[key] = []; 
+    
+                let data = {
+                    code: '1'
+                };
+                errorObject[key].push(data);
+    
+                response.statusCode = 404;
+                response.send(JSON.stringify(errorObject));
+            }
+        });
     }
 });
 
