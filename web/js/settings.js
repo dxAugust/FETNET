@@ -12,7 +12,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
 });
 
 window.addEventListener("DOMNodeInserted", (event) => {
-    const profilePic = document.getElementById("profilePic");
+    const profilePic = document.getElementById("smallProfilePic");
     const profilePic_highRes = document.getElementById("profilePicHighRes");
     const profilePic_medRes = document.getElementById("profilePicMediumRes");
     const profilePic_lowRes = document.getElementById("profilePicLowRes");

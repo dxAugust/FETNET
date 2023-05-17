@@ -3,6 +3,11 @@ const router = express.Router();
 const app = express();
 
 let http = require('http');
+let https = require('https');
+
+let path = require('path');
+
+let fs = require('fs');
 
 const serverConfig = require("./config.js");
 const customConsole = require("./utils/console.js");
@@ -21,7 +26,6 @@ if (serverConfig.web) {
     const profilesRoute = require("./api/u.js");
     app.use('/', profilesRoute);
 
-    let fs = require('fs');
     let publicdir = __dirname + '/web';
 
     app.use(function(req, res, next) {
@@ -39,7 +43,33 @@ if (serverConfig.web) {
     app.use(express.static(publicdir), router);
 }
 
-const httpServer = http.createServer(app).listen(serverConfig.port);
+let httpServer = null;
+
+if (serverConfig.https)
+{
+
+    let options = {};
+
+    if (fs.existsSync(path.join(__dirname,'./cert/key.pem')) 
+        || fs.existsSync(path.join(__dirname,'./cert/cert.pem')))
+    {
+        options = {
+            key: fs.readFileSync(path.join(__dirname,'./cert/key.pem')),
+            cert: fs.readFileSync(path.join(__dirname,'./cert/cert.pem'))
+        }
+
+        console.log(
+            `${customConsole.BgGreen + customConsole.FgWhite} SSL ${customConsole.BgBlack + customConsole.FgGreen} SSL Certificate connected`);
+    } else {
+        console.log(
+        `${customConsole.BgRed + customConsole.FgWhite} SSL ${customConsole.BgBlack + customConsole.FgRed} SSL Certificate not found`);
+    }
+    
+
+    httpServer = https.createServer(options, app).listen(serverConfig.port);
+} else {
+    httpServer = http.createServer(app).listen(serverConfig.port);
+}
 
 if (httpServer.listening)
 {
@@ -53,10 +83,8 @@ if (httpServer.listening)
 httpServer.on('connection', function (client) {
     if (serverConfig.debugMode)
     {
-        customConsole.printColoredMessage(
-            `[INFO] Connected user (${client.remoteAddress.split(":")[3] ? client.remoteAddress.split(":")[3] : "localhost"})`,
-            customConsole.BgBlack,
-            customConsole.FgGray
+        console.log(
+            `${customConsole.BgBlue + customConsole.FgWhite} SERVER ${customConsole.BgBlack + customConsole.FgBlue} Connected user (${client.remoteAddress.split(":")[3] ? client.remoteAddress.split(":")[3] : "localhost"})`
         );
     }
 });

@@ -13,7 +13,7 @@ CREATE TABLE users (
     mood        TEXT (255) 
 );
 
-CREATE TABLE subscription (
+CREATE TABLE subscriptions (
     id         INTEGER    PRIMARY KEY AUTOINCREMENT,
     sub_id     INT (255),
     belongs_id INT (255),

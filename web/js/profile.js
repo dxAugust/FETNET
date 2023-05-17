@@ -7,7 +7,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     const profileRequest = new XMLHttpRequest(); 
 
-    // TODO: Рендеринг страницы профиля
+    // TODO: Фетчинг подписчиков
     profileRequest.open("GET", serverURL + `?username=${username}`, true); 
     profileRequest.setRequestHeader("Content-type", "application/json");
     profileRequest.onloadend = function () {
