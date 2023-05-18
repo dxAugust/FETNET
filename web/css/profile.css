@@ -17,7 +17,7 @@
     color: #FFFFFF;
 
     max-width: 600px;
-    height: 250px;
+    height: 300px;
 
     opacity: 0;
     transform: translateY(100%);
@@ -76,16 +76,18 @@
 */
 
 .profile-followers-amount {
-    font-size: 18px;
+    font-size: 22px;
     font-weight: bold;
-}
-
-.profile-follow-button {
-
 }
 
 .followers-amount-block {
     padding: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-direction: column;
 }
 
 .profile-country {
@@ -126,6 +128,124 @@
 .exist-icon {
     width: 192px;
     height: 192px;
+}
+
+.profile-follow-button {
+    letter-spacing: .1em;
+    cursor: pointer;
+    font-size: 14px;
+
+    width: 32px;
+    height: 32px;
+
+    padding: 0;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 10px;
+}
+  
+.follow {
+    color: #fff;
+    border: 4px solid #38b000;
+    box-shadow: inset 0 0 0 1px #38b000;
+    background-color: #38b000;
+    overflow: hidden;
+    position: relative;
+    transition: all .3s ease-in-out;
+}
+  
+.follow:hover {
+    border: 4px solid #70e000;
+    background-color: #70e000;
+    box-shadow: 0 0 25px 0 #70e000;
+}
+  
+.follow span {
+    transition: all .2s ease-out;
+    z-index: 2;
+}
+  
+.follow:hover span {
+    letter-spacing: .13em;
+    color: #fff;
+}
+  
+.follow:after {
+    background: #70e000;
+    border: 0 solid #70e000;
+    content: '';
+    height: 155px;
+    left: -75px;
+    opacity: .8;
+    position: absolute;
+    top: -50px;
+    transform: rotate(35deg);
+    width: 50px;
+    transition: all 1s cubic-bezier(.075, .82, .165, 1);
+    z-index: 1;
+}
+  
+.follow:hover::after {
+    background: #60c000;
+    border: 20px solid #60c000;
+    opacity: 0;
+    left: 120%;
+    transform: rotate(40deg);
+}
+
+.unfollow {
+    color: #fff;
+    border: 4px solid #b00000;
+    box-shadow: inset 0 0 0 1px #b00000;
+    background-color: #b00000;
+    overflow: hidden;
+    position: relative;
+    transition: all .3s ease-in-out;
+}
+  
+.unfollow:hover {
+    border: 4px solid #e00000;
+    background-color: #e00000;
+    box-shadow: 0 0 25px 0 #e00000;
+}
+  
+.unfollow span {
+    transition: all .2s ease-out;
+    z-index: 2;
+}
+  
+.unfollow:hover span {
+    letter-spacing: .13em;
+    color: #fff;
+}
+  
+.unfollow:after {
+    background: #e00000;
+    border: 0 solid #e00000;
+    content: '';
+    height: 155px;
+    left: -75px;
+    opacity: .8;
+    position: absolute;
+    top: -50px;
+    transform: rotate(35deg);
+    width: 50px;
+    transition: all 1s cubic-bezier(.075, .82, .165, 1);
+    z-index: 1;
+}
+  
+.unfollow:hover::after {
+    background: #c00000;
+    border: 20px solid #c00000;
+    opacity: 0;
+    left: 120%;
+    transform: rotate(40deg);
 }
 
 @media screen and (max-width: 935px) {
