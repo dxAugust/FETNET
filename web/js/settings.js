@@ -4,6 +4,8 @@ if (!getCookie("accessToken"))
 }
 
 let avatarFile = null;
+let mood = "";
+
 function previewProfilePicture()
 {
     event.stopPropagation();
@@ -62,6 +64,7 @@ let httpRequest = new XMLHttpRequest();
 function saveSettings()
 {
     const avatarAPIURL = window.location.origin + "/api/user/avatar/load/";
+    const profileUpdateAPIURL = window.location.origin + "/api/user/update/";
 
     if (avatarFile)
     {
@@ -79,6 +82,57 @@ function saveSettings()
         }
 
         httpRequest.send(formData);
+    }
+
+    const moodInput = document.getElementById("moodInput");
+    if (mood != moodInput.value)
+    {
+        httpRequest.open("POST", profileUpdateAPIURL, true); 
+        httpRequest.setRequestHeader("Authorization", getCookie("accessToken"));
+        httpRequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        httpRequest.onloadend = function () {
+            if (httpRequest.readyState == httpRequest.DONE) {   
+                if (httpRequest.status === 200)
+                {
+                    
+                }
+            }
+        }
+
+        httpRequest.send(`mood=${moodInput.value}`);
+    }
+}
+
+let fetchRequest = new XMLHttpRequest();
+function showUserInfomation()
+{
+    let sessionToken = getCookie("accessToken");
+    if (sessionToken == null)
+    {
+
+    } else {
+        fetchRequest.open("GET", accessAPI, true); 
+        fetchRequest.setRequestHeader("Content-type", "application/json");
+        fetchRequest.setRequestHeader("Authorization", sessionToken);
+
+        fetchRequest.onreadystatechange = function () {
+            if (fetchRequest.readyState == fetchRequest.DONE) {   
+                if (fetchRequest.status === 200)
+                {
+                    let response = request.responseText;
+                    let userObject = JSON.parse(response); 
+
+                    if (userObject)
+                    {
+                        const moodInput = document.getElementById("moodInput");
+                        moodInput.value = userObject.data[0].mood;
+                        mood = moodInput.value;
+                    }
+                }
+            }
+        }
+
+        fetchRequest.send();
     }
 }
 
@@ -103,6 +157,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
     {
         saveButton.addEventListener("click", saveSettings, false)
     }
+
+    this.showUserInfomation();
 });
 
 window.addEventListener("DOMNodeInserted", (event) => {

@@ -1,5 +1,5 @@
 CREATE TABLE users (
-    id          INTEGER     PRIMARY KEY AUTOINCREMENT,
+    id          INTEGER    PRIMARY KEY AUTOINCREMENT,
     accessToken TEXT (255),
     username    TEXT (40),
     email       TEXT (255),
@@ -8,9 +8,8 @@ CREATE TABLE users (
     reg_date    TEXT (255),
     last_online TEXT (255),
     partner     INT (10),
-    role        TEXT (255),
-    status      TEXT (1024),
-    mood        TEXT (255) 
+    mood        TEXT (255),
+    admin       INT (10) 
 );
 
 CREATE TABLE subscriptions (

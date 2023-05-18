@@ -1,7 +1,8 @@
 const express = require('express');
 const fileUpload = require("express-fileupload");
 
-const router = express.Router();
+const router = express.Router(),
+    bodyParser = require('body-parser');
 
 const path = require('path');
 const fs = require('fs')
@@ -335,17 +336,9 @@ router.post('/register', function(request, response){
                 let passMD5 = crypto.createHash('md5').update(request.query.password).digest('hex');
 
                 let date_ob = new Date();
-                let date = ("0" + date_ob.getDate()).slice(-2);
-                let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-                let year = date_ob.getFullYear();
-
-                let hours = date_ob.getHours();
-                let minutes = date_ob.getMinutes();
-                let seconds = date_ob.getSeconds();
-                let regDate = year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
 
                 let accountQuery = 
-                `INSERT INTO users VALUES (NULL, '${accessToken}', '${request.query.username}', '${request.query.email}', '${passMD5}', '${request.socket.remoteAddress.split(":")[3]}', '${regDate}', '${date_ob.getTime()}', '0', '0', '', '')`;
+                `INSERT INTO users VALUES (NULL, '${accessToken}', '${request.query.username}', '${request.query.email}', '${passMD5}', '${request.socket.remoteAddress.split(":")[3]}', '${date_ob.getTime()}', '${date_ob.getTime()}', '0', '', '0')`;
 
                 db.run(accountQuery);
 
@@ -484,7 +477,8 @@ router.post('/avatar/load/', function (request, response) {
     }
 });
 
-router.use(fileUpload());
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: true }));
 router.post('/update/', function (request, response) {
     if (request.headers.authorization)
     {
@@ -494,13 +488,16 @@ router.post('/update/', function (request, response) {
         db.get(query, function(err, row) {
             if (typeof row != "undefined")
             {
-                let updateQuery = 
-                `UPDATE users SET mood='${request.body.mood}' last_online='${Date.now()}' WHERE id=${row.id}`;
-
-                db.run(updateQuery);
+                if (request.body.mood)
+                {
+                    let updateQuery = 
+                    `UPDATE users SET mood='${request.body.mood}', last_online='${Date.now()}' WHERE id=${row.id}`;
+                    db.run(updateQuery);
+                }
 
                 response.statusCode = 200;
                 response.send({ status: "OK" });
+                return;
             } else {
                 let errorObject = {};
                 let key = 'errorData';
