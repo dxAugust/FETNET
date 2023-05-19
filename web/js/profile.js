@@ -61,8 +61,14 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
                     getFollowersAmount(userObject.data[0].id);
 
-                    if (userObject.data[0].username === document.getElementById("selfProfileName").textContent)
+                    let selfProfileName = document.getElementById("selfProfileName");
+                    if(selfProfileName)
                     {
+                        if (userObject.data[0].username === document.getElementById("selfProfileName").textContent)
+                        {
+                            document.getElementById("profileButtonFollow").remove();
+                        }
+                    } else {
                         document.getElementById("profileButtonFollow").remove();
                     }
 
