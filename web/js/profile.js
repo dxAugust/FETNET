@@ -1,3 +1,26 @@
+function getFollowersAmount(id)
+{
+    const subListURL =  window.location.origin + "/api/user/sublist/";
+    const subRequest = new XMLHttpRequest();
+
+    subRequest.open("GET", `${subListURL + id}`, true); 
+    subRequest.setRequestHeader("Content-type", "application/json");
+    subRequest.onloadend = function () {
+        if (subRequest.readyState == subRequest.DONE) {   
+            if (subRequest.status === 200)
+            {
+                let subResponse = subRequest.responseText;
+                let subObject = JSON.parse(subResponse);
+
+                const profileFollowersCount = document.getElementById("profileFollowersCount");
+                profileFollowersCount.textContent = subObject.subdata[0].subcount;
+            }
+        }
+    }
+    
+    subRequest.send();
+}
+
 window.addEventListener("DOMContentLoaded", (event) => {
     const absoluteURL = window.location.href;
     let urlParts = absoluteURL.split('/');
@@ -8,6 +31,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     const profileRequest = new XMLHttpRequest(); 
 
     // TODO: Фетчинг подписчиков
+    let fetchedUserID = 0;
     profileRequest.open("GET", serverURL + `?username=${username}`, true); 
     profileRequest.setRequestHeader("Content-type", "application/json");
     profileRequest.onloadend = function () {
@@ -33,6 +57,24 @@ window.addEventListener("DOMContentLoaded", (event) => {
                     {
                         const profileOnlineStatus = document.getElementById('onlineStatus');
                         profileOnlineStatus.classList.add("offline");
+                    }
+
+                    getFollowersAmount(userObject.data[0].id);
+
+                    if (userObject.data[0].username === document.getElementById("selfProfileName").textContent)
+                    {
+                        document.getElementById("profileButtonFollow").remove();
+                    }
+
+                    const profileBanStatus = document.getElementById('profileBanStatus');
+                    if (userObject.data[1])
+                    {
+                        profileBanStatus.innerHTML = `
+                        <img width="25" height="25" src="../../img/icons/icon-danger.svg">
+                        Дней с последней блокировки: ${userObject.data[1].lastBanDays}
+                        `;
+                    } else {
+                        profileBanStatus.remove();
                     }
                 }
             }
@@ -64,6 +106,5 @@ window.addEventListener("DOMContentLoaded", (event) => {
             }
         }
     }
-
     profileRequest.send();
 });

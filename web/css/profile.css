@@ -17,7 +17,7 @@
     color: #FFFFFF;
 
     max-width: 600px;
-    height: 300px;
+    height: 320px;
 
     opacity: 0;
     transform: translateY(100%);
@@ -76,6 +76,12 @@
 */
 
 .profile-followers-amount {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-direction: column;
+
     font-size: 22px;
     font-weight: bold;
 }
@@ -130,13 +136,40 @@
     height: 192px;
 }
 
+.profile-ban-status {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: bold;
+
+    background-color: #800000;
+
+    padding: 5px;
+
+    border-radius: 10px;
+
+    color: #CC0000;
+
+    text-shadow: #CC0000 0 0 10px;
+    box-shadow: #CC0000 0 0 10px;
+
+    opacity: 0.8;
+}
+
+.profile-followers-title {
+    font-weight: bold;
+    font-size: 14px;
+
+    color: #7d7d7d;
+}
+
 .profile-follow-button {
     letter-spacing: .1em;
     cursor: pointer;
     font-size: 14px;
 
-    width: 32px;
-    height: 32px;
+    width: 26px;
+    height: 26px;
 
     padding: 0;
     position: relative;
@@ -146,6 +179,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    margin: 10px;
 
     border-radius: 10px;
 }

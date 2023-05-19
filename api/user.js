@@ -110,10 +110,9 @@ router.get('/fetch', function(request, response){
                         username: row.username,
                         reg_date: row.reg_date,
                         partner: row.partner,
-                        role: row.role,
                         countryCode: lookup(row.reg_ip).country,
-                        status: row.status,
                         mood: row.mood,
+                        admin: row.admin,
                     };
 
                     let timeNow = Date.now();
@@ -135,6 +134,14 @@ router.get('/fetch', function(request, response){
                     {
                         if (Date.now() > banRow.until)
                         {
+                            let timeDiff = Date.now() - banRow.until;
+                            let days = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); 
+
+                            let banData = {
+                                lastBanDays: days,
+                            };
+                            userObject[key].push(banData);
+
                             response.statusCode = 200;
                             response.send(JSON.stringify(userObject));
                         } else {
@@ -204,15 +211,22 @@ router.get('/fetch', function(request, response){
 
                     if (typeof banRow != "undefined")
                     {
-                        if (banRow < Date.now())
+                        if (Date.now() > banRow.until)
                         {
-                            console.log(banRow);
-                            console.log(Date.now());
-                            response.statusCode = 423;
-                            response.send();
-                        } else {
+
+                            let timeDiff = Date.now() - banRow.until;
+                            let days = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); 
+
+                            let banData = {
+                                lastBanDays: days
+                            };
+                            userObject['banData'].push(banData);
+
                             response.statusCode = 200;
                             response.send(JSON.stringify(userObject));
+                        } else {
+                            response.statusCode = 423;
+                            response.send();
                         }
                     } else {
                         response.statusCode = 200;
@@ -513,6 +527,131 @@ router.post('/update/', function (request, response) {
             }
         });
     }
+});
+
+router.post('/subscribe/', function (request, response) {
+    if (request.headers.authorization)
+    {
+        let accessToken = request.headers.authorization;
+        let query = `SELECT * FROM users WHERE accessToken='${accessToken}'`;
+
+        db.get(query, function(err, row) {
+            if (typeof row != "undefined")
+            {
+                let subQuery = `SELECT * FROM subscriptions WHERE sub_id='${row.id}'`;
+
+                db.get(subQuery, function(err, subRow) {
+                    if (typeof subRow != "undefined")
+                    {
+                        response.statusCode = 503;
+                        response.send({ status: "Already subbed" });
+                        return; 
+                    } else {
+                        if (request.body.subid)
+                        {
+                            if (request.body.subid != row.id)
+                            {
+                                let subsQuery = 
+                                `INSERT INTO subscriptions VALUES (NULL, '${row.id}', '${request.body.subid}', '${Date.now()}')`;
+                                db.run(subsQuery);
+
+                                response.statusCode = 200;
+                                response.send({ status: "Successfully subbed" });
+                                return; 
+
+                            } else {
+                                response.statusCode = 503;
+                                response.send({ status: "Can't subscribe to yourself" });
+                                return; 
+                            }
+                        }
+                    }
+                });
+            } else {
+                let errorObject = {};
+                let key = 'errorData';
+                errorObject[key] = []; 
+    
+                let data = {
+                    code: '1'
+                };
+                errorObject[key].push(data);
+    
+                response.statusCode = 404;
+                response.send(JSON.stringify(errorObject));
+            }
+        });
+    }
+});
+
+router.post('/unsubscribe/', function (request, response) {
+    if (request.headers.authorization)
+    {
+        let accessToken = request.headers.authorization;
+        let query = `SELECT * FROM users WHERE accessToken='${accessToken}'`;
+
+        db.get(query, function(err, row) {
+            if (typeof row != "undefined")
+            {
+                let subQuery = `SELECT * FROM subscriptions WHERE sub_id='${row.id}'`;
+
+                db.get(subQuery, function(err, subRow) {
+                    if (typeof subRow != "undefined")
+                    {
+                        response.statusCode = 200;
+                        response.send({ status: "Successfully unsubscribed" });
+                        return; 
+                    } else {
+                        response.statusCode = 503;
+                        response.send({ status: "This is user is not subbed" });
+                        return;
+                    }
+                });
+            } else {
+                let errorObject = {};
+                let key = 'errorData';
+                errorObject[key] = []; 
+    
+                let data = {
+                    code: '1'
+                };
+                errorObject[key].push(data);
+    
+                response.statusCode = 404;
+                response.send(JSON.stringify(errorObject));
+            }
+        });
+    }
+});
+
+router.get('/sublist/:userid', function (request, response) {
+    let subQuery = `SELECT * FROM subscriptions WHERE belongs_id='${request.params.userid}'`;
+
+    db.serialize(function() {
+        db.all(subQuery, function(err, subRows) {
+            if (typeof subRows != "undefined")
+            {
+                let subData = {};
+                let key = 'subdata';
+                subData[key] = []; 
+
+                let subList = [];
+                subRows.forEach(subObj => {
+                    subList.push(subObj.sub_id);
+                });
+                    
+                let data = {
+                    subcount: subRows.length,
+                    sublist: subList
+                };
+                subData[key].push(data);
+
+                response.statusCode = 200;
+                response.send(JSON.stringify(subData));
+                return;
+            }
+        });           
+    });
 });
 
 module.exports = router;
