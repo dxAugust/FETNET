@@ -14,6 +14,7 @@ router.get('/stats', function (request, response) {
     let responseObject = {
         online: 0,
         dayOnline: 0,
+        monthlyOnline: 0,
         registered: 0,
     };
 
@@ -31,8 +32,15 @@ router.get('/stats', function (request, response) {
     
                 if (secondsBetweenDates < 300) {
                     responseObject.online++;
-                } else if (secondsBetweenDates < 86400) {
+                } 
+                
+                if (secondsBetweenDates < 86400) {
                     responseObject.dayOnline++;
+                }
+
+                if (secondsBetween < 2592000)
+                {
+                    responseObject.monthlyOnline++;
                 }
             }
         });

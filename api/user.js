@@ -584,6 +584,9 @@ router.post('/subscribe/', function (request, response) {
     }
 });
 
+/*
+    TODO: Доделать метод отписки
+*/
 router.post('/unsubscribe/', function (request, response) {
     if (request.headers.authorization)
     {
