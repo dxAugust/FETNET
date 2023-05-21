@@ -1,3 +1,4 @@
+let fetchedUserID = 0;
 function getFollowersAmount(id)
 {
     const subListURL =  window.location.origin + "/api/user/sublist/";
@@ -21,6 +22,94 @@ function getFollowersAmount(id)
     subRequest.send();
 }
 
+function checkSubscription()
+{
+    const followRequest = new XMLHttpRequest();
+    const followURL = window.location.origin + "/api/user/checksub";
+
+    followRequest.open("POST", followURL, true); 
+    followRequest.setRequestHeader("Content-type", "application/json");
+    followRequest.setRequestHeader("Authorization", getCookie("accessToken"));
+    followRequest.onloadend = function () {
+        if (followRequest.readyState == followRequest.DONE) {   
+            if (followRequest.status === 200)
+            {
+                const flwButton = document.getElementById("profileButtonFollow");
+                flwButton.classList.add("unfollow");
+                flwButton.classList.remove("follow");
+
+                const profileImgFollow = document.getElementById("profileImgFollow");
+                profileImgFollow.classList.remove("follow");
+                profileImgFollow.classList.add("unfollow");
+
+                profileImgFollow.src = "../../img/icons/icon-broken-heart.svg";
+            }
+        }
+    }
+    followRequest.send(JSON.stringify({ subid: fetchedUserID }));
+}
+
+function followButtonClick(event)
+{
+    const followRequest = new XMLHttpRequest(); 
+    const followURL = window.location.origin + "/api/user/subscribe";
+    const unfollowURL = window.location.origin + "/api/user/unsubscribe";
+
+    const flwCounter = document.getElementById("profileFollowersCount");
+
+    let flwButton = document.getElementById("profileButtonFollow");
+    if (flwButton.classList.contains("follow"))
+    {
+        flwButton.classList.add("unfollow");
+        flwButton.classList.remove("follow");
+
+        const profileImgFollow = document.getElementById("profileImgFollow");
+        profileImgFollow.classList.remove("follow");
+        profileImgFollow.classList.add("unfollow");
+
+        profileImgFollow.src = "../../img/icons/icon-broken-heart.svg";
+
+        followRequest.open("POST", followURL, true); 
+        followRequest.setRequestHeader("Content-type", "application/json");
+        followRequest.setRequestHeader("Authorization", getCookie("accessToken"));
+        followRequest.onloadend = function () {
+            if (followRequest.readyState == followRequest.DONE) {   
+                if (followRequest.status === 200)
+                {
+                    let amount = Number(flwCounter.textContent);
+                    amount++;
+                    flwCounter.textContent = amount;
+                }
+            }
+        }
+        followRequest.send(JSON.stringify({ subid: fetchedUserID }));
+    } else {
+        flwButton.classList.add("follow");
+        flwButton.classList.remove("unfollow");
+
+        const profileImgFollow = document.getElementById("profileImgFollow");
+        profileImgFollow.classList.add("follow");
+        profileImgFollow.classList.remove("unfollow");
+
+        profileImgFollow.src = "../../img/icons/icon-heart.svg";
+
+        followRequest.open("POST", unfollowURL, true); 
+        followRequest.setRequestHeader("Content-type", "application/json");
+        followRequest.setRequestHeader("Authorization", getCookie("accessToken"));
+        followRequest.onloadend = function () {
+            if (followRequest.readyState == followRequest.DONE) {   
+                if (followRequest.status === 200)
+                {
+                    let amount = Number(flwCounter.textContent);
+                    amount--;
+                    flwCounter.textContent = amount;
+                }
+            }
+        }
+        followRequest.send(JSON.stringify({ subid: fetchedUserID }));
+    }
+}
+
 window.addEventListener("DOMContentLoaded", (event) => {
     const absoluteURL = window.location.href;
     let urlParts = absoluteURL.split('/');
@@ -30,8 +119,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     const profileRequest = new XMLHttpRequest(); 
 
-    // TODO: Фетчинг подписчиков
-    let fetchedUserID = 0;
     profileRequest.open("GET", serverURL + `?username=${username}`, true); 
     profileRequest.setRequestHeader("Content-type", "application/json");
     profileRequest.onloadend = function () {
@@ -44,6 +131,9 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 if (userObject)
                 {
                     /* Setting up the user data */
+                    fetchedUserID = userObject.data[0].id;
+                    checkSubscription();
+
                     const profileName = document.getElementById('profileName');
                     profileName.textContent = userObject.data[0].username;
 
@@ -113,4 +203,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         }
     }
     profileRequest.send();
+
+    const followButton = document.getElementById("profileButtonFollow");
+    followButton.addEventListener("click", this.followButtonClick);
 });

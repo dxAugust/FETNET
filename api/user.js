@@ -538,12 +538,12 @@ router.post('/subscribe/', function (request, response) {
         db.get(query, function(err, row) {
             if (typeof row != "undefined")
             {
-                let subQuery = `SELECT * FROM subscriptions WHERE sub_id='${row.id}'`;
+                let subQuery = `SELECT * FROM subscriptions WHERE sub_id='${row.id}' AND belongs_id='${request.body.subid}'`;
 
                 db.get(subQuery, function(err, subRow) {
                     if (typeof subRow != "undefined")
                     {
-                        response.statusCode = 503;
+                        response.statusCode = 501;
                         response.send({ status: "Already subbed" });
                         return; 
                     } else {
@@ -551,14 +551,24 @@ router.post('/subscribe/', function (request, response) {
                         {
                             if (request.body.subid != row.id)
                             {
-                                let subsQuery = 
-                                `INSERT INTO subscriptions VALUES (NULL, '${row.id}', '${request.body.subid}', '${Date.now()}')`;
-                                db.run(subsQuery);
+                                let belongQuery = `SELECT * FROM users WHERE id='${request.body.subid}'`;
 
-                                response.statusCode = 200;
-                                response.send({ status: "Successfully subbed" });
-                                return; 
+                                db.get(belongQuery, function(err, belongRow) {
+                                    if (typeof belongRow != "undefined")
+                                    {
+                                        let subsQuery = 
+                                        `INSERT INTO subscriptions VALUES (NULL, '${row.id}', '${request.body.subid}', '${Date.now()}')`;
+                                        db.run(subsQuery);
 
+                                        response.statusCode = 200;
+                                        response.send({ status: "Successfully subbed" });
+                                        return; 
+                                    } else {
+                                        response.statusCode = 503;
+                                        response.send({ status: "Account does not exist" });
+                                        return; 
+                                    }
+                                });
                             } else {
                                 response.statusCode = 503;
                                 response.send({ status: "Can't subscribe to yourself" });
@@ -584,9 +594,6 @@ router.post('/subscribe/', function (request, response) {
     }
 });
 
-/*
-    TODO: Доделать метод отписки
-*/
 router.post('/unsubscribe/', function (request, response) {
     if (request.headers.authorization)
     {
@@ -596,11 +603,14 @@ router.post('/unsubscribe/', function (request, response) {
         db.get(query, function(err, row) {
             if (typeof row != "undefined")
             {
-                let subQuery = `SELECT * FROM subscriptions WHERE sub_id='${row.id}'`;
+                let subQuery = `SELECT * FROM subscriptions WHERE sub_id='${row.id}' AND belongs_id='${request.body.subid}'`;
 
                 db.get(subQuery, function(err, subRow) {
                     if (typeof subRow != "undefined")
                     {
+                        let deleteQuery = `DELETE FROM subscriptions WHERE sub_id='${row.id}' AND belongs_id='${request.body.subid}'`;
+                        db.run(deleteQuery);
+
                         response.statusCode = 200;
                         response.send({ status: "Successfully unsubscribed" });
                         return; 
@@ -608,6 +618,46 @@ router.post('/unsubscribe/', function (request, response) {
                         response.statusCode = 503;
                         response.send({ status: "This is user is not subbed" });
                         return;
+                    }
+                });
+            } else {
+                let errorObject = {};
+                let key = 'errorData';
+                errorObject[key] = []; 
+    
+                let data = {
+                    code: '1'
+                };
+                errorObject[key].push(data);
+    
+                response.statusCode = 404;
+                response.send(JSON.stringify(errorObject));
+            }
+        });
+    }
+});
+
+router.post('/checksub/', function (request, response) {
+    if (request.headers.authorization)
+    {
+        let accessToken = request.headers.authorization;
+        let query = `SELECT * FROM users WHERE accessToken='${accessToken}'`;
+
+        db.get(query, function(err, row) {
+            if (typeof row != "undefined")
+            {
+                let subQuery = `SELECT * FROM subscriptions WHERE sub_id='${row.id}' AND belongs_id='${request.body.subid}'`;
+
+                db.get(subQuery, function(err, subRow) {
+                    if (typeof subRow != "undefined")
+                    {
+                        response.statusCode = 200;
+                        response.send({ status: "Already subbed" });
+                        return; 
+                    } else {
+                        response.statusCode = 503;
+                        response.send({ status: "Not subbed" });
+                        return; 
                     }
                 });
             } else {
