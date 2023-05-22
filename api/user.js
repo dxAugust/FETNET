@@ -320,8 +320,24 @@ router.get('/access', function(request, response){
 router.post('/register', function(request, response){
     if (request.query.username && request.query.password && request.query.email)
     {
-        let username = request.query.username;
+        let username = request.query.username.trim();
         let query = `SELECT * FROM users WHERE UPPER(username) LIKE UPPER('${username}')`;
+
+        username = username.replace(/[^a-zA-Z0-9 ]/g, '');
+
+        if (username.length < 4)
+        {
+            response.statusCode = 503;
+            response.send(JSON.stringify({ status: "Username should be more 4 symbols"}));
+            return;
+        }
+
+        if (/^[A-Za-z0-9]*$/.test(username)) 
+        {
+            response.statusCode = 503;
+            response.send(JSON.stringify({ status: "Only latin symbols in username"}));
+            return;
+        }
 
         db.get(query, function(err, row) {
             if (typeof row != "undefined")
@@ -421,15 +437,17 @@ router.post('/avatar/load/', function (request, response) {
 
                             let uploadPath = "";
 
-                            if (uploadedFileExtension === "png")
+                            if (uploadedFileExtension === "png" 
+                            || uploadedFileExtension === "jpeg" 
+                            || uploadedFileExtension === "webp")
                             {
                                 uploadPath = rootDir
-                                    + "/profiles/avatars/" + row.id + "." + uploadedFile.mimetype.split("/")[1];
+                                    + "/profiles/avatars/" + row.id + ".png";
                             } else if (uploadedFileExtension === "gif") {
                                 if (row.partner >= 1)
                                 {
                                     uploadPath = rootDir
-                                        + "/profiles/avatars/" + row.id + "." + uploadedFile.mimetype.split("/")[1];
+                                        + "/profiles/avatars/" + row.id + ".gif";
                                 } else {
                                     response.statusCode = 409;
                                     response.send({ status: "Not enough POWER!!" });

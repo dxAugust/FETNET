@@ -66,6 +66,10 @@ function saveSettings()
     const avatarAPIURL = window.location.origin + "/api/user/avatar/load/";
     const profileUpdateAPIURL = window.location.origin + "/api/user/update/";
 
+    const settingsMessage = document.getElementById("settingsMessage");
+    const settingsMessageText = document.getElementById("settingsMessageText");
+    const settingsMessageImg = document.getElementById("settingsMessageImg");
+
     if (avatarFile)
     {
         let formData = new FormData();
@@ -76,7 +80,24 @@ function saveSettings()
             if (httpRequest.readyState == httpRequest.DONE) {   
                 if (httpRequest.status === 200)
                 {
-                    
+                    settingsMessageText.textContent = "Изменения сохранены";
+
+                    settingsMessage.style.display = "flex";
+                    settingsMessage.classList.add("success");
+
+                    settingsMessageImg.src = "../../img/icons/icon-check-mark.svg";
+                }
+
+                if (httpRequest.status === 409)
+                {
+                    settingsMessageText.textContent = "Недостаточно прав";
+                    settingsMessage.style.display = "flex";
+                }
+
+                if (httpRequest.status === 503)
+                {
+                    settingsMessageText.textContent = "Аватарка слишком большая";
+                    settingsMessage.style.display = "flex";
                 }
             }
         }

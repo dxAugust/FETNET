@@ -17,7 +17,7 @@
     color: #FFFFFF;
 
     max-width: 800px;
-    height: 400px;
+    height: 500px;
 
     opacity: 0;
     transform: translateY(100%);
@@ -149,4 +149,26 @@ label {
 
 .btn-load-image:hover {
     background-color: #353535;
+}
+
+.settings-message {
+    color: #202020;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 10px;
+
+    color: #CC0000;
+    text-shadow: #CC0000 0 0 10px;
+
+    margin-top: 10px;
+
+    font-size: 12px;
+}
+
+.success {
+    color: #3dc503;
+    text-shadow: #3dc503 0 0 10px;
 }

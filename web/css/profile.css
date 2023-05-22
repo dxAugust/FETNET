@@ -103,7 +103,7 @@
 }
 
 .online-status {
-    background: linear-gradient(90deg, rgba(56,172,5,1) 0%, rgba(9,255,0,1) 100%);
+    background: linear-gradient(90deg, #38ac05 0%, rgba(9,255,0,1) 100%);
     width: 16px;
     height: 16px;
     border-radius: 50%;
