@@ -151,6 +151,15 @@ label {
     background-color: #353535;
 }
 
+.settings-avatar-tooltip {
+    color: #626262;
+    text-align: left;
+
+    font-family: inherit;
+    margin: 0;
+    font-size: 10px;
+}
+
 .settings-message {
     color: #202020;
     font-weight: bold;

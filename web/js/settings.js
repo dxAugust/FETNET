@@ -115,7 +115,18 @@ function saveSettings()
             if (httpRequest.readyState == httpRequest.DONE) {   
                 if (httpRequest.status === 200)
                 {
-                    
+                    settingsMessageText.textContent = "Изменения сохранены";
+
+                    settingsMessage.style.display = "flex";
+                    settingsMessage.classList.add("success");
+
+                    settingsMessageImg.src = "../../img/icons/icon-check-mark.svg";
+                }
+
+                if (httpRequest.status === 413)
+                {
+                    settingsMessageText.textContent = "Слишком длинный статус";
+                    settingsMessage.style.display = "flex";
                 }
             }
         }

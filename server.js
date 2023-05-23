@@ -7,6 +7,8 @@ const app = express();
 let http = require('http');
 let https = require('https');
 
+const { Server } = require("socket.io");
+
 let path = require('path');
 
 let fs = require('fs');
@@ -50,7 +52,9 @@ if (serverConfig.web) {
     });
 }
 
+let httpsServer = null;
 let httpServer = null;
+let io = null;
 
 if (serverConfig.https)
 {
@@ -72,7 +76,14 @@ if (serverConfig.https)
     }
     
 
-    httpServer = https.createServer(options, app).listen(serverConfig.port);
+    httpServer = http.createServer(app).listen(80);
+    httpsServer = https.createServer(options, app).listen(serverConfig.port);
+    io = new Server(httpsServer);
+
+    io.on('connection', client => {
+        console.log("dawwd");
+    });
+
 } else {
     httpServer = http.createServer(app).listen(serverConfig.port);
 }
@@ -85,12 +96,3 @@ if (httpServer.listening)
         customConsole.FgBlack
     );
 }
-
-httpServer.on('connection', function (client) {
-    if (serverConfig.debugMode)
-    {
-        console.log(
-            `${customConsole.BgBlue + customConsole.FgWhite} SERVER ${customConsole.BgBlack + customConsole.FgBlue} Connected user (${client.remoteAddress.split(":")[3] ? client.remoteAddress.split(":")[3] : "localhost"})`
-        );
-    }
-});

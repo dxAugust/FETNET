@@ -1,0 +1,4 @@
+User-agent: *
+Crawl-delay: 1
+Host: https://fetnet.us.to
+Disallow: /account/

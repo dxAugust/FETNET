@@ -12,6 +12,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FETNET</title>
 
+    <link rel="icon" type="image/x-icon" href="../../img/favicon.ico">
+
     <link href="../../css/style.css" rel="stylesheet" />
     <link href="../../css/main.css" rel="stylesheet" />
     <link href="../../css/profile.css" rel="stylesheet" />
@@ -32,8 +34,8 @@
 
             <li>
                 <div class="searchBox">
-                    <input class="searchInput" type="search" name="" placeholder="Поиск...">
-                    <button class="searchButton" href="#">
+                    <input id="searchInput" class="searchInput" type="search" name="" placeholder="Поиск...">
+                    <button id="searchButton" class="searchButton" href="#">
                       <img src="../../img/icons/icon-search.svg" width="32px" height="32px">
                     </button>
                 </div>
@@ -115,7 +117,7 @@
 
     <div class="main-page">
         <div class="profile-container" id="profileContainer">
-            <div><img class="profile-pic" id="profilePic" src="../../api/user/avatar/1"></div>
+            <div><img class="profile-pic" id="profilePic" src="../../api/user/avatar/0"></div>
             <div class="profile-title">
                 <div class="profile-name-title" id="profileName">$UserName$</div>
                 <!--<img class="profile-country" id="profileCountry" src="../../img/flags/">-->

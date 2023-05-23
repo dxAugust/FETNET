@@ -210,11 +210,21 @@ function sendUserToSettings()
     window.location.href = absoluteURL + "/account/settings";
 }
 
+function makeSearchRequest()
+{
+    window.location.href = window.location.origin + `/search/${document.getElementById("searchInput").value}`;
+}
+
 window.addEventListener("DOMContentLoaded", (event) => {
     const loginHeaderButton = document.getElementById('btn-join');
 
     const loginButton = document.getElementById('loginButton');
     const registerButton = document.getElementById('registerButton');
+
+    const searchButton = document.getElementById('searchButton');
+    if (searchButton) {
+        searchButton.addEventListener('click', makeSearchRequest, false);
+    }
 
     this.fetchUserInfo();
 

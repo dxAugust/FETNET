@@ -12,11 +12,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FETNET</title>
 
+    <link rel="icon" type="image/x-icon" href="./img/favicon.ico">
+
+    <meta name="description" content="Будь в пиве. Добро пожаловать в социальную сеть для мужчин (Возможно женщин) честной судьбы">
+    <meta name="keywords" content="fetnet, FETNET, фетнет, fet1sov, фетисов, фет1сов, фетисоф, фэтнет, фетнэт">
+
     <link href="./css/style.css" rel="stylesheet" />
     <link href="./css/main.css" rel="stylesheet" />
     <link href="./css/general.css" rel="stylesheet" />
 
     <script type="module" src="./js/globe.js"></script>
+
+    <script src="./js/libs/socket.io.min.js"></script>
 
     <script src="./js/main.js"></script>
     <script src="./js/general.js"></script>
@@ -32,9 +39,9 @@
 
             <li>
                 <div class="searchBox">
-                    <input class="searchInput" type="search" name="" placeholder="Поиск...">
-                    <button class="searchButton" href="#">
-                      <img src="./img/icons/icon-search.svg" width="32px" height="32px">
+                    <input id="searchInput" class="searchInput" type="search" name="" placeholder="Поиск...">
+                    <button id="searchButton" class="searchButton" href="#">
+                      <img src="../../img/icons/icon-search.svg" width="32px" height="32px">
                     </button>
                 </div>
             </li>
@@ -150,26 +157,42 @@
             <img src="https://i.gifer.com/QAOA.gif">
         </div>
 
+        <!--
         <div class="postsofday-window">
             <div class="postsofday-title">Посты дня</div>
             <div class="postofday-posts">
-                <!-- 
-                    TODO: Закончить посты дня 
-                -->
+                
             </div>
         </div>
+        -->
 
-        <!--
+        
         <div class="chat-window">
-            <div class="chat-window-title"><img src="./img/icons/icon-chat.svg" width="32px" height="32px">Мурчалка</div>
+            <div class="chat-window-title">
+                <img src="./img/icons/icon-chat.svg" width="32px" height="32px">Мурчалка
+            </div>
             <div class="chat-window-separator"></div>
             <ul class="chat-window-messages">
+                <li class="chat-message">
+                    <img src="../../api/user/avatar/0" class="chat-profile-pic">
+                    <a class="chat-nickname">testAccount:</a>
+                    <div class="chat-message-text">a12312wdawdawhduyawhdhuawduhawduhawudhawhduhawduhawdhuadhuwahdhuawdhuawhduawhdhuawdhuwdhuawhdawhdhwadhuawduhauwadghahgwdguawdguawdguawgudgwadguawgudguawdgu</div>
+                </li>
 
+                <li class="chat-message">
+                    <img src="../../api/user/avatar/0" class="chat-profile-pic">
+                    <a class="chat-nickname">testAccount:</a>
+                    <div class="chat-message-text">awdawdawhduyawhdhuawduhawduhawudhawhduhawduhawdhuadhuwahdhuawdhuawhduawhdhuawdhuwdhuawhdawhdhwadhuawduhauwadghahgwdguawdguawdguawgudgwadguawgudguawdgu</div>
+                </li>
             </ul>
 
-            <input type="text" class="messagebox" id="messagebox" placeholder="Напиши сообщение тут">
+            <div class="chat-window-input">
+                <input type="text" class="messagebox" id="messagebox" placeholder="Черкануть чё-нить...">
+                <div id="sendMessage" class="chat-window-input-send effect01">
+                    <img width="26" height="26" src="./img/icons/icon-paper.svg">
+                </div>
+            </div>
         </div>
-        -->
     </div>
 
 </body>
