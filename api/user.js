@@ -1,6 +1,8 @@
 const express = require('express');
 const fileUpload = require("express-fileupload");
 
+const serverConfig = require("../config.js");
+
 const router = express.Router(),
     bodyParser = require('body-parser');
 
@@ -26,7 +28,7 @@ const db = new sqlite3.Database('database.db');
 */
 
 router.get('/auth', function(request, response){
-    let username = request.query.username;
+    let username = request.query.username.trim();
     let passMD5 = crypto.createHash('md5').update(request.query.password).digest('hex');
 
     let query = `SELECT * FROM users WHERE username='${username}'`;
@@ -51,13 +53,12 @@ router.get('/auth', function(request, response){
                     role: row.role,
                     status: row.status,
                     mood: row.mood,
-                    banned_date: row.banned_date
 				};
 				errorObject[key].push(data);
 
 				response.statusCode = 200;
 				response.send(JSON.stringify(errorObject));
-
+                return;
 	    	} else {
 	    		let errorObject = {};
 				let key = 'errorData';
@@ -70,6 +71,7 @@ router.get('/auth', function(request, response){
 
 				response.statusCode = 401;
 				response.send(JSON.stringify(errorObject));
+                return;
 	    	}
         } else {
             let errorObject = {};
@@ -83,6 +85,7 @@ router.get('/auth', function(request, response){
 
 			response.statusCode = 404;
 			response.send(JSON.stringify(errorObject));
+            return;
         }
     });
 });
@@ -144,13 +147,16 @@ router.get('/fetch', function(request, response){
 
                             response.statusCode = 200;
                             response.send(JSON.stringify(userObject));
+                            return;
                         } else {
                             response.statusCode = 423;
                             response.send();
+                            return;
                         }
                     } else {
                         response.statusCode = 200;
                         response.send(JSON.stringify(userObject));
+                        return;
                     }
                 });
             } else {
@@ -165,6 +171,7 @@ router.get('/fetch', function(request, response){
     
                 response.statusCode = 404;
                 response.send(JSON.stringify(errorObject));
+                return;
             }
         });
     } else if (request.query.id) {
@@ -224,13 +231,16 @@ router.get('/fetch', function(request, response){
 
                             response.statusCode = 200;
                             response.send(JSON.stringify(userObject));
+                            return;
                         } else {
                             response.statusCode = 423;
                             response.send();
+                            return;
                         }
                     } else {
                         response.statusCode = 200;
                         response.send(JSON.stringify(userObject));
+                        return;
                     }
                 });
             } else {
@@ -245,6 +255,7 @@ router.get('/fetch', function(request, response){
     
                 response.statusCode = 404;
                 response.send(JSON.stringify(errorObject));
+                return;
             }
         });
     }
@@ -312,6 +323,7 @@ router.get('/access', function(request, response){
     
                 response.statusCode = 404;
                 response.send(JSON.stringify(errorObject));
+                return;
             }
         });
     }
@@ -323,16 +335,14 @@ router.post('/register', function(request, response){
         let username = request.query.username.trim();
         let query = `SELECT * FROM users WHERE UPPER(username) LIKE UPPER('${username}')`;
 
-        username = username.replace(/[^a-zA-Z0-9 ]/g, '');
-
-        if (username.length < 4)
+        if (username.length < 3)
         {
             response.statusCode = 503;
-            response.send(JSON.stringify({ status: "Username should be more 4 symbols"}));
+            response.send(JSON.stringify({ status: "Username should be more 3 symbols"}));
             return;
         }
 
-        if (/^[A-Za-z0-9]*$/.test(username)) 
+        if (!(/^[A-Za-z0-9]*$/.test(username))) 
         {
             response.statusCode = 503;
             response.send(JSON.stringify({ status: "Only latin symbols in username"}));
@@ -353,6 +363,7 @@ router.post('/register', function(request, response){
     
                 response.statusCode = 401;
                 response.send(JSON.stringify(errorObject));
+                return;
             } else {
                 let accessToken = '';
 
@@ -383,6 +394,7 @@ router.post('/register', function(request, response){
 
                 response.statusCode = 200;
 				response.send(JSON.stringify(successObject));
+                return;
             }
         });
     } else {
@@ -397,6 +409,7 @@ router.post('/register', function(request, response){
     
         response.statusCode = 404;
         response.send(JSON.stringify(errorObject));
+        return;
     }
 });
 
@@ -423,7 +436,7 @@ router.post('/avatar/load/', function (request, response) {
             const uploadedFile = request.files.avatar;
             if (uploadedFile)
             {
-                if (uploadedFile.size < 10485760)
+                if (uploadedFile.size < 5242880)
                 {
                     const rootDir = path.join(__dirname, '..');
 
@@ -522,13 +535,21 @@ router.post('/update/', function (request, response) {
             {
                 if (request.body.mood)
                 {
-                    let updateQuery = 
-                    `UPDATE users SET mood='${request.body.mood}', last_online='${Date.now()}' WHERE id=${row.id}`;
-                    db.run(updateQuery);
+                    if (request.body.mood.length <= 100)
+                    {
+                        let updateQuery = 
+                        `UPDATE users SET mood='${request.body.mood}', last_online='${Date.now()}' WHERE id=${row.id}`;
+                        db.run(updateQuery);
+                    } else {
+                        response.statusCode = 413;
+                        response.send({ status: "Too long mood" });
+                        return;
+                    }
                 }
 
                 response.statusCode = 200;
                 response.send({ status: "OK" });
+
                 return;
             } else {
                 let errorObject = {};
@@ -542,6 +563,7 @@ router.post('/update/', function (request, response) {
     
                 response.statusCode = 404;
                 response.send(JSON.stringify(errorObject));
+                return;
             }
         });
     }
@@ -607,6 +629,7 @@ router.post('/subscribe/', function (request, response) {
     
                 response.statusCode = 404;
                 response.send(JSON.stringify(errorObject));
+                return;
             }
         });
     }
@@ -650,6 +673,7 @@ router.post('/unsubscribe/', function (request, response) {
     
                 response.statusCode = 404;
                 response.send(JSON.stringify(errorObject));
+                return;
             }
         });
     }
@@ -690,6 +714,7 @@ router.post('/checksub/', function (request, response) {
     
                 response.statusCode = 404;
                 response.send(JSON.stringify(errorObject));
+                return;
             }
         });
     }
