@@ -127,7 +127,38 @@ h1 {
     display: flex;
     align-items: center;
 
+    transform: translateX(-100%);
+    opacity: 0;
+
+    animation: messageAppear 0.7s forwards; 
+
     margin-bottom: 10px;
+}
+
+@keyframes messageAppear {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0); 
+        opacity: 1;
+    }
+}
+
+.chat-message-link {
+    color: #38b000;
+    font-size: 14px;
+
+    font-weight: normal;
+
+    padding: 0;
+
+    transition: all 1s ease-out;
+}
+
+.chat-message-link:hover {
+    color: #80ff00;
 }
 
 .chat-profile-pic {
@@ -205,13 +236,18 @@ h1 {
     transform: rotate(40deg);
 }
 
-.chat-window-messages {
-    height: 500px;
-
+.chat {
     display: flex;
     flex-direction: column-reverse;
     overflow-y: auto;
-    
+}
+
+.chat-window-messages {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    height: 500px;
     padding: 20px;
 }
 

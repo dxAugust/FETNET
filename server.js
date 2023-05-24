@@ -7,8 +7,6 @@ const app = express();
 let http = require('http');
 let https = require('https');
 
-const { Server } = require("socket.io");
-
 let path = require('path');
 
 let fs = require('fs');
@@ -24,6 +22,10 @@ app.use(API_ROOT + '/user', userRoute);
 
 const serviceRoute = require("./api/service.js");
 app.use(API_ROOT + '/service', serviceRoute);
+/* ------------ */
+
+/* WEBSOCKET SERVER */
+const { socketConnection } = require('./api/socket.js');
 /* ------------ */
 
 if (serverConfig.web) {
@@ -54,7 +56,6 @@ if (serverConfig.web) {
 
 let httpsServer = null;
 let httpServer = null;
-let io = null;
 
 if (serverConfig.https)
 {
@@ -78,14 +79,10 @@ if (serverConfig.https)
 
     httpServer = http.createServer(app).listen(80);
     httpsServer = https.createServer(options, app).listen(serverConfig.port);
-    io = new Server(httpsServer);
-
-    io.on('connection', client => {
-        console.log("dawwd");
-    });
-
+    socketConnection(httpsServer);
 } else {
     httpServer = http.createServer(app).listen(serverConfig.port);
+    socketConnection(httpServer);
 }
 
 if (httpServer.listening)
@@ -96,3 +93,5 @@ if (httpServer.listening)
         customConsole.FgBlack
     );
 }
+
+module.exports = { httpsServer };
