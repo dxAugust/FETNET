@@ -23,6 +23,43 @@ function boxMessage(event)
     }
 }
 
+function loadUserData(id)
+{
+    
+}
+
+function loadMessageHistory(hObj)
+{
+    hObj = JSON.parse(hObj);
+    
+    const messageList = document.getElementById("chatWindowMessages");
+    hObj.messages.forEach(message => {  
+        const profileRequest = new XMLHttpRequest();
+        const serverURL = window.location.origin + "/api/user/fetch";
+        profileRequest.open("GET", serverURL + `?id=${message.id}`, true);
+        profileRequest.setRequestHeader("Content-type", "application/json");
+        profileRequest.onloadend = function () {
+            if (profileRequest.readyState == profileRequest.DONE) {
+                if (profileRequest.status === 200) {
+                    let response = profileRequest.responseText;
+                    let userObject = JSON.parse(response);
+
+                    if (userObject) {
+                        messageList.insertAdjacentHTML("beforeend", `
+                        <li class="chat-message">
+                            <img src="../../api/user/avatar/${message.id}" class="chat-profile-pic">
+                            <a href="../../u/${userObject.data[0].username}" class="chat-nickname">${userObject.data[0].username}:</a>
+                            <div class="chat-message-text">${message.text}</div>
+                        </li>
+                        `);
+                    }
+                }
+            }
+        }
+        profileRequest.send();
+    });
+}
+
 function procceedChat()
 {
     const messagebox = document.getElementById("messagebox");
@@ -30,6 +67,12 @@ function procceedChat()
     sendMessageButton.addEventListener('click', sendMessage, false);
     messagebox.addEventListener("keypress", boxMessage, false);
 
+    socket.on('connect',function() { 
+        socket.on('chat-message:history', (historyObject) => {
+            loadMessageHistory(historyObject);
+        });
+    });
+    
     socket.on('chat-message-emit', (msgObject) => {
         let message = msgObject;
 

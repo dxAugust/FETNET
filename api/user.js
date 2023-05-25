@@ -1,13 +1,11 @@
 const express = require('express');
 const fileUpload = require("express-fileupload");
 
-const serverConfig = require("../config.js");
-
 const router = express.Router(),
     bodyParser = require('body-parser');
 
 const path = require('path');
-const fs = require('fs')
+const fs = require('fs');
 
 const crypto = require('crypto');
 
