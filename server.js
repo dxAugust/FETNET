@@ -22,6 +22,12 @@ app.use(API_ROOT + '/user', userRoute);
 
 const serviceRoute = require("./api/service.js");
 app.use(API_ROOT + '/service', serviceRoute);
+
+const dataRoute = require("./api/data.js");
+app.use(API_ROOT + '/data', dataRoute);
+
+const postsRoute = require("./api/posts.js");
+app.use(API_ROOT + '/posts', postsRoute);
 /* ------------ */
 
 /* WEBSOCKET SERVER */

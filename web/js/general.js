@@ -23,41 +23,33 @@ function boxMessage(event)
     }
 }
 
-function loadUserData(id)
+function loadMessageHistory()
 {
-    
-}
-
-function loadMessageHistory(hObj)
-{
-    hObj = JSON.parse(hObj);
-    
     const messageList = document.getElementById("chatWindowMessages");
-    hObj.messages.forEach(message => {  
-        const profileRequest = new XMLHttpRequest();
-        const serverURL = window.location.origin + "/api/user/fetch";
-        profileRequest.open("GET", serverURL + `?id=${message.id}`, true);
-        profileRequest.setRequestHeader("Content-type", "application/json");
-        profileRequest.onloadend = function () {
-            if (profileRequest.readyState == profileRequest.DONE) {
-                if (profileRequest.status === 200) {
-                    let response = profileRequest.responseText;
-                    let userObject = JSON.parse(response);
+    const historyRequest = new XMLHttpRequest();
+    const dialogURL = window.location.origin + "/api/data/dialogs/murchalka";
+    historyRequest.open("GET", dialogURL, true);
+    historyRequest.setRequestHeader("Content-type", "application/json");
+    historyRequest.onloadend = function () {
+        if (historyRequest.readyState == historyRequest.DONE) {
+            if (historyRequest.status === 200) {
+                let response = historyRequest.responseText;
+                let messages = JSON.parse(response);
 
-                    if (userObject) {
-                        messageList.insertAdjacentHTML("beforeend", `
-                        <li class="chat-message">
-                            <img src="../../api/user/avatar/${message.id}" class="chat-profile-pic">
-                            <a href="../../u/${userObject.data[0].username}" class="chat-nickname">${userObject.data[0].username}:</a>
-                            <div class="chat-message-text">${message.text}</div>
-                        </li>
+
+                messages.forEach(message => {
+                    messageList.insertAdjacentHTML("beforeend", `
+                         <li class="chat-message">
+                             <img src="../../api/user/avatar/${message.id}" class="chat-profile-pic">
+                             <a href="../../u/${message.username}" class="chat-nickname">${message.username}:</a>
+                             <div class="chat-message-text">${message.text}</div>
+                         </li>
                         `);
-                    }
-                }
+                });
             }
         }
-        profileRequest.send();
-    });
+    }
+    historyRequest.send();
 }
 
 function procceedChat()
@@ -66,12 +58,7 @@ function procceedChat()
     const sendMessageButton = document.getElementById("sendMessage");
     sendMessageButton.addEventListener('click', sendMessage, false);
     messagebox.addEventListener("keypress", boxMessage, false);
-
-    socket.on('connect',function() { 
-        socket.on('chat-message:history', (historyObject) => {
-            loadMessageHistory(historyObject);
-        });
-    });
+    loadMessageHistory();
     
     socket.on('chat-message-emit', (msgObject) => {
         let message = msgObject;
