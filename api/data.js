@@ -7,7 +7,7 @@ const fs = require('fs')
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('database.db');
 
-const dialogsDir = path.join(__dirname, '../data/');
+const dialogsDir = path.join(__dirname, '../data/dialogs/');
 
 function addLinks(text) {
     var urlRegex = /(https?:\/\/[^\s]+)/g;

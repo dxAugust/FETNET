@@ -71,10 +71,6 @@
     width: 70%;
 }
 
-/*
-    TODO: Закончить вёрстку страницы с профилем
-*/
-
 .profile-followers-amount {
     display: flex;
     justify-content: center;

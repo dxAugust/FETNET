@@ -212,7 +212,9 @@ function sendUserToSettings()
 
 function makeSearchRequest()
 {
-    window.location.href = window.location.origin + `/search/${document.getElementById("searchInput").value}`;
+    let searchURL = new URL(`${window.location.origin}/search`);
+    searchURL.searchParams.set("term", document.getElementById("searchInput").value);
+    window.location.href = searchURL.href;
 }
 
 window.addEventListener("DOMContentLoaded", (event) => {

@@ -36,7 +36,6 @@ function loadMessageHistory()
                 let response = historyRequest.responseText;
                 let messages = JSON.parse(response);
 
-
                 messages.forEach(message => {
                     messageList.insertAdjacentHTML("beforeend", `
                          <li class="chat-message">

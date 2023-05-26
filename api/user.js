@@ -218,7 +218,6 @@ router.get('/fetch', function(request, response){
                     {
                         if (Date.now() > banRow.until)
                         {
-
                             let timeDiff = Date.now() - banRow.until;
                             let days = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); 
 
@@ -746,6 +745,10 @@ router.get('/sublist/:userid', function (request, response) {
             }
         });           
     });
+});
+
+router.get('/search/:username', function (request, response) {
+    
 });
 
 module.exports = router;
