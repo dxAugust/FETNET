@@ -9,11 +9,8 @@ const db = new sqlite3.Database('database.db');
 
 router.get('/', function (request, response) {
     if (request.query.term) {
-        console.log(request.query.term);
-
-        response.send(`PENIS`);
-        response.statusCode = 200;
-        return;
+        const rootDir = path.join(__dirname, '..');
+        response.sendFile("search.html", { root: path.join(__dirname, '../web') });
     }
 });
 

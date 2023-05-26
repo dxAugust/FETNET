@@ -748,7 +748,54 @@ router.get('/sublist/:userid', function (request, response) {
 });
 
 router.get('/search/:username', function (request, response) {
-    
+    if (request.params.username)
+    {
+        let searchQuery = `SELECT * FROM users WHERE username LIKE '%${request.params.username}%'`;
+        db.serialize(function() {
+            db.all(searchQuery, function(err, searchRows) {
+                if (typeof searchRows != "undefined")
+                {
+                    let searchPeople = [];
+
+                    for (let i = 0; i < searchRows.length; i++)
+                    {
+                        let banQuery = `SELECT * FROM bans WHERE banned_id='${searchRows[i].id}'`;
+                        db.get(banQuery, function(err, banRow) {
+                            if (typeof banRow != "undefined")
+                            {
+                                if (Date.now() > banRow.until)
+                                {
+                                    searchPeople.push({ user_id: searchRows[i].id, username: searchRows[i].username, status: searchRows[i].mood});
+                                }
+                            } else {
+                                searchPeople.push({ user_id: searchRows[i].id, username: searchRows[i].username, status: searchRows[i].mood});
+                            }
+
+                            if (i === searchRows.length - 1)
+                            {
+                                if (searchPeople.length)
+                                {
+                                    response.statusCode = 200;
+                                    response.send(searchPeople);
+                                    return;
+                                } else {
+                                    response.statusCode = 404;
+                                    response.send({ status: "Nothing found" });
+                                    return;
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    response.statusCode = 404;
+                    response.send({ status: "Nothing found" });
+                    return;
+                }
+            });           
+        });
+
+        
+    }
 });
 
 module.exports = router;
