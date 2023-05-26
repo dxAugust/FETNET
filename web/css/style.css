@@ -52,8 +52,12 @@
     text-align: center;
   }
   .searchBox:hover > .searchInput {
-    width: 200px;
+    width: 150px;
     padding: 0 6px;
+  }
+
+  .searchBox:hover > .searchButton {
+    display: none;
   }
 }
 

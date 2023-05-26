@@ -30,6 +30,16 @@ function makeASearch(term)
                     });
                 }
             }
+
+            if (searchRequest.status === 404)
+            {
+                document.getElementById("mainPage").innerHTML = `
+                <div class="search-message-container">
+                    <img class="exist-icon" src="../../img/icons/icon-sad.svg">
+                    <div class="search-message">По запросу ничего не найдено</div>
+                </div>
+                `;
+            }
         }
     }
     searchRequest.send();

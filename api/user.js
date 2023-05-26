@@ -786,15 +786,16 @@ router.get('/search/:username', function (request, response) {
                             }
                         });
                     }
-                } else {
+                }
+
+                if (!searchRows.length)
+                {
                     response.statusCode = 404;
                     response.send({ status: "Nothing found" });
                     return;
                 }
             });           
-        });
-
-        
+        });            
     }
 });
 

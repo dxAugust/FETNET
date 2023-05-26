@@ -107,6 +107,42 @@
 
     font-size: 14px;
     color: rgba(56,172,5);
+
+    position: relative;
+}
+
+.online-status .online-tooltip {
+    opacity: 0;
+    width: 120px;
+    background-color: #303030;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+   
+    transition: all 0.5s ease-out;
+
+    top: 130%;
+    left: 50%;
+    margin-left: -60px;
+    
+    position: absolute;
+    z-index: 1;
+}
+
+.online-status .online-tooltip::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;  /* At the top of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #303030 transparent;
+}
+
+.online-status:hover .online-tooltip {
+    opacity: 1;
 }
 
 .offline {

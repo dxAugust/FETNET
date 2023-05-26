@@ -143,10 +143,26 @@ window.addEventListener("DOMContentLoaded", (event) => {
                     const profilePic = document.getElementById('profilePic');
                     profilePic.src = `../../api/user/avatar/${userObject.data[0].id}`;
 
+                    const lastOnline = document.getElementById("lastOnline");
                     if (userObject.data[0].online !== "online")
                     {
                         const profileOnlineStatus = document.getElementById('onlineStatus');
                         profileOnlineStatus.classList.add("offline");
+
+                        let diff = Date.now() - userObject.data[0].online
+                        let secondsBetween = diff / 1000;
+                        let secondsBetweenDates = Math.abs(secondsBetween);
+
+                        if (secondsBetweenDates < 86400)
+                        {
+                            lastOnline.textContent = "Присутствие сегодня было";
+                        } else {
+                            let offlineDays = Math.floor(secondsBetweenDates / (3600*24));
+                            lastOnline.textContent = `${offlineDays} ${getTitle(offlineDays, ['день', 'дня', 'дней'])} назад`;
+                        }
+
+                    } else {
+                        lastOnline.remove();
                     }
 
                     getFollowersAmount(userObject.data[0].id);

@@ -224,8 +224,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
     const registerButton = document.getElementById('registerButton');
 
     const searchButton = document.getElementById('searchButton');
+    const searchInput = document.getElementById('searchInput');
     if (searchButton) {
         searchButton.addEventListener('click', makeSearchRequest, false);
+        searchInput.addEventListener("keypress", (event) => { if (event.keyCode === 13) { makeSearchRequest() } }, false);
     }
 
     this.fetchUserInfo();

@@ -74,3 +74,22 @@
 
     border-radius: 50%;
 }
+
+.exist-icon {
+    width: 192px;
+    height: 192px;
+}
+
+.search-message-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15%;
+
+    color: #505050;
+    font-size: 32px;
+}
+
+.search-message-container > .search-message {
+    margin-left: 30px;
+}

@@ -81,7 +81,7 @@ let httpRequest = new XMLHttpRequest();
 let serverURL = window.location.origin;
 let serviceAPI = serverURL + "/api/service/stats";
 window.addEventListener("DOMContentLoaded", (event) => {
-    const onlinePeople = document.querySelector(".current-online");
+    const onlineTitle = document.querySelector(".welcome-online-status");
 
     httpRequest.open("GET", serviceAPI, true); 
     httpRequest.setRequestHeader("Content-type", "application/json");
@@ -94,7 +94,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
                 if (statsObject)
                 { 
-                    onlinePeople.textContent = statsObject.online;
+                    onlineTitle.innerHTML = `
+                        <div class="sphere-online-blink"></div>
+                        <div class="current-online">${statsObject.online}</div> ${getTitle(statsObject.online, ['мужчина', 'мужчин'])} честной судьбы с нами
+                    `;
                 }
             }
         }
