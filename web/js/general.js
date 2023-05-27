@@ -96,7 +96,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 { 
                     onlineTitle.innerHTML = `
                         <div class="sphere-online-blink"></div>
-                        <div class="current-online">${statsObject.online}</div> ${getTitle(statsObject.online, ['мужчина', 'мужчин'])} честной судьбы с нами
+                        <div class="current-online">${statsObject.online}</div> ${getTitle(statsObject.online, ['мужчина', 'мужчин', 'мужчин'])} честной судьбы с нами
                     `;
                 }
             }

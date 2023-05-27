@@ -332,6 +332,13 @@ router.post('/register', function(request, response){
         let username = request.query.username.trim();
         let query = `SELECT * FROM users WHERE UPPER(username) LIKE UPPER('${username}')`;
 
+        if (username.length > 30)
+        {
+            response.statusCode = 503;
+            response.send(JSON.stringify({ status: "Username should less than 30 symbols"}));
+            return;
+        }
+
         if (username.length < 3)
         {
             response.statusCode = 503;
