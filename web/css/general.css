@@ -97,14 +97,51 @@ h1 {
 
 .chat-window-title {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     font-weight: bold;
     padding: 20px;
 
     color: #606060;
+}
 
+.chat-title {
+    display: flex;
     align-items: center;
+
     pointer-events: none;
+}
+
+.chat-notification-button {
+    padding: 10px;
+    background-color: #212121;
+    cursor: pointer;
+
+    color: #ffffff;
+
+    font-size: 12px;
+
+    font-weight: normal;
+
+    display: flex;
+    align-items: center;
+
+    border-radius: 10px;
+}
+
+.enabled {
+    box-shadow: inset 0 0 0 1px #38b000;
+    background-color: #38b000;
+
+    cursor: pointer;
+
+    transition: all .3s ease-in-out;
+}
+
+.enabled:hover {
+    background-color: #70e000;
+    box-shadow: 0 0 25px 0 #70e000;
 }
 
 .chat-window-separator {
@@ -166,6 +203,60 @@ h1 {
     height: 32px;
 
     border-radius: 100%;
+}
+
+.chat-scroll-button {
+    width: 28px;
+    height: 28px;
+
+    z-index: 10;
+
+    position: sticky;
+    top: 470px;
+    left: 45%;
+
+    padding: 10px;
+    background-color: #212121;
+    cursor: pointer;
+
+    color: #ffffff;
+
+    animation: scroll 1s forwards;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #38b000;
+
+    border-radius: 50%;
+}
+
+.chat-window-denied {
+    padding: 20px;
+}
+
+@keyframes scroll {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.glow {
+    box-shadow: inset 0 0 0 1px #38b000;
+    background-color: #38b000;
+
+    cursor: pointer;
+
+    transition: all .3s ease-in-out;
+}
+
+.glow:hover {
+    background-color: #70e000;
+    box-shadow: 0 0 25px 0 #70e000;
 }
 
 .chat-window-input-send {
@@ -240,15 +331,21 @@ h1 {
     display: flex;
     flex-direction: column-reverse;
     overflow-y: auto;
+
+    scroll-behavior: smooth;
 }
 
 .chat-window-messages {
+    scroll-behavior: smooth;
+
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
 
     height: 500px;
     padding: 20px;
+
+    position: relative;
 }
 
 .chat-nickname {

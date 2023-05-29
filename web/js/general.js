@@ -36,15 +36,15 @@ function loadMessageHistory()
                 let response = historyRequest.responseText;
                 let messages = JSON.parse(response);
 
-                messages.forEach(message => {
+                for(let i = 0; i < messages.length; i++) {
                     messageList.insertAdjacentHTML("beforeend", `
-                         <li class="chat-message">
-                             <img src="../../api/user/avatar/${message.id}" class="chat-profile-pic">
-                             <a href="../../u/${message.username}" class="chat-nickname">${message.username}:</a>
-                             <div class="chat-message-text">${message.text}</div>
+                         <li class="chat-message" data-id="${i}">
+                             <img src="../../api/user/avatar/${messages[i].id}" class="chat-profile-pic">
+                             <a href="../../u/${messages[i].username}" class="chat-nickname">${messages[i].username}:</a>
+                             <div class="chat-message-text">${messages[i].text}</div>
                          </li>
-                        `);
-                });
+                    `);
+                }
             }
         }
     }
@@ -55,10 +55,23 @@ function procceedChat()
 {
     const messagebox = document.getElementById("messagebox");
     const sendMessageButton = document.getElementById("sendMessage");
-    sendMessageButton.addEventListener('click', sendMessage, false);
-    messagebox.addEventListener("keypress", boxMessage, false);
+
+    if (getCookie("accessToken"))
+    {
+        sendMessageButton.addEventListener('click', sendMessage, false);
+        messagebox.addEventListener("keypress", boxMessage, false);
+    } else {
+        sendMessageButton.remove();
+        messagebox.remove();
+
+        const chatInputBox = document.querySelector(".chat-window-input");
+        chatInputBox.innerHTML = `
+            <div class="chat-window-denied">Войдите чтобы чё-нить черкануть сюда :)</div>
+        `;
+    }
+
     loadMessageHistory();
-    
+
     socket.on('chat-message-emit', (msgObject) => {
         let message = msgObject;
 
@@ -73,15 +86,81 @@ function procceedChat()
         `;
 
         messageList.insertAdjacentHTML("beforeend", htmlMessage);
+
+        if (Notification.permission === "granted")
+        {
+            new Notification("FETNET - Мурчалка", 
+            {
+                body: `${message.username}: ${message.text}`,
+                icon: "./img/logotype.png"
+            });
+        }
     });
 }
 
+function handlePermission() {
+    if (Notification.permission === "granted")
+    {
+        const chatNotification = document.getElementById("chatNotificationButton");
+        chatNotification.classList.add("enabled");
+    }
+}
+
+function enableNotifications()
+{
+    if (!("Notification" in window)) {
+        console.log("This browser does not support notifications.");
+        alert("This browser does not support system notifications");
+    } else {
+        Notification.requestPermission().then((permission) => {
+            handlePermission(permission);
+        });
+    }
+}
+
+function messageListScroll(event)
+{
+    const messageList = document.getElementById("chat");
+    const chatScrollButton = document.getElementById("chatScrollButton");
+    if (messageList.scrollTop < (-messageList.clientWidth - messageList.clientWidth))
+    {
+        chatScrollButton.style.visibility = "visible";
+    } else {
+        chatScrollButton.style.visibility = "hidden";
+    }
+}
+
+function scrollDownChat()
+{
+    const messageList = document.getElementById("chat");
+    messageList.scrollTo(0, messageList.scrollHeight);
+}
 
 let httpRequest = new XMLHttpRequest(); 
 let serverURL = window.location.origin;
 let serviceAPI = serverURL + "/api/service/stats";
 window.addEventListener("DOMContentLoaded", (event) => {
     const onlineTitle = document.querySelector(".welcome-online-status");
+
+    handlePermission();
+
+    const chatNotification = document.getElementById("chatNotificationButton");
+    if (chatNotification)
+    {
+        chatNotification.addEventListener('click', enableNotifications, false);
+    }
+
+    const chatWindow = document.getElementById("chat");
+    if (chatWindow)
+    {
+        chatWindow.addEventListener("scroll", messageListScroll, false);
+    }
+
+    const scrollDownButton = document.getElementById("chatScrollButton");
+    if (scrollDownButton)
+    {
+        scrollDownButton.addEventListener("click", scrollDownChat, false);
+    }
 
     httpRequest.open("GET", serviceAPI, true); 
     httpRequest.setRequestHeader("Content-type", "application/json");

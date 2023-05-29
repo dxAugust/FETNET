@@ -171,13 +171,18 @@
         
         <div class="chat-window">
             <div class="chat-window-title">
-                <img src="./img/icons/icon-chat.svg" width="32px" height="32px">Мурчалка
+                <div class="chat-title"><img src="./img/icons/icon-chat.svg" width="32px" height="32px">Мурчалка</div>
+                <div id="chatNotificationButton" class="chat-notification-button">
+                    <img width="20" height="20" src="./img/icons/icon-bell.svg">Уведомления
+                </div>
             </div>
             <div class="chat-window-separator"></div>
             
-            <div class="chat">
+            <div id="chat" class="chat">
                 <ul id="chatWindowMessages" class="chat-window-messages">
-                
+                    <div id="chatScrollButton" style="display: flex; visibility: hidden;" class="chat-scroll-button glow">
+                        <img width="48" height="48" src="./img/icons/icon-down-arrow.svg">
+                    </div>
                 </ul>
             </div>
 
