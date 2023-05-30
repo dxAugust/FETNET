@@ -80,7 +80,7 @@ exports.socketConnection = (server) => {
                                         
                                     } else {
                                         io.emit("chat-message-emit", responseObject);
-                                        addMessageToHistory({id: row.id, message: responseObject.text});
+                                        addMessageToHistory({id: row.id, message: escapeHtml(messageObject.message)});
                                     }
                                 }
                             } else {
@@ -96,8 +96,37 @@ exports.socketConnection = (server) => {
                                     
                                 } else {
                                     io.emit("chat-message-emit", responseObject);
-                                    addMessageToHistory({id: row.id, message: responseObject.text});
+                                    addMessageToHistory({id: row.id, message: escapeHtml(messageObject.message)});
                                 }
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        socket.on('chat-message:typing', (msg) => {
+            let messageObject = JSON.parse(msg);
+    
+            if (messageObject.message.length > 0 && messageObject.message.trim() && messageObject.message.length < 250)
+            {
+                let accessToken = messageObject.accessToken;
+                let query = `SELECT * FROM users WHERE accessToken='${accessToken}'`;
+    
+                db.get(query, function(err, row) {
+                    if (typeof row != "undefined")
+                    {
+                        let banQuery = `SELECT * FROM bans WHERE banned_id='${row.id}'`;
+
+                        db.get(banQuery, function(err, banRow) {
+                            if (typeof banRow != "undefined")
+                            {
+                                if (Date.now() > banRow.until)
+                                {
+                                    
+                                }
+                            } else {
+                                
                             }
                         });
                     }
