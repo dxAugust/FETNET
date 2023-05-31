@@ -68,25 +68,16 @@ let httpServer = null;
 
 if (serverConfig.https)
 {
-    let options = {};
+    let options = {
+        pfx: fs.readFileSync(path.join(__dirname,'./cert/test_cert.pfx')),
+        passphrase: 'login9226',
+    };
 
-    if (fs.existsSync(path.join(__dirname,'./cert/key.pem')) 
-        || fs.existsSync(path.join(__dirname,'./cert/cert.pem')))
-    {
-        options = {
-            key: fs.readFileSync(path.join(__dirname,'./cert/key.pem')),
-            cert: fs.readFileSync(path.join(__dirname,'./cert/cert.pem'))
-        }
-
-        console.log(
-            `${customConsole.BgGreen + customConsole.FgWhite} SSL ${customConsole.BgBlack + customConsole.FgGreen} SSL Certificate connected`);
-    } else {
         console.log(
         `${customConsole.BgRed + customConsole.FgWhite} SSL ${customConsole.BgBlack + customConsole.FgRed} SSL Certificate not found`);
-    }
     
 
-    httpServer = http.createServer(app).listen(80);
+    httpServer = http.createServer(app).listen(8081);
     httpsServer = https.createServer(options, app).listen(serverConfig.port);
     socketConnection(httpsServer);
 } else {
@@ -102,5 +93,3 @@ if (httpServer.listening)
         customConsole.FgBlack
     );
 }
-
-module.exports = { httpsServer };

@@ -89,11 +89,17 @@ function procceedChat()
 
         if (Notification.permission === "granted")
         {
-            new Notification("FETNET - Мурчалка", 
+            if (message.username != document.getElementById("selfProfileName").textContent)
             {
-                body: `${message.username}: ${message.text}`,
-                icon: "./img/logotype.png"
-            });
+                if (document.visibilityState === "hidden")
+                {
+                    new Notification("Мурчалка", 
+                    {
+                        body: `${message.username}: ${message.text}`,
+                        icon: "./img/logotype.png"
+                    });
+                }
+            }
         }
     });
 }
@@ -110,10 +116,17 @@ function enableNotifications()
 {
     if (!("Notification" in window)) {
         console.log("This browser does not support notifications.");
-        alert("This browser does not support system notifications");
     } else {
         Notification.requestPermission().then((permission) => {
             handlePermission(permission);
+        });
+    }
+
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./js/service/notify.js').then(function(registration) {
+            console.log('ServiceWorker registration successful');
+        }, function(err) {
+            console.log('ServiceWorker registration failed: ', err);
         });
     }
 }
