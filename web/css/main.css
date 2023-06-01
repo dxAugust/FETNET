@@ -38,6 +38,14 @@ a {
   background-color: #F5F5F5;
 }
 
+footer {
+    display: flex;
+    justify-content: center;
+    color: #404040;
+
+    padding: 20px;
+}
+
 .main-nav {
     position: sticky;
     z-index: 2;

@@ -236,6 +236,11 @@ h1 {
     padding: 20px;
 }
 
+.chat-window-notifications {
+    display: none;
+    color: #414141;
+}
+
 @keyframes scroll {
     0% {
         opacity: 0;

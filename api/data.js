@@ -30,24 +30,36 @@ router.get('/dialogs/:dialogid', function (request, response) {
                 db.get(query, function(err, row) {
                     if (typeof row != "undefined")
                     {
+                        let banQuery = `SELECT * FROM bans WHERE banned_id='${jsonObject.messages[i].id}'`;
+
                         let responseObject = {
                             id: row.id,
                             username: row.username,
                             text: jsonObject.messages[i].text,
                             timestamp: jsonObject.messages[i].timestamp,
                         }
+
+                        db.get(banQuery, function(err, banRow) {
+                            if (typeof banRow != "undefined")
+                            {
+                                if (Date.now() > banRow.until)
+                                {
+                                    messageList.push(responseObject);
+                                }
+                            } else {
+                                messageList.push(responseObject);
+                            }
+
+                            if (i === jsonObject.messages.length - 1) {
+                                messageList.sort(function(a, b) {
+                                    return a.timestamp - b.timestamp;
+                                });
     
-                        messageList.push(responseObject);
-
-                        if (i === jsonObject.messages.length - 1) {
-                            messageList.sort(function(a, b) {
-                                return a.timestamp - b.timestamp;
-                            });
-
-                            response.statusCode = 200;
-                            response.send(messageList); 
-                            return;
-                        }
+                                response.statusCode = 200;
+                                response.send(messageList); 
+                                return;
+                            }
+                        });
                     }
                 });
             }

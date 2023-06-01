@@ -51,6 +51,17 @@ function loadMessageHistory()
     historyRequest.send();
 }
 
+let typingTimer = null;
+function messageBoxTyping(event)
+{
+
+}
+
+function messageBoxStopTyping(event)
+{
+
+}
+
 function procceedChat()
 {
     const messagebox = document.getElementById("messagebox");
@@ -60,6 +71,8 @@ function procceedChat()
     {
         sendMessageButton.addEventListener('click', sendMessage, false);
         messagebox.addEventListener("keypress", boxMessage, false);
+        messagebox.addEventListener("keydown", messageBoxTyping, false);
+        messagebox.addEventListener("keyup", messageBoxStopTyping, false);
     } else {
         sendMessageButton.remove();
         messagebox.remove();

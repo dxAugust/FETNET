@@ -267,47 +267,59 @@ router.get('/access', function(request, response){
         db.get(query, function(err, row) {
             if (typeof row != "undefined")
             {
-                let errorObject = {};
+                let banQuery = `SELECT * FROM bans WHERE banned_id='${row.id}'`;
+
+                let userObject = {};
                 let key = 'data';
-                errorObject[key] = [];
-                
-                let banStatus = row.banned_date;
+                userObject[key] = [];
+                        
                 let data = {};
+                data = {
+                    id: row.id,
+                    username: row.username,
+                    reg_date: row.reg_date,
+                    last_online: row.last_online,
+                    partner: row.partner,
+                    role: row.role,
+                    mood: row.mood,
+                };
+                userObject[key].push(data);
 
                 let updateQuery = 
                 `UPDATE users SET last_online='${Date.now()}' WHERE id=${row.id}`;
-
                 db.run(updateQuery);
 
-                if (banStatus)
-                {
-                    data = {
-                        id: row.id,
-                        username: row.username,
-                        reg_date: row.reg_date,
-                        last_online: row.last_online,
-                        partner: row.partner,
-                        role: row.role,
-                        status: row.status,
-                        mood: row.mood,
-                    };
-                } else {
-                    data = {
-                        id: row.id,
-                        username: row.username,
-                        reg_date: row.reg_date,
-                        last_online: row.last_online,
-                        partner: row.partner,
-                        role: row.role,
-                        status: row.status,
-                        mood: row.mood,
-                        banned_date: row.banned_date
-                    };
-                }
-                errorObject[key].push(data);
-    
-                response.statusCode = 200;
-                response.send(JSON.stringify(errorObject));
+                db.get(banQuery, function(err, banRow) {
+                    if (typeof banRow != "undefined")
+                    {
+                        if (Date.now() > banRow.until)
+                        {
+                            response.statusCode = 200;
+                            response.send(JSON.stringify(userObject));
+                            return;
+                        } else {
+                            let banData = {
+                                id: banRow.id,
+                                issued: banRow.date,
+                                until: banRow.until,
+                                admin_id: banRow.admin_id,
+                                place: banRow.place,
+                                reason: banRow.reason,
+                            };
+                            userObject['data'] = [];
+                            userObject['banData'] = [];
+                            userObject['banData'].push(banData);
+
+                            response.statusCode = 423;
+                            response.send(JSON.stringify(userObject));
+                            return;
+                        }
+                    } else {
+                        response.statusCode = 200;
+                        response.send(JSON.stringify(userObject));
+                        return;
+                    }
+                });
             } else {
                 let errorObject = {};
                 let key = 'errorData';

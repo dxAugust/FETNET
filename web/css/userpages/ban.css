@@ -1,0 +1,61 @@
+.ban-information-container {
+    background-color: #1D1D1D;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-direction: column;
+
+    padding: 5px 15px 5px 10px;
+    margin: 0 auto;
+
+    margin-top: 10%;
+
+    border-radius: 10px;
+
+    color: #FFFFFF;
+
+    max-width: 500px;
+    height: 500px;
+
+    opacity: 0;
+    transform: translateY(100%);
+    animation: loaded 2s forwards;
+}
+
+.ban-information-title {
+    color: #CC0000;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.ban-information-block {
+    padding-top: 10px;
+}
+
+.ban-information-reason {
+    color: #CC0000;
+    padding-left: 5px;
+}
+
+.ban-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    vertical-align: middle;
+
+    padding-bottom: 5px;
+}
+
+@keyframes loaded {
+    0% {
+        transform: translateY(100%); 
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0); 
+        opacity: 1;
+    }
+}

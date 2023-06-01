@@ -34,6 +34,16 @@ function getCookie(name)
     return null;
 }
 
+function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+
 function eraseCookie(name) {   
     document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
@@ -175,6 +185,17 @@ function fetchUserInfo()
                             profileSection.addEventListener('click', showProfileMenu, false);
                         }
                     }
+                }
+
+                if (request.status === 423)
+                {
+                    let response = request.responseText;
+                    let banObject = JSON.parse(response);
+
+                    setCookie("banData", JSON.stringify(banObject.banData[0]), 1);
+                    eraseCookie("accessToken");
+
+                    window.location.href = window.location.origin + "/account/ban";
                 }
             }
         }
