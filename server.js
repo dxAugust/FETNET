@@ -73,9 +73,8 @@ if (serverConfig.https)
         passphrase: 'login9226',
     };
 
-        console.log(
-        `${customConsole.BgRed + customConsole.FgWhite} SSL ${customConsole.BgBlack + customConsole.FgRed} SSL Certificate not found`);
-    
+    console.log(
+        `${customConsole.BgGreen + customConsole.FgWhite} SSL ${customConsole.BgBlack + customConsole.FgGreen} SSL Certificate connected`);
 
     httpServer = http.createServer(app).listen(8081);
     httpsServer = https.createServer(options, app).listen(serverConfig.port);

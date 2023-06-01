@@ -159,6 +159,13 @@ function showUserInfomation()
                         const moodInput = document.getElementById("moodInput");
                         moodInput.value = userObject.data[0].mood;
                         mood = moodInput.value;
+
+                        if (userObject.data[0].partner >= 1)
+                        {   
+                            const tooltipAvatar = document.getElementById("avatarTooltip");
+                            tooltipAvatar.textContent = `Изображения в формате PNG, JPEG, GIF
+                        Не более 5 МБ`;
+                        }
                     }
                 }
             }

@@ -46,6 +46,11 @@ footer {
     padding: 20px;
 }
 
+.emoji {
+    width: 32px;
+    height: 32px;
+}
+
 .main-nav {
     position: sticky;
     z-index: 2;

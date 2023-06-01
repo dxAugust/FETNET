@@ -23,6 +23,33 @@ function boxMessage(event)
     }
 }
 
+function attachFiles()
+{
+    const attachmentList = document.getElementById("attachmentList");
+
+    let input = document.createElement('input');
+    input.type = 'file';
+    input.onchange = _this => {
+              let files = Array.from(input.files);
+              if (files[0].type === "image/png" 
+                || files[0].type === "image/jpeg" 
+                || files[0].type === "image/gif")
+                {
+                    attachmentList.innerHTML = `
+                    <li id="attachmentItem" class="attachment-item">
+                        <img class="attachment-item-img" src="${URL.createObjectURL(files[0])}">
+                    </li>
+                    `;
+
+                    document.getElementById("attachmentItem").addEventListener("click", () => {
+                        files[0] = null;
+                        document.getElementById("attachmentItem").remove();
+                    });
+                }
+          };
+    input.click();
+}
+
 function loadMessageHistory()
 {
     const messageList = document.getElementById("chatWindowMessages");
@@ -36,7 +63,20 @@ function loadMessageHistory()
                 let response = historyRequest.responseText;
                 let messages = JSON.parse(response);
 
+                let months = ['Января','Февраля','Марта','Апреля','Мая','Июня','Июля','Августа','Сентября','Октября','Ноября','Декабря'];
+                let dayNames = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'];
                 for(let i = 0; i < messages.length; i++) {
+                    let messageDate = new Date(messages[i].timestamp);
+
+                    if (!document.getElementById(`timestamp${messageDate.getFullYear() + messageDate.getMonth() + messageDate.getDate()}`))
+                    {
+                        messageList.insertAdjacentHTML("beforeend", `
+                            <time class="chat-timestamp" id="timestamp${messageDate.getFullYear() + messageDate.getMonth() + messageDate.getDate()}">
+                                ${dayNames[messageDate.getDay()]} ${messageDate.getDate()} ${months[messageDate.getMonth()]} ${messageDate.getFullYear()}
+                            </time>
+                        `);
+                    }
+
                     messageList.insertAdjacentHTML("beforeend", `
                          <li class="chat-message" data-id="${i}">
                              <img src="../../api/user/avatar/${messages[i].id}" class="chat-profile-pic">
@@ -66,13 +106,20 @@ function procceedChat()
 {
     const messagebox = document.getElementById("messagebox");
     const sendMessageButton = document.getElementById("sendMessage");
+    const attachButton = document.getElementById("attachButton");
 
     if (getCookie("accessToken"))
     {
         sendMessageButton.addEventListener('click', sendMessage, false);
+        attachButton.addEventListener('click', attachFiles, false);
         messagebox.addEventListener("keypress", boxMessage, false);
         messagebox.addEventListener("keydown", messageBoxTyping, false);
         messagebox.addEventListener("keyup", messageBoxStopTyping, false);
+        messagebox.addEventListener("input", (event) => {
+            messagebox.style.height = 0;
+            messagebox.style.height = (messagebox.scrollHeight - 15) + "px";
+            document.getElementById("attachButton").style.height = (messagebox.scrollHeight - 30) + "px";
+        });
     } else {
         sendMessageButton.remove();
         messagebox.remove();

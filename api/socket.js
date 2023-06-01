@@ -27,6 +27,32 @@ function escapeHtml(html) {
     return result;
 }
 
+function placeMentions(messageText)
+{
+    let message = messageText;
+    let messageWords = message.split(" ");
+
+    for (let i = 0; i < messageWords.length; i++)
+    {
+        if (messageWords[i].startsWith("@") && messageWords[i].substring(1).length > 0)
+        {
+            messageWords[i] = '<a class="chat-message-user-mention" href="/u/' + messageWords[i].substring(1) + '">' + messageWords[i] + '</a>';
+        }
+    }
+
+    message = messageWords.join(" ");
+    return message;
+}
+
+function markDownMessage(message) 
+{
+    let finalMessage = escapeHtml(message);
+    finalMessage = addLinks(finalMessage);
+    finalMessage = placeMentions(finalMessage);
+
+    return finalMessage;
+}
+
 function addMessageToHistory(messageObject)
 {
     fs.readFile(`${dialogsDir + 'murchalka_history.json'}`, 'utf8', function readFileCallback(err, data){
@@ -36,7 +62,7 @@ function addMessageToHistory(messageObject)
         obj = JSON.parse(data);
         obj.messages.push({
             id: messageObject.id, 
-            text: addLinks(messageObject.message), 
+            text: markDownMessage(messageObject.message), 
             timestamp: Date.now()
         });
         json = JSON.stringify(obj);
@@ -71,7 +97,7 @@ exports.socketConnection = (server) => {
                                     let responseObject = {
                                         id: row.id,
                                         username: row.username,
-                                        text: addLinks(escapeHtml(messageObject.message)),
+                                        text: markDownMessage(messageObject.message),
                                         timestamp: Date.now(),
                                     }
                 
@@ -80,14 +106,14 @@ exports.socketConnection = (server) => {
                                         
                                     } else {
                                         io.emit("chat-message-emit", responseObject);
-                                        addMessageToHistory({id: row.id, message: escapeHtml(messageObject.message)});
+                                        addMessageToHistory({id: row.id, message: messageObject.message});
                                     }
                                 }
                             } else {
                                 let responseObject = {
                                     id: row.id,
                                     username: row.username,
-                                    text: addLinks(escapeHtml(messageObject.message)),
+                                    text: markDownMessage(messageObject.message),
                                     timestamp: Date.now(),
                                 }
             
@@ -96,7 +122,7 @@ exports.socketConnection = (server) => {
                                     
                                 } else {
                                     io.emit("chat-message-emit", responseObject);
-                                    addMessageToHistory({id: row.id, message: escapeHtml(messageObject.message)});
+                                    addMessageToHistory({id: row.id, message: messageObject.message});
                                 }
                             }
                         });
