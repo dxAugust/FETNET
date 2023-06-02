@@ -70,13 +70,20 @@ h1 {
     animation: blinker 1s linear infinite;
 }
 
-.placement {
+.main-placement {
     display: flex;
     justify-content: center;
+}
+
+.placement {
     color: white;
     border-radius: 5%;
-    margin: 1%;
-    max-height: 200px;
+
+    background-image: url(https://i.gifer.com/QAOA.gif);
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 500px;
+    height: 300px;
 
     animation: appear 1s forwards;
 }
@@ -394,6 +401,8 @@ h1 {
 .chat-message-text {
     display: flex;
     flex-wrap: wrap;
+
+    align-items: center;
 
     overflow-wrap: break-word;  
     word-wrap: break-word; 

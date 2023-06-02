@@ -62,7 +62,7 @@ function addMessageToHistory(messageObject)
         obj = JSON.parse(data);
         obj.messages.push({
             id: messageObject.id, 
-            text: markDownMessage(messageObject.message), 
+            text: messageObject.message, 
             timestamp: Date.now()
         });
         json = JSON.stringify(obj);
@@ -105,8 +105,12 @@ exports.socketConnection = (server) => {
                                     {
                                         
                                     } else {
+                                        if (messageObject.attachment)
+                                        {
+                                            responseObject.text = responseObject.text + ` <img class="attachment-item-img" src="../../api/data/attachment/murchalka/${messageObject.attachment}">`;
+                                        }
                                         io.emit("chat-message-emit", responseObject);
-                                        addMessageToHistory({id: row.id, message: messageObject.message});
+                                        addMessageToHistory({id: row.id, message: responseObject.text});
                                     }
                                 }
                             } else {
@@ -121,8 +125,12 @@ exports.socketConnection = (server) => {
                                 {
                                     
                                 } else {
+                                    if (messageObject.attachment)
+                                    {
+                                        responseObject.text = responseObject.text + ` <img class="attachment-item-img" src="../../api/data/attachment/murchalka/${messageObject.attachment}">`;
+                                    }
                                     io.emit("chat-message-emit", responseObject);
-                                    addMessageToHistory({id: row.id, message: messageObject.message});
+                                    addMessageToHistory({id: row.id, message: responseObject.text});
                                 }
                             }
                         });

@@ -75,7 +75,7 @@ function saveSettings()
         let formData = new FormData();
         formData.append("avatar", avatarFile);
         httpRequest.open("POST", avatarAPIURL, true); 
-        httpRequest.setRequestHeader("Authorization", getCookie("accessToken"))
+        httpRequest.setRequestHeader("Authorization", getCookie("accessToken"));
         httpRequest.onloadend = function () {
             if (httpRequest.readyState == httpRequest.DONE) {   
                 if (httpRequest.status === 200)

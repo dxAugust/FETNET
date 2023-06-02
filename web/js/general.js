@@ -7,10 +7,44 @@ function clearMessageBox()
     messageText.value = "";
 }
 
+let chatAttachments = [];
 function sendMessage()
 {
     const messageText = document.getElementById("messagebox").value;
-    socket.emit('chat-message', JSON.stringify({ accessToken: getCookie("accessToken"), message: messageText }));
+    if (chatAttachments.length === 0)
+    {
+        socket.emit('chat-message', JSON.stringify({ accessToken: getCookie("accessToken"), message: messageText }));
+    } else {
+        document.getElementById("attachmentList").innerHTML = ``;
+
+        let formData = new FormData();
+        formData.append("attachment", chatAttachments[0]);
+        const attachmentRequest = new XMLHttpRequest();
+        const attachApiURL = window.location.origin + "/api/data/attachment/murchalka";
+        attachmentRequest.open("POST", attachApiURL, true);
+        attachmentRequest.setRequestHeader("Authorization", getCookie("accessToken"));
+        attachmentRequest.onloadend = function () {
+            if (attachmentRequest.readyState == attachmentRequest.DONE) {
+                if (attachmentRequest.status === 200) 
+                {
+                    let attachResponse = attachmentRequest.responseText;
+                    let attachmentObject = JSON.parse(attachResponse);
+
+                    socket.emit('chat-message', JSON.stringify(
+                    { 
+                        accessToken: getCookie("accessToken"), 
+                        message: messageText ,
+                        attachment: attachmentObject.attachmentid
+                    }));
+
+                    chatAttachments = [];
+                }
+            }
+        }
+
+        attachmentRequest.send(formData);
+    }
+    
     clearMessageBox();
 }
 
@@ -41,8 +75,12 @@ function attachFiles()
                     </li>
                     `;
 
+                    chatAttachments = files;
+
                     document.getElementById("attachmentItem").addEventListener("click", () => {
                         files[0] = null;
+                        chatAttachments = [];
+
                         document.getElementById("attachmentItem").remove();
                     });
                 }
