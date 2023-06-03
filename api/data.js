@@ -98,11 +98,15 @@ router.post('/attachment/:chatid', function (request, response) {
                                     const uploadedFileExtension = uploadedFile.mimetype.split("/")[1];
                                     let uploadPath = "";
 
+                                    let extension = "";
+
                                     if (uploadedFileExtension === "png" 
                                     || uploadedFileExtension === "jpeg" 
                                     || uploadedFileExtension === "webp")
                                     {
                                         uploadPath = attachmentDir + `${request.params.chatid}/` + attachData.attachments_count + ".jpg";
+                                    } else if (uploadedFileExtension === "gif") {
+                                        uploadPath = attachmentDir + `${request.params.chatid}/` + attachData.attachments_count + ".gif";
                                     }
 
                                     try {
@@ -113,7 +117,7 @@ router.post('/attachment/:chatid', function (request, response) {
                                                 return;
                                             } else {
                                                 response.statusCode = 200;
-                                                response.send({ status: "OK", attachmentid: attachData.attachments_count });
+                                                response.send({ status: "OK", attachmentid: attachData.attachments_count});
                                                 return;
                                             }
                                         });
@@ -138,8 +142,10 @@ router.get('/attachment/:chatid/:attachmentid', function (request, response) {
 
     if (fs.existsSync(rootDir + "/data/attachment/" + request.params.chatid + "/" + request.params.attachmentid + ".jpg")) {
         response.sendFile(rootDir + "/data/attachment/" + request.params.chatid + "/" + request.params.attachmentid + ".jpg");
+    } else if (fs.existsSync(rootDir + "/data/attachment/" + request.params.chatid + "/" + request.params.attachmentid + ".gif")) {
+        response.sendFile(rootDir + "/data/attachment/" + request.params.chatid + "/" + request.params.attachmentid + ".gif");
     } else {
-        response.send({ "status": 200 });
+        response.send({ "status": "Not Found" });
     }
 });
 
