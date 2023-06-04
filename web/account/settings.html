@@ -6,6 +6,7 @@
 
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,6 +24,7 @@
 
     <link rel="icon" href="favicon.ico" />
 </head>
+
 <body>
     <nav id="main_nav">
         <ul class="main-nav">
@@ -36,7 +38,7 @@
                 <div class="searchBox">
                     <input id="searchInput" class="searchInput" type="search" name="" placeholder="Поиск...">
                     <button id="searchButton" class="searchButton" href="#">
-                      <img src="../../img/icons/icon-search.svg" width="32px" height="32px">
+                        <img src="../../img/icons/icon-search.svg" width="32px" height="32px">
                     </button>
                 </div>
             </li>
@@ -44,7 +46,7 @@
             <li id="profile-item-section">
                 <div class="button">
                     <a id="btn-join" class="btn-join effect01">
-                      <span>Войти</span>
+                        <span>Войти</span>
                     </a>
                 </div>
             </li>
@@ -54,7 +56,7 @@
             <div class="form-title">Авторизация</div>
             <input class="loginInput user-icon" type="text" id="loginInput" placeholder="Логин" required>
             <input class="loginInput pass-icon" type="password" id="passwordInput" placeholder="Пароль" required>
-            
+
             <div class="login-form-error">
                 <img src="../../img/icons/icon-warning.svg" width="32" height="32">
                 <div class="login-form-error-text">ТЕСТОВАЯ ОШИБКА</div>
@@ -77,8 +79,9 @@
             <div class="form-title">Регистрация</div>
             <input class="loginInput user-icon" type="text" id="registerLoginInput" placeholder="Логин" required>
             <input class="loginInput email-icon" type="email" id="registerEmailInput" placeholder="Почта" required>
-            <input class="loginInput pass-icon" type="password" id="registerPasswordInput" placeholder="Пароль" required>
-            
+            <input class="loginInput pass-icon" type="password" id="registerPasswordInput" placeholder="Пароль"
+                required>
+
             <div class="form-terms">
                 <input type="checkbox" id="terms" required>
                 <a href="/term">Принимаю условия</a>
@@ -116,38 +119,61 @@
     </nav>
 
     <div class="main-page">
-        <div class="settings-profile-container">
+        <div class="settings-profile ">
+            <ul class="settings-category-list">
+                <li class="settings-catergory-item activ-item">
+                    <img class="smaller-icon" width="20" height="20" src="./../img/icons/icon-square-user.svg"
+                        alt="Иконка профиля">
+                    <p>
+                        Профиль
+                    </p>
+                </li>
+                <li class="settings-catergory-item">
+                    <img width="20" height="20" src="./../img/icons/icon-bell.svg">
+                    <p>
+                        Уведомления
+                    </p>
+                </li>
+                <li class="settings-catergory-item">
+                    <img width="20" height="20" src="./../img/icons/icon-security.svg">
+                    <p>Безопасность</p>
+                </li>
+                <li class="settings-catergory-item">
+                    <img width="20" height="20" src="./../img/icons/icon-headset.svg">
+                    <p>Служба поддержки</p>
+                </li>
+                <li class="settings-catergory-item"></li>
+            </ul>
+            <div class="container">
+                <div id="dropImgArea" class="settings-profile-avatars">
+                    <img class="profile-pic-highres" id="profilePicHighRes" src="">
+                    <img class="profile-pic-medres" id="profilePicMediumRes" src="">
+                    <img class="profile-pic-lowres" id="profilePicLowRes" src="">
+                </div>
 
-            <div id="dropImgArea" class="settings-profile-avatars">
-                <img class="profile-pic-highres" id="profilePicHighRes" src="">
-                <img class="profile-pic-medres" id="profilePicMediumRes" src="">
-                <img class="profile-pic-lowres" id="profilePicLowRes" src=""> 
-            </div>
-
-            <pre id="avatarTooltip" class="settings-avatar-tooltip">Изображения в формате PNG, JPEG
+                <pre id="avatarTooltip" class="settings-avatar-tooltip">Изображения в формате PNG, JPEG
                 Не более 5 МБ</pre>
 
-            <a id="btnLoadImage" class="btn-load-image">
-                <span>Загрузить</span>
-            </a>
+                <a id="btnLoadImage" class="btn-load-image">
+                    <span>Загрузить</span>
+                </a>
 
-            <label for="moodInput">
-            Статус: <input 
-                class="moodInput" 
-                type="text" 
-                id="moodInput" placeholder="Я люблю пиво">
-            </label>
+                <label for="moodInput">
+                    Статус: <input class="moodInput" type="text" id="moodInput" placeholder="Я люблю пиво">
+                </label>
 
-            <div style="display: none;" id="settingsMessage" class="settings-message">
-                <img id="settingsMessageImg" src="../../img/icons/icon-warning.svg" width="32" height="32">
-                <div id="settingsMessageText">ПИВА</div>
+                <div style="display: none;" id="settingsMessage" class="settings-message">
+                    <img id="settingsMessageImg" src="../../img/icons/icon-warning.svg" width="32" height="32">
+                    <div id="settingsMessageText">ПИВА</div>
+                </div>
+
+                <a id="btn-save" class="btn-save effect01">
+                    <span>Сохранить</span>
+                </a>
             </div>
-
-            <a id="btn-save" class="btn-save effect01">
-                <span>Сохранить</span>
-            </a>
         </div>
     </div>
 
 </body>
+
 </html>
