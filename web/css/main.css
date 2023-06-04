@@ -31,7 +31,7 @@ a:hover{text-decoration: none;}
 ul li{list-style: none;}
 img{vertical-align: top;}
 h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
-////////////////////////////////////
+/*--------------*/
 
 
 @font-face {
@@ -99,6 +99,9 @@ footer {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    -moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box;
 }
 
 .logotype {
@@ -110,6 +113,10 @@ footer {
 .main-nav li {
     display: flex;
     vertical-align: middle;
+    -moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box;
+    
 }
 
 li a {
@@ -120,6 +127,9 @@ li a {
     font-weight: bold;
     padding: 16px;
     text-decoration: none;
+    -moz-box-sizing: content-box;
+	-webkit-box-sizing: content-box;
+	box-sizing: content-box;
 }
 
 .login-form {
