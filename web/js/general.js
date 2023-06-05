@@ -33,7 +33,7 @@ function sendMessage()
                     socket.emit('chat-message', JSON.stringify(
                     { 
                         accessToken: getCookie("accessToken"), 
-                        message: messageText ,
+                        message: messageText,
                         attachment: attachmentObject.attachmentid
                     }));
 

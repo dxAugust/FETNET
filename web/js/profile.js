@@ -110,6 +110,44 @@ function followButtonClick(event)
     }
 }
 
+function loadPosts(userObj)
+{
+    const postsRequest = new XMLHttpRequest(); 
+    const postsAPIURL = window.location.origin + `/api/posts/${userObj.id}`;
+
+    postsRequest.open("GET", postsAPIURL, true); 
+    postsRequest.setRequestHeader("Content-type", "application/json");
+    postsRequest.onloadend = function () {
+        if (postsRequest.readyState == postsRequest.DONE) {   
+            if (postsRequest.status === 200)
+            {
+                let postList = document.getElementById("postsList");
+                let jsonObject = JSON.parse(postsRequest.responseText);
+
+                let posts = "";
+                jsonObject.posts.forEach(post => {
+                    posts = post + `
+                    <li class="post-list-item">
+                        <div class="post-profile-block">
+                            <img class="small-profile-picture" src="../api/user/avatar/${userObj.id}">
+                            <div class="post-profile-name">${userObj.username}</div>
+                        </div>
+
+                        <div class="post-profile-text">
+                            ${post.post_body} 
+                        </div>
+                    </li>
+                    `;
+                });
+
+                postList.innerHTML = posts;
+            }
+        }
+    }
+
+    postsRequest.send();
+}
+
 window.addEventListener("DOMContentLoaded", (event) => {
     const absoluteURL = window.location.href;
     let urlParts = absoluteURL.split('/');
@@ -188,6 +226,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
                     } else {
                         profileBanStatus.remove();
                     }
+
+                    loadPosts(userObject.data[0]);
                 }
             }
 

@@ -3,9 +3,6 @@
     height: 40px;
     border-radius: 40px;
     padding: 10px;
-    -moz-box-sizing: content-box;
-	-webkit-box-sizing: content-box;
-	box-sizing: content-box;
 }
   
 .searchBox:hover > .searchInput {
@@ -28,9 +25,6 @@
     align-items: center;
     transition: 0.4s;
     cursor: pointer;
-    -moz-box-sizing: content-box;
-	-webkit-box-sizing: content-box;
-	box-sizing: content-box;
 }
   
 .searchInput {
@@ -45,9 +39,6 @@
     line-height: 40px;
     width: 0px;
     border: 0px;
-    -moz-box-sizing: content-box;
-	-webkit-box-sizing: content-box;
-	box-sizing: content-box;
 }
 
 ::placeholder { /* Most modern browsers support this now. */
