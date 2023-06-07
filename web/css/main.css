@@ -41,9 +41,21 @@ a {
 footer {
     display: flex;
     justify-content: center;
+
+    flex-direction: column;
+    align-items: center;
+
     color: #404040;
 
     padding: 20px;
+}
+
+.footer-item {
+    color: #929292;
+}
+
+.footer-item:hover {
+    color: #FFFFFF;
 }
 
 .emoji {
@@ -277,9 +289,17 @@ li a {
     margin: 5px;
 
     border-radius: 10px;
-    box-shadow: 0px 0px 35px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0px 0px rgba(0,0,0,0.1);
 
     color: #FFFFFF;
+
+    transition: all 1s;
+}
+
+.profile-section:hover {
+    transition: all 0.9s;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
 }
 
 .profile-menu {

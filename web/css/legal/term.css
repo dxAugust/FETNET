@@ -1,0 +1,15 @@
+* {
+    color: #FFFFFF;
+}
+
+h4 {
+    color: #c5c5c5;
+}
+
+.term-page {
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+
+    margin: 5%;
+}
