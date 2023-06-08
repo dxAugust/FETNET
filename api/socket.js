@@ -1,6 +1,8 @@
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('database.db');
 
+const SocketAntiSpam = require('socket-anti-spam');
+
 const path = require('path');
 const fs = require('fs');
 
@@ -122,6 +124,15 @@ const dialogsDir = path.join(__dirname, '../data/dialogs/');
 let io;
 exports.socketConnection = (server) => {
     io = require('socket.io')(server);
+
+    const socketAntiSpam = new SocketAntiSpam({
+        banTime:            3,
+        kickThreshold:      4,
+        kickTimesBeforeBan: 1,
+        banning:            true,
+        io:                 io, 
+    });
+
     io.on('connection', (socket) => {
         socket.on('chat-message', (msg) => {
             let messageObject = JSON.parse(msg);
