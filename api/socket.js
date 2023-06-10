@@ -83,6 +83,8 @@ function sendMessage(messageObject) {
                             id: row.id,
                             username: row.username,
                             text: markDownMessage(messageObject.message),
+                            color: row.name_color && row.sub_until > Date.now() ? JSON.parse(row.name_color).color : "#FFFFFF",
+                            effect: row.name_color && row.sub_until > Date.now() ? JSON.parse(row.name_color).effect : "none",
                             timestamp: Date.now(),
                         }
 
@@ -101,6 +103,8 @@ function sendMessage(messageObject) {
                         id: row.id,
                         username: row.username,
                         text: markDownMessage(messageObject.message),
+                        color: row.name_color && row.sub_until > Date.now() ? JSON.parse(row.name_color).color : "#FFFFFF",
+                        effect: row.name_color && row.sub_until > Date.now() ? JSON.parse(row.name_color).effect : "none",
                         timestamp: Date.now(),
                     }
 

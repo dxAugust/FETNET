@@ -118,7 +118,7 @@ function loadMessageHistory()
                     messageList.insertAdjacentHTML("beforeend", `
                          <li class="chat-message" data-id="${i}">
                              <img src="../../api/user/avatar/${messages[i].id}" class="chat-profile-pic">
-                             <a href="../../u/${messages[i].username}" class="chat-nickname">${messages[i].username}:</a>
+                             <a href="../../u/${messages[i].username}" style="color: ${ messages[i].color ? messages[i].color : "#FFFFFF"};" class="chat-nickname ${messages[i].effect ? messages[i].effect : "none"}">${messages[i].username}:</a>
                              <div class="chat-message-text">${messages[i].text}</div>
                          </li>
                     `);
@@ -178,7 +178,7 @@ function procceedChat()
         let htmlMessage = `
             <li class="chat-message">
                 <img src="../../api/user/avatar/${message.id}" class="chat-profile-pic">
-                <a href="../../u/${message.username}" class="chat-nickname">${message.username}:</a>
+                <a href="../../u/${message.username}" style="color: ${ message.color ? message.color : "#FFFFFF"};" class="chat-nickname ${message.effect ? message.effect : "none"}">${message.username}:</a>
                 <div class="chat-message-text">${message.text}</div>
             </li>
         `;

@@ -151,3 +151,7 @@ button {
     border-radius: 10px;
     pointer-events: none;
 }
+
+.nick-glow {
+    text-shadow: currentColor 0 0 10px;
+}

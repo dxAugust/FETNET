@@ -14,6 +14,15 @@ const { lookup } = require('geoip-lite');
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('database.db');
 
+const ExpressBrute = require('express-brute');
+ 
+let store = new ExpressBrute.MemoryStore(); // stores state locally, don't use this in production
+let bruteforce = new ExpressBrute(store, {
+    freeRetries: 5,
+    minWait: 5*60*1000, // 5 minutes
+    maxWait: 60*60*1000, // 1 hour,
+});
+
 /*
     Error codes:
 
@@ -25,7 +34,7 @@ const db = new sqlite3.Database('database.db');
     5 - Account was banned (HTTP: 410)
 */
 
-router.get('/auth', function(request, response){
+router.get('/auth', bruteforce.prevent, function(request, response){
     let username = request.query.username.trim();
     let passMD5 = crypto.createHash('md5').update(request.query.password).digest('hex');
 
@@ -113,7 +122,8 @@ router.get('/fetch', function(request, response){
                         partner: row.partner,
                         countryCode: lookup(row.reg_ip).country,
                         mood: row.mood,
-                        admin: row.admin,
+                        name_color: row.name_color,
+                        sub_until: row.sub_until,
                     };
 
                     let timeNow = Date.now();
@@ -197,6 +207,8 @@ router.get('/fetch', function(request, response){
                         countryCode: lookup(row.reg_ip).country,
                         status: row.status,
                         mood: row.mood,
+                        name_color: row.name_color,
+                        subscription: row.sub_until,
                     };
 
                     let timeNow = Date.now();
@@ -282,6 +294,8 @@ router.get('/access', function(request, response){
                     partner: row.partner,
                     role: row.role,
                     mood: row.mood,
+                    name_color: row.name_color,
+                    subscription: row.sub_until,
                 };
                 userObject[key].push(data);
 
@@ -338,7 +352,7 @@ router.get('/access', function(request, response){
     }
 });
 
-router.post('/register', function(request, response){
+router.post('/register', bruteforce.prevent, function(request, response){
     if (request.query.username && request.query.password && request.query.email)
     {
         let username = request.query.username.trim();
@@ -395,7 +409,7 @@ router.post('/register', function(request, response){
                 let date_ob = new Date();
 
                 let accountQuery = 
-                `INSERT INTO users VALUES (NULL, '${accessToken}', '${request.query.username}', '${request.query.email}', '${passMD5}', '${request.socket.remoteAddress.split(":")[3]}', '${date_ob.getTime()}', '${date_ob.getTime()}', '0', '', '0')`;
+                `INSERT INTO users VALUES (NULL, '${accessToken}', '${request.query.username}', '${request.query.email}', '${passMD5}', '${request.socket.remoteAddress.split(":")[3]}', '${date_ob.getTime()}', '${date_ob.getTime()}', '0', '', '0', NULL, NULL)`;
 
                 db.run(accountQuery);
 
@@ -439,6 +453,19 @@ router.get('/avatar/:userid', function (request, response) {
         response.sendFile(rootDir + "/profiles/avatars/" + request.params.userid + ".gif");
     } else {
         response.sendFile(rootDir + "/profiles/avatars/noname.png");
+    }
+});
+
+router.get('/banner/:userid', function (request, response) {
+    const rootDir = path.join(__dirname, '..');
+
+    if (fs.existsSync(rootDir + "/profiles/banners/" + request.params.userid + ".png")) {
+        response.sendFile(rootDir + "/profiles/banners/" + request.params.userid + ".png");
+    } else if (fs.existsSync(rootDir + "/profiles/banners/" + request.params.userid + ".gif")) {
+        response.sendFile(rootDir + "/profiles/banners/" + request.params.userid + ".gif");
+    } else {
+        response.statusCode = 404;
+        return;
     }
 });
 

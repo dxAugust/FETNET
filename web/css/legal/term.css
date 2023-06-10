@@ -6,6 +6,15 @@ h4 {
     color: #c5c5c5;
 }
 
+a {
+    color: #38b000;
+    transition: 1s all;
+}
+
+a:hover {
+    color: #288000;
+}
+
 .term-page {
     display: flex;
     justify-content: center;

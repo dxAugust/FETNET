@@ -11,12 +11,6 @@ const db = new sqlite3.Database('database.db');
 const dialogsDir = path.join(__dirname, '../data/dialogs/');
 const attachmentDir = path.join(__dirname, '../data/attachment/');
 
-function addLinks(text) {
-    var urlRegex = /(https?:\/\/[^\s]+)/g;
-    return text.replace(urlRegex, function(url) {
-      return '<a target="_blank" class="chat-message-link" href="' + url + '">' + url + '</a>';
-    });
-}
 router.use(fileUpload());
 router.get('/dialogs/:dialogid', function (request, response) {
     if (request.params.dialogid)
@@ -38,6 +32,8 @@ router.get('/dialogs/:dialogid', function (request, response) {
                             id: row.id,
                             username: row.username,
                             text: jsonObject.messages[i].text,
+                            color: row.name_color && row.sub_until > Date.now() ? JSON.parse(row.name_color).color : "#FFFFFF",
+                            effect: row.name_color && row.sub_until > Date.now() ? JSON.parse(row.name_color).effect : "none",
                             timestamp: jsonObject.messages[i].timestamp,
                         }
 

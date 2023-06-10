@@ -124,13 +124,20 @@ function loadPosts(userObj)
                 let postList = document.getElementById("postsList");
                 let jsonObject = JSON.parse(postsRequest.responseText);
 
+                let months = ['Января','Февраля','Марта','Апреля','Мая','Июня','Июля','Августа','Сентября','Октября','Ноября','Декабря'];
+
                 let posts = "";
                 jsonObject.posts.forEach(post => {
-                    posts = post + `
+                    let postDate = new Date(post.timestamp);
+                    let nowDate = new Date(Date.now());
+                    posts = posts + `
                     <li class="post-list-item">
                         <div class="post-profile-block">
                             <img class="small-profile-picture" src="../api/user/avatar/${userObj.id}">
                             <div class="post-profile-name">${userObj.username}</div>
+                            <time class="post-timestamp">
+                                ${postDate.getDate()} ${months[postDate.getMonth()]} ${postDate.getFullYear() == nowDate.getFullYear() ? "" : postDate.getFullYear()}
+                            </time>
                         </div>
 
                         <div class="post-profile-text">
@@ -174,6 +181,29 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
                     const profileName = document.getElementById('profileName');
                     profileName.textContent = userObject.data[0].username;
+
+
+                    if (userObject.data[0].sub_until > Date.now())
+                    {
+                        if (userObject.data[0].name_color)
+                        {
+                            profileName.style = `color: ${JSON.parse(userObject.data[0].name_color).color}`;
+                            profileName.classList.add(JSON.parse(userObject.data[0].name_color).effect);
+                        }
+
+                        const bannerRequest = new XMLHttpRequest(); 
+                        bannerRequest.open("GET", window.location.origin + `/api/user/banner/${userObject.data[0].id}`, true); 
+                        bannerRequest.onloadend = function () {
+                            if (bannerRequest.readyState == bannerRequest.DONE) {   
+                                if (bannerRequest.status === 200)
+                                {
+                                    profileContainer.style = `background: url('../../api/user/banner/${userObject.data[0].id}');`;
+                                }
+                            }
+                        }
+
+                        bannerRequest.send();
+                    }
 
                     const profileMood = document.getElementById('profileMood');
                     profileMood.textContent = userObject.data[0].mood;

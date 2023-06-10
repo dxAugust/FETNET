@@ -59,6 +59,7 @@ h1 {
 .current-online {
     margin-right: 5px;
     font-weight: bold;
+    color: #38b000;
 }
 
 .sphere-online-blink {
@@ -210,6 +211,16 @@ h1 {
     max-height: 150px;
     
     border-radius: 20px;
+}
+
+.nsfw {
+    background: url(../img/icons/icon-user.svg) no-repeat left;
+    transition: 0.5s all;
+    filter: blur(15px);
+}
+
+.nsfw:hover {
+    filter: blur(0px);
 }
 
 .chat-message-link:hover {
