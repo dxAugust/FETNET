@@ -134,7 +134,11 @@ function loadPosts(userObj)
                     <li class="post-list-item">
                         <div class="post-profile-block">
                             <img class="small-profile-picture" src="../api/user/avatar/${userObj.id}">
-                            <div class="post-profile-name">${userObj.username}</div>
+                            <div class="post-profile-name 
+                            ${JSON.parse(userObj.name_color).effect ? JSON.parse(userObj.name_color).effect : "none"}"
+                            style="color: 
+                            ${JSON.parse(userObj.name_color).color ? JSON.parse(userObj.name_color).color : "#FFFFFF"}
+                            ">${userObj.username}</div>
                             <time class="post-timestamp">
                                 ${postDate.getDate()} ${months[postDate.getMonth()]} ${postDate.getFullYear() == nowDate.getFullYear() ? "" : postDate.getFullYear()}
                             </time>
@@ -197,7 +201,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                             if (bannerRequest.readyState == bannerRequest.DONE) {   
                                 if (bannerRequest.status === 200)
                                 {
-                                    profileContainer.style = `background: url('../../api/user/banner/${userObject.data[0].id}');`;
+                                    profileContainer.style = `background-image: url('../../api/user/banner/${userObject.data[0].id}');`;
                                 }
                             }
                         }
