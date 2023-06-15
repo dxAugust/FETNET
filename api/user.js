@@ -684,6 +684,20 @@ router.post('/update/', function (request, response) {
                     }
                 }
 
+                if (request.body.color)
+                {
+                    if (request.body.color.length > 0)
+                    {
+                        let updateQuery = 
+                        `UPDATE users SET name_color='${request.body.color}', last_online='${Date.now()}' WHERE id=${row.id}`;
+                        db.run(updateQuery);
+                    } else {
+                        response.statusCode = 413;
+                        response.send({ status: "Not found color" });
+                        return;
+                    }
+                }
+
                 response.statusCode = 200;
                 response.send({ status: "OK" });
 

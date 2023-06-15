@@ -7,8 +7,8 @@ let avatarFile = null;
 let bannerPicFile = null;
 let mood = "";
 let userColor = {
-    color: "",
     effect: "",
+    color: "",
 };
 
 function previewProfilePicture()
@@ -150,8 +150,9 @@ function saveSettings()
         httpRequest.send(formData);
     }
 
+    const colorInput = document.getElementById("nickColorInput");
     const moodInput = document.getElementById("moodInput");
-    if (mood != moodInput.value)
+    if (mood != moodInput.value || userColor.color != colorInput.value)
     {
         httpRequest.open("POST", profileUpdateAPIURL, true); 
         httpRequest.setRequestHeader("Authorization", getCookie("accessToken"));
@@ -176,7 +177,8 @@ function saveSettings()
             }
         }
 
-        httpRequest.send(`mood=${moodInput.value}`);
+        userColor.color = colorInput.value;
+        httpRequest.send(`mood=${moodInput.value}&color=${JSON.stringify(userColor)}`);
     }
 
     if (bannerPicFile)
@@ -253,6 +255,7 @@ function showUserInfomation()
                             if (nameColor)
                             {
                                 userColor.color = nameColor.color;
+                                userColor.effect = nameColor.effect;
 
                                 const nameColorPicker = document.getElementById("nickColorInput");
                                 nameColorPicker.value = nameColor.color;

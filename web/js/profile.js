@@ -233,13 +233,25 @@ window.addEventListener("DOMContentLoaded", (event) => {
                         let diff = Date.now() - userObject.data[0].online
                         let secondsBetween = diff / 1000;
                         let secondsBetweenDates = Math.abs(secondsBetween);
+                        let offlineDays = Math.floor(secondsBetweenDates / (3600*24));
 
                         if (secondsBetweenDates < 86400)
                         {
                             lastOnline.textContent = "Присутствие сегодня было";
-                        } else {
-                            let offlineDays = Math.floor(secondsBetweenDates / (3600*24));
+                        } else if (secondsBetweenDates > 86400 && secondsBetweenDates < 5184000) {
                             lastOnline.textContent = `${offlineDays} ${getTitle(offlineDays, ['день', 'дня', 'дней'])} назад`;
+                        } else if (secondsBetweenDates > 5184000 && offlineDays < 180) {
+                            document.getElementById("onlineStatus").style = "background: none";
+                            document.getElementById("onlineStatus").innerHTML = `
+                            <img width="16px" height="16px" src="../../img/icons/icon-ghost.svg">
+                            <span id="lastOnline" class="online-tooltip">${offlineDays} ${getTitle(offlineDays, ['день', 'дня', 'дней'])} назад</span>
+                            `;
+                        } else {
+                            document.getElementById("onlineStatus").style = "background: none";
+                            document.getElementById("onlineStatus").innerHTML = `
+                            <img width="16px" height="16px" src="../../img/icons/icon-skull.svg">
+                            <span id="lastOnline" class="online-tooltip">${offlineDays} ${getTitle(offlineDays, ['день', 'дня', 'дней'])} назад</span>
+                            `;
                         }
 
                     } else {
