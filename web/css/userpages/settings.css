@@ -11,13 +11,14 @@
     margin: 0 auto;
 
     margin-top: 10%;
+    margin-bottom: 10%;
 
     border-radius: 10px;
 
     color: #FFFFFF;
 
     max-width: 800px;
-    height: 500px;
+    height: 1000px;
 
     opacity: 0;
     transform: translateY(100%);
@@ -70,6 +71,37 @@
     border-radius: 10px;
     background-color: #353535;
     color: white;
+}
+
+.profile-banner-preview {
+    border-radius: 10px;
+    width: 400px;
+    height: 200px;
+    background: linear-gradient(-45deg, #808080, #707070, #505050, #404040);;
+
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.color-input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 64px;
+    height: 64px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.color-input::-webkit-color-swatch {
+    border-radius: 15px;
+    border: none;
+}
+
+.color-input::-moz-color-swatch {
+    border-radius: 15px;
+    border: none;
 }
 
 .settings-profile-avatars {

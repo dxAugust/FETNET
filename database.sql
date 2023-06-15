@@ -1,5 +1,5 @@
 CREATE TABLE users (
-    id          INTEGER    PRIMARY KEY AUTOINCREMENT,
+    id          INTEGER         PRIMARY KEY AUTOINCREMENT,
     accessToken TEXT (255),
     username    TEXT (40),
     email       TEXT (255),
@@ -8,8 +8,10 @@ CREATE TABLE users (
     reg_date    TEXT (255),
     last_online TEXT (255),
     partner     INT (10),
-    mood        TEXT (255),
-    admin       INT (10) 
+    mood        TEXT (100, 100),
+    admin       INT (10),
+    sub_until   TEXT,
+    name_color  TEXT
 );
 
 CREATE TABLE subscriptions (
@@ -25,5 +27,7 @@ CREATE TABLE bans (
     banned_id INT (255),
     date      STRING (255),
     until     STRING (255),
-    admin_id  INT (255) 
+    admin_id  INT (255),
+    place     TEXT,
+    reason    TEXT
 );

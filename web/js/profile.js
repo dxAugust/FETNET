@@ -126,12 +126,17 @@ function loadPosts(userObj)
 
                 let months = ['Января','Февраля','Марта','Апреля','Мая','Июня','Июля','Августа','Сентября','Октября','Ноября','Декабря'];
 
+                jsonObject.posts.sort(function(a, b) {
+                    return b.timestamp - a.timestamp;
+                });
+
                 let posts = "";
-                jsonObject.posts.forEach(post => {
-                    let postDate = new Date(post.timestamp);
+                for (let i = 0; i < jsonObject.posts.length; i++)
+                {
+                    let postDate = new Date(jsonObject.posts[i].timestamp);
                     let nowDate = new Date(Date.now());
                     posts = posts + `
-                    <li class="post-list-item">
+                    <li class="post-list-item" data-id="${i}">
                         <div class="post-profile-block">
                             <img class="small-profile-picture" src="../api/user/avatar/${userObj.id}">
                             <div class="post-profile-name 
@@ -145,11 +150,11 @@ function loadPosts(userObj)
                         </div>
 
                         <div class="post-profile-text">
-                            ${post.post_body} 
+                            ${jsonObject.posts[i].post_body} 
                         </div>
                     </li>
                     `;
-                });
+                }
 
                 postList.innerHTML = posts;
             }
@@ -186,6 +191,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
                     const profileName = document.getElementById('profileName');
                     profileName.textContent = userObject.data[0].username;
 
+                    if (userObject.data[0].username != selfData.name)
+                    {
+                        document.getElementById("profilePostEdit").remove();
+                    }
 
                     if (userObject.data[0].sub_until > Date.now())
                     {

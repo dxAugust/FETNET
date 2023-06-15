@@ -1,3 +1,7 @@
+let selfData = {
+    name: "",
+};
+
 function showLoginForm() {
     const registerForm = document.getElementById('registerForm');
     const loginForm = document.getElementById('loginForm');
@@ -178,6 +182,8 @@ function fetchUserInfo()
                             <div class="profile-name" id="selfProfileName">${userObject.data[0].username}</div>
                         </div>
                         `;
+
+                        selfData.name = userObject.data[0].username;
 
                         const profileSection = document.getElementById('profileSection');
                         if (profileSection)

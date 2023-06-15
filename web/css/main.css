@@ -177,6 +177,12 @@ li a {
     text-shadow: #CC0000 0 0 10px;
 }
 
+.nsfw {
+    background: url(../img/icons/icon-user.svg) no-repeat left;
+    transition: 0.5s all;
+    filter: blur(15px);
+}
+
 .user-icon {
     background: url(../img/icons/icon-user.svg) no-repeat left;
     background-size: 20px;

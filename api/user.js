@@ -500,7 +500,7 @@ router.post('/avatar/load/', function (request, response) {
                                 uploadPath = rootDir
                                     + "/profiles/avatars/" + row.id + ".png";
                             } else if (uploadedFileExtension === "gif") {
-                                if (row.partner >= 1)
+                                if (row.sub_until > Date.now())
                                 {
                                     uploadPath = rootDir
                                         + "/profiles/avatars/" + row.id + ".gif";
@@ -540,6 +540,100 @@ router.post('/avatar/load/', function (request, response) {
                                 });
                             } catch {
 
+                            }
+                        } else {
+                            let errorObject = {};
+                            let key = 'errorData';
+                            errorObject[key] = []; 
+                
+                            let data = {
+                                code: '1'
+                            };
+                            errorObject[key].push(data);
+                
+                            response.statusCode = 404;
+                            response.send(JSON.stringify(errorObject));
+                        }
+                    });
+                } else {
+                    response.statusCode = 503;
+                    response.send({ status: "File is too large" });
+                    return;
+                }
+            }
+        }
+    }
+});
+
+router.post('/banner/load/', function (request, response) {
+    if (request.headers.authorization)
+    {
+        if (request.files && Object.keys(request.files).length !== 0) 
+        {
+            const uploadedFile = request.files.banner;
+            if (uploadedFile)
+            {
+                if (uploadedFile.size < 5242880)
+                {
+                    const rootDir = path.join(__dirname, '..');
+
+                    let accessToken = request.headers.authorization;
+                    let query = `SELECT * FROM users WHERE accessToken='${accessToken}'`;
+
+                    db.get(query, function(err, row) {
+                        if (typeof row != "undefined")
+                        {
+                            if (row.sub_until > Date.now())
+                            {
+                                const uploadedFileExtension = uploadedFile.mimetype.split("/")[1];
+
+                                let uploadPath = "";
+
+                                if (uploadedFileExtension === "png" 
+                                || uploadedFileExtension === "jpeg" 
+                                || uploadedFileExtension === "webp")
+                                {
+                                    uploadPath = rootDir
+                                        + "/profiles/banners/" + row.id + ".png";
+                                } else if (uploadedFileExtension === "gif") {
+                                    uploadPath = rootDir
+                                        + "/profiles/banners/" + row.id + ".gif";
+                                } else {
+                                    response.statusCode = 418;
+                                    response.send({ status: "Wrong file extension" });
+                                    return;
+                                }
+
+                                const pngProfilePic = rootDir
+                                + "/profiles/banners/" + row.id + ".png";
+                                const gifProfilePic = rootDir
+                                + "/profiles/banners/" + row.id + ".gif";
+                    
+                                if (fs.existsSync(pngProfilePic)) {
+                                    fs.unlink(pngProfilePic, () => {});
+                                } else if (fs.existsSync(gifProfilePic)) {
+                                    fs.unlink(gifProfilePic, () => {});
+                                }
+                                
+                                try {
+                                    uploadedFile.mv(uploadPath, function (err) {
+                                        if (err) {
+                                            response.statusCode = 503;
+                                            response.send({ status: "WRONG" });
+                                            return;
+                                        } else {
+                                            response.statusCode = 200;
+                                            response.send({ status: "OK" });
+                                            return;
+                                        }
+                                    });
+                                } catch {
+
+                                }
+                            } else {
+                                response.statusCode = 409;
+                                response.send({ status: "Not enough POWER!!" });
+                                return;
                             }
                         } else {
                             let errorObject = {};

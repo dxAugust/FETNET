@@ -17,8 +17,6 @@
 
     margin-top: 10%;
 
-    
-
     color: #FFFFFF;
 
     max-width: 600px;
@@ -406,6 +404,39 @@
     height: 100%;
 
     border-radius: 10px;
+}
+
+.postbox {
+    width: 90%;
+
+    font-size: 14px;
+    font-weight: normal;
+    font-family: inherit;
+
+    resize: none;
+
+    height: 200px;
+
+    padding: 15px;
+
+    color: white;
+
+    background-color: #272727;
+    border: none;
+
+    border-radius: 10px 10px 0px 0px;
+
+    transition: 2s all;
+}
+
+.post-box-attach {
+    background-color: #272727;
+    width: 90%;
+    height: 15px;
+
+    padding: 15px;
+
+    border-radius: 0px 0px 10px 10px;
 }
 
 @keyframes postLoaded {

@@ -213,12 +213,6 @@ h1 {
     border-radius: 20px;
 }
 
-.nsfw {
-    background: url(../img/icons/icon-user.svg) no-repeat left;
-    transition: 0.5s all;
-    filter: blur(15px);
-}
-
 .nsfw:hover {
     filter: blur(0px);
 }
