@@ -15,6 +15,20 @@ a:hover {
     color: #288000;
 }
 
+ol li {
+    margin: 15px;
+}
+
+ol li a {
+    display: inline-flex;
+    color: #38b000;
+    text-align: left;
+    font-size: 16px;
+    font-weight: normal;
+    padding: 0;
+    text-decoration: none;
+}
+
 .term-page {
     display: flex;
     justify-content: center;

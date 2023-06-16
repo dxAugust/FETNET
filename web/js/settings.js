@@ -7,7 +7,7 @@ let avatarFile = null;
 let bannerPicFile = null;
 let mood = "";
 let userColor = {
-    effect: "",
+    effect: "none",
     color: "",
 };
 
@@ -264,6 +264,7 @@ function showUserInfomation()
                             document.getElementById("dropBannerArea").remove();
                             document.getElementById("bannerTooltip").remove();
                             document.getElementById("btnLoadBannerImage").remove();
+                            document.getElementById("nickColor").remove();
                         }
                     }
                 }

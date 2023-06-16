@@ -3,6 +3,63 @@
     src: url(./fonts/Montserrat.ttf);
 }
 
+.loader {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-direction: column;
+
+    background: #141414;
+    z-index: 1001;
+}
+
+.loader-text {
+	display:flex;
+	justify-content: center;
+	align-items: center;
+
+    font-size: 24px;
+
+    color: #38b000;
+
+	animation: load 1.2s infinite 0s ease-in-out;
+	animation-direction: alternate;
+    text-shadow: currentColor 0 0 10px;
+}
+
+@keyframes load {
+    0% {
+        opacity: 0.08;
+		filter: blur(5px);
+		letter-spacing: 3px;
+    }
+    100% {
+        opacity: 1;
+        font-size: 24px;
+ 		font-weight:600;
+ 		filter: blur(0);
+    }
+}
+
+.preloader__image {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    margin-top: -35px;
+    margin-left: -35px;
+    text-align: center;
+}
+
 body {
     font-family: 'Montserrat', sans-serif;
     margin: 0;

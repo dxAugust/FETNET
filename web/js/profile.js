@@ -201,7 +201,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
                         if (userObject.data[0].name_color)
                         {
                             profileName.style = `color: ${JSON.parse(userObject.data[0].name_color).color}`;
-                            profileName.classList.add(JSON.parse(userObject.data[0].name_color).effect);
+                            JSON.parse(userObject.data[0].name_color).effect ? 
+                            profileName.classList.add(JSON.parse(userObject.data[0].name_color).effect) : 
+                            profileName.classList.add("none")
+                            ;
                         }
 
                         const bannerRequest = new XMLHttpRequest(); 

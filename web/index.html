@@ -38,6 +38,13 @@
     <link rel="icon" href="favicon.ico" />
 </head>
 <body>
+    <div id="preloader" class="loader">
+        <video width="200" height="200" loop autoplay muted id="videoId">
+            <source src="../img/loader.mp4" type="video/mp4">
+        </video>
+        <div class="loader-text nick-glow">Загрузка</div>
+    </div>
+
     <nav id="main_nav">
         <ul class="main-nav">
             <li class="logotype">
@@ -93,7 +100,7 @@
             
             <div class="form-terms">
                 <input type="checkbox" id="terms" required>
-                <a href="/term">Принимаю условия</a>
+                <a href="/legal/term">Принимаю условия</a>
             </div>
 
             <div class="buttonBlock">

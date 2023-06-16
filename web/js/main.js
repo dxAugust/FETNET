@@ -297,4 +297,19 @@ window.addEventListener("DOMContentLoaded", (event) => {
     if (logoutButton) {
         logoutButton.addEventListener('click', logoutUser, false);
     }
+
+    if (document.getElementById('preloader'))
+    {
+        let fadeEffect = setInterval(function () {
+            if (!document.getElementById('preloader').style.opacity) {
+                document.getElementById('preloader').style.opacity = 1;
+            }
+            if (document.getElementById('preloader').style.opacity > 0) {
+                document.getElementById('preloader').style.opacity -= 0.1;
+            } else {
+                document.getElementById('preloader').remove();
+                clearInterval(fadeEffect);
+            }
+        }, 10);
+    }
 });
