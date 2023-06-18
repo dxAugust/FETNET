@@ -177,6 +177,12 @@ function fetchUserInfo()
                         registerForm.remove();
                         profileItemSection.innerHTML = 
                         `
+                        <ul>
+                            <li class="user-menu-item">
+                                <img width="28" height="28" src="../../img/icons/icon-feather.svg">
+                            </li>
+                        </ul>
+
                         <div class="profile-section" id="profileSection">
                             <img class="profile-picture" id="smallProfilePic" src="${avatarAPI + userObject.data[0].id}">
                             <div class="profile-name" id="selfProfileName">${userObject.data[0].username}</div>

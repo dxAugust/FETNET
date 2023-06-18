@@ -451,6 +451,9 @@ h1 {
     background-color: #202020;
     border: none;
 
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+
     border-radius: 0px 20px 20px 0px;
 }
 

@@ -177,7 +177,10 @@ function saveSettings()
             }
         }
 
-        userColor.color = colorInput.value;
+        if (colorInput)
+        {
+            userColor.color = colorInput.value;
+        }
         httpRequest.send(`mood=${moodInput.value}&color=${JSON.stringify(userColor)}`);
     }
 
@@ -265,6 +268,7 @@ function showUserInfomation()
                             document.getElementById("bannerTooltip").remove();
                             document.getElementById("btnLoadBannerImage").remove();
                             document.getElementById("nickColor").remove();
+                            document.querySelector(".settings-profile-container").style = "height: 510px";
                         }
                     }
                 }

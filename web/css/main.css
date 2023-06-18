@@ -361,7 +361,6 @@ li a {
 
 .profile-section:hover {
     transition: all 0.9s;
-    transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.4);
 }
 
@@ -413,6 +412,37 @@ li a {
     color: #CC0000;
 }
 
+.user-menu {
+    display: flex;
+    align-items: center;
+}
+
+.user-menu-item {
+    display: block;
+    margin-right: 10px;
+    border-radius: 10px;
+
+    padding: 10px;
+
+    transition: 1s all;
+}
+
+.user-menu-item:hover {
+    background-color: #353535;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+
+.user-profile-menu-item {
+    color: white;
+
+    font-size: 14px;
+    padding-bottom: 3px;
+
+    display: none;
+    align-items: center;
+    user-select: none;
+}
+
 @keyframes menuAnimation {
     0% {
         transform: translateY(-110%); 
@@ -425,6 +455,18 @@ li a {
 }
 
 @media screen and (max-width: 935px) {
+    .user-profile-menu-item {
+        display: flex;
+    }
+
+    li .user-menu-item {
+        display: none;
+    }
+
+    .profile-menu {
+        height: 125px;
+    }
+
     .login-form {
         right: 0;
     }

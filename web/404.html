@@ -25,22 +25,20 @@
 <body>
     <nav id="main_nav">
         <ul class="main-nav">
-            <li>
-                <a class="logotype" href="../../">
-                    <img width="64px" height="64px" class="logotype-button" src="../../img/logotype.png">
-                </a>
-            </li>
+            <a class="logotype" href="../../">
+                <img width="64px" height="64px" class="logotype-button" src="../../img/logotype.png">
+            </a>
 
             <li>
                 <div class="searchBox">
-                    <input class="searchInput" type="search" name="" placeholder="Поиск...">
-                    <button class="searchButton" href="#">
+                    <input id="searchInput" class="searchInput" type="search" name="" placeholder="Поиск...">
+                    <button id="searchButton" class="searchButton" href="#">
                       <img src="../../img/icons/icon-search.svg" width="32px" height="32px">
                     </button>
                 </div>
             </li>
 
-            <li id="profile-item-section">
+            <li class="user-menu" id="profile-item-section">
                 <div class="button">
                     <a id="btn-join" class="btn-join effect01">
                       <span>Войти</span>
@@ -80,7 +78,7 @@
             
             <div class="form-terms">
                 <input type="checkbox" id="terms" required>
-                <a href="/term">Принимаю условия</a>
+                <a href="../legal/term">Принимаю условия</a>
             </div>
 
             <div class="buttonBlock">
@@ -102,6 +100,12 @@
                     <img class="smaller-icon" src="../../img/icons/icon-square-user.svg">
                     Профиль
                 </li>
+
+                <li class="user-profile-menu-item" id="postButton">
+                    <img class="smaller-icon" src="../../img/icons/icon-feather.svg">
+                    Запостить
+                </li>
+
                 <li class="profileButton" id="settingsButton">
                     <img class="smaller-icon" src="../../img/icons/icon-settings.svg">
                     Настройки

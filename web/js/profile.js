@@ -191,11 +191,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
                     const profileName = document.getElementById('profileName');
                     profileName.textContent = userObject.data[0].username;
 
-                    if (userObject.data[0].username != selfData.name)
-                    {
-                        document.getElementById("profilePostEdit").remove();
-                    }
-
                     if (userObject.data[0].sub_until > Date.now())
                     {
                         if (userObject.data[0].name_color)

@@ -129,17 +129,6 @@ function loadMessageHistory()
     historyRequest.send();
 }
 
-let typingTimer = null;
-function messageBoxTyping(event)
-{
-
-}
-
-function messageBoxStopTyping(event)
-{
-
-}
-
 function procceedChat()
 {
     const messagebox = document.getElementById("messagebox");
@@ -151,8 +140,6 @@ function procceedChat()
         sendMessageButton.addEventListener('click', sendMessage, false);
         attachButton.addEventListener('click', attachFiles, false);
         messagebox.addEventListener("keypress", boxMessage, false);
-        messagebox.addEventListener("keydown", messageBoxTyping, false);
-        messagebox.addEventListener("keyup", messageBoxStopTyping, false);
         messagebox.addEventListener("input", (event) => {
             messagebox.style.height = 0;
             messagebox.style.height = (messagebox.scrollHeight - 15) + "px";
@@ -238,6 +225,13 @@ function messageListScroll(event)
         chatScrollButton.style.visibility = "visible";
     } else {
         chatScrollButton.style.visibility = "hidden";
+    }
+
+    let messageOffset = document.querySelectorAll(".chat-message").offsetTop + messageList.offsetHeight;
+
+    if (messageList.scrollTop > messageOffset)
+    {
+        messageOffset.style.visibility = "visible";
     }
 }
 

@@ -40,11 +40,9 @@
 
     <nav id="main_nav">
         <ul class="main-nav">
-            <li>
-                <a class="logotype" href="../../">
-                    <img width="64px" height="64px" class="logotype-button" src="../../img/logotype.png">
-                </a>
-            </li>
+            <a class="logotype" href="../../">
+                <img width="64px" height="64px" class="logotype-button" src="../../img/logotype.png">
+            </a>
 
             <li>
                 <div class="searchBox">
@@ -55,7 +53,7 @@
                 </div>
             </li>
 
-            <li id="profile-item-section">
+            <li class="user-menu" id="profile-item-section">
                 <div class="button">
                     <a id="btn-join" class="btn-join effect01">
                       <span>Войти</span>
@@ -95,7 +93,7 @@
             
             <div class="form-terms">
                 <input type="checkbox" id="terms" required>
-                <a href="/legal/term">Принимаю условия</a>
+                <a href="../legal/term">Принимаю условия</a>
             </div>
 
             <div class="buttonBlock">
@@ -117,6 +115,12 @@
                     <img class="smaller-icon" src="../../img/icons/icon-square-user.svg">
                     Профиль
                 </li>
+
+                <li class="user-profile-menu-item" id="postButton">
+                    <img class="smaller-icon" src="../../img/icons/icon-feather.svg">
+                    Запостить
+                </li>
+
                 <li class="profileButton" id="settingsButton">
                     <img class="smaller-icon" src="../../img/icons/icon-settings.svg">
                     Настройки
@@ -156,11 +160,6 @@
                     </span>
                 </div>
             </div>
-        </div>
-
-        <div id="profilePostEdit" class="profile-post-edit">
-            <textarea type="text" class="postbox" maxlength="400" id="postbox" placeholder="О чём думаешь?"></textarea>
-            <div class="post-box-attach"></div>
         </div>
 
         <ul id="postsList" class="post-list">
