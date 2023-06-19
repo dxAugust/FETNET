@@ -33,12 +33,17 @@ window.addEventListener("DOMContentLoaded", (event) => {
         var diff_hours = delta.getHours() - epoch.getHours();
         var diff_minutes = delta.getMinutes() - epoch.getMinutes();
 
-        banDateLength.textContent = (diff_years > 0 ? diff_years + ` ${getTitle(diff_hours, ["год", "года", "лет"])} ` : "") 
-        + (diff_month > 0 ? diff_month + ` ${getTitle(diff_month, ["месяц", "месяца", "месяцев"])} ` : "") 
-        + (diff_days > 0 ? diff_days + ` ${getTitle(diff_days, ["день", "дня", "дней"])} ` : "") 
-        + (diff_hours > 0 ? diff_hours + ` ${getTitle(diff_hours, ["час", "часа", "часов"])} ` : "") 
-        + (diff_minutes > 0 ? diff_minutes + ` ${getTitle(diff_hours, ["минута", "минуты", "минут"])} ` : "");
-
+        if (diff_years < 30)
+        {
+            banDateLength.textContent = (diff_years > 0 ? diff_years + ` ${getTitle(diff_hours, ["год", "года", "лет"])} ` : "") 
+            + (diff_month > 0 ? diff_month + ` ${getTitle(diff_month, ["месяц", "месяца", "месяцев"])} ` : "") 
+            + (diff_days > 0 ? diff_days + ` ${getTitle(diff_days, ["день", "дня", "дней"])} ` : "") 
+            + (diff_hours > 0 ? diff_hours + ` ${getTitle(diff_hours, ["час", "часа", "часов"])} ` : "") 
+            + (diff_minutes > 0 ? diff_minutes + ` ${getTitle(diff_hours, ["минута", "минуты", "минут"])} ` : "");
+        } else {
+            banDateLength.textContent = "Бессрочно";
+        }
+        
         banPlace.textContent = banData.place;
         banReasonText.textContent = banData.reason;
     }

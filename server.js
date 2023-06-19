@@ -14,6 +14,8 @@ let fs = require('fs');
 const serverConfig = require("./config.js");
 const customConsole = require("./utils/console.js");
 
+app.set('view engine', 'ejs');
+
 /* API ROUTES */
 const API_ROOT = "/api";
 
