@@ -147,6 +147,11 @@ function registerUser(username, password, email) {
     request.send();
 }
 
+function postButtonClick()
+{
+    
+}
+
 let accessAPI = absoluteURL + "/api/user/access";
 let avatarAPI = absoluteURL + "/api/user/avatar/"
 function fetchUserInfo()
@@ -178,7 +183,7 @@ function fetchUserInfo()
                         profileItemSection.innerHTML = 
                         `
                         <ul>
-                            <li class="user-menu-item">
+                            <li class="user-menu-item" id="postButton">
                                 <img width="28" height="28" src="../../img/icons/icon-feather.svg">
                             </li>
                         </ul>
@@ -188,6 +193,9 @@ function fetchUserInfo()
                             <div class="profile-name" id="selfProfileName">${userObject.data[0].username}</div>
                         </div>
                         `;
+
+                        document.getElementById("postButton").addEventListener("click", postButtonClick);
+                        document.getElementById("postButtonMenu").addEventListener("click", postButtonClick);
 
                         selfData.name = userObject.data[0].username;
 

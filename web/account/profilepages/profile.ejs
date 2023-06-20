@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FETNET</title>
+    <%- `<title>${userData.username} — FETNET</title>` %>
 
     <link rel="icon" type="image/x-icon" href="../../img/favicon.ico">
 
@@ -116,7 +116,7 @@
                     Профиль
                 </li>
 
-                <li class="user-profile-menu-item" id="postButton">
+                <li class="user-profile-menu-item" id="postButtonMenu">
                     <img class="smaller-icon" src="../../img/icons/icon-feather.svg">
                     Запостить
                 </li>
@@ -135,7 +135,7 @@
 
     <div class="main-page">
         <div class="profile-container" id="profileContainer">
-            <div><img class="profile-pic" id="profilePic" src="../../api/user/avatar/0"></div>
+            <%- `<div><img class="profile-pic" id="profilePic" src="../../api/user/avatar/${userData.id}"></div>` %>
             <div class="profile-title">
                 <%- `<div class="profile-name-title ${JSON.parse(userData.name_color) ? JSON.parse(userData.name_color).effect : "none"}" id="profileName" style="color: ${JSON.parse(userData.name_color) ? JSON.parse(userData.name_color).color : "#FFFFFF"}">${userData.username}</div>` %>
                 <!--<img class="profile-country" id="profileCountry" src="../../img/flags/">-->

@@ -18,9 +18,9 @@
     <link href="../../css/main.css" rel="stylesheet" />
     <link href="../../css/profile.css" rel="stylesheet" />
 
-    <meta property="og:title" content="FETNET NOT FOUND 404"/>
-    <meta property="og:image" content="https://fetnet.us.to/img/icons/icon-sad.png"/>
-    <meta property="og:description" content=""/>
+    <%- `<meta property="og:title" content="FETNET — ${comData.title}"/>` %>
+    <%- `<meta property="og:image" content="https://fetnet.us.to/api/user/avatar/${userData.id}"/>` %>
+    <%- `<meta property="og:description" content="${userData.mood}"/>` %>
     <meta name="theme-color" content="#38b000">
 
     <script src="../../js/main.js"></script>
@@ -134,10 +134,7 @@
     </nav>
 
     <div class="main-page">
-        <div class="profile-message-container">
-            <img class="exist-icon" src="../../img/icons/icon-sad.svg">
-            <div class="profile-message">Заблокировано за нарушение условий использования</div>
-        </div>
+        
     </div>
 
 </body>
