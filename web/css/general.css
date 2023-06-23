@@ -222,7 +222,7 @@ h1 {
 }
 
 .chat-message-user-mention {
-    color: #38b000;
+    color: currentColor;
     font-size: 14px;
 
     font-weight: normal;

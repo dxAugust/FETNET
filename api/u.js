@@ -10,6 +10,8 @@ const db = new sqlite3.Database('database.db');
 const ejs = require('ejs');
 const cookieParser = require('cookie-parser');
 
+const postsDir = path.join(__dirname, '../data/posts/');
+
 router.use(cookieParser());
 router.get('/u/:username', function (request, response) {
     if (request.params.username) {
@@ -32,6 +34,18 @@ router.get('/u/:username', function (request, response) {
 
                 let pageData = {
                     userData: dataUser
+                }
+
+                if (fs.existsSync(postsDir + `users/posts_${row.id}.json`)) {
+                    let data = fs.readFileSync(postsDir + `users/posts_${row.id}.json`, 'utf8');
+                    pageData.postData = JSON.parse(data);
+                } else {
+                    fs.closeSync(fs.openSync(postsDir + `users/posts_${row.id}.json`, 'w'));
+
+                    let blankData = {
+                        posts: [],
+                    };
+                    fs.writeFileSync(postsDir + `users/posts_${row.id}.json`, JSON.stringify(blankData));
                 }
 
                 db.get(banQuery, function(err, banRow) {

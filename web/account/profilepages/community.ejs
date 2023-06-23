@@ -18,9 +18,11 @@
     <link href="../../css/main.css" rel="stylesheet" />
     <link href="../../css/profile.css" rel="stylesheet" />
 
+    <link href="../../css/community/community.css" rel="stylesheet" />
+
     <%- `<meta property="og:title" content="FETNET — ${comData.title}"/>` %>
-    <%- `<meta property="og:image" content="https://fetnet.us.to/api/user/avatar/${userData.id}"/>` %>
-    <%- `<meta property="og:description" content="${userData.mood}"/>` %>
+    <%- `<meta property="og:image" content="https://fetnet.us.to/api/community/avatar/${comData.id}"/>` %>
+    <%- `<meta property="og:description" content="${community.description}"/>` %>
     <meta name="theme-color" content="#38b000">
 
     <script src="../../js/main.js"></script>
@@ -134,7 +136,9 @@
     </nav>
 
     <div class="main-page">
-        
+        <div class="community-container">
+
+        </div>
     </div>
 
 </body>

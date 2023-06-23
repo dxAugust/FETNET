@@ -35,7 +35,7 @@ function placeMentions(messageText) {
 
     for (let i = 0; i < messageWords.length; i++) {
         if (messageWords[i].startsWith("@") && messageWords[i].substring(1).length > 0) {
-            messageWords[i] = '<a class="chat-message-user-mention" href="/u/' + messageWords[i].substring(1) + '">' + messageWords[i] + '</a>';
+            messageWords[i] = '<a class="chat-message-user-mention" href="/u/' + messageWords[i].substring(1) + '">' + messageWords[i].substring(1) + '</a>';
         }
     }
 
