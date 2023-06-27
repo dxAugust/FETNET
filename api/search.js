@@ -11,6 +11,9 @@ router.get('/', function (request, response) {
     if (request.query.term) {
         const rootDir = path.join(__dirname, '..');
         response.sendFile("search.html", { root: path.join(__dirname, '../web') });
+    } else {
+        const rootDir = path.join(__dirname, '..');
+        response.sendFile("search.html", { root: path.join(__dirname, '../web') });
     }
 });
 

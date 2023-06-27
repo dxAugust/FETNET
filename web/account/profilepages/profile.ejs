@@ -165,9 +165,16 @@
             </div>
         </div>
 
+        <% if (typeof postData != "undefined") { %>
         <ul id="postsList" class="post-list">
-            
+            <% let months = ['Января','Февраля','Марта','Апреля','Мая','Июня','Июля','Августа','Сентября','Октября','Ноября','Декабря']; %>
+            <% for (let i = 0; i < postData.posts.length; i++) { %>
+                <% let postDate = new Date(postData.posts[i].timestamp); %>
+                <% let nowDate = new Date(Date.now()); %>
+                <%- `<li class="post-list-item" data-id="${i}"><div class="post-profile-block"><img class="small-profile-picture" src="../api/user/avatar/${userData.id}"><div class="post-profile-name ${JSON.parse(userData.name_color).effect ? JSON.parse(userData.name_color).effect : "none"}" style="color: ${JSON.parse(userData.name_color).color ? JSON.parse(userData.name_color).color : "FFFFFF"}">${userData.username}</div><time class="post-timestamp">${postDate.getDate()} ${months[postDate.getMonth()]} ${postDate.getFullYear() == nowDate.getFullYear() ? "" : postDate.getFullYear()}</time></div><div class="post-profile-text">${postData.posts[i].post_body}</div>` %>
+            <% } %>
         </ul>
+        <% } %>
     </div>
 
 </body>

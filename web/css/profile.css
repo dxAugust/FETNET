@@ -23,37 +23,19 @@
     height: 320px;
 
     opacity: 0;
-    transform: translateY(100%);
-    animation: loaded 2s forwards;
+    transform: translateY(-30%);
+    animation: profileAppear 2s forwards;
 }
 
-.profile-post-edit {
-    background-color: #1D1D1D;
-
-    border-radius: 10px;
-
-    background-size: 100% 70%;
-    background-repeat: no-repeat;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    flex-direction: column;
-
-    padding: 5px 15px 5px 10px;
-    margin: 0 auto;
-
-    margin-top: 30px;
-
-    color: #FFFFFF;
-
-    max-width: 600px;
-    height: 320px;
-
-    opacity: 0;
-    transform: translateY(100%);
-    animation: loaded 2s forwards;
+@keyframes profileAppear {
+    0% {
+        transform: translateY(-30%); 
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0%); 
+        opacity: 1;
+    }
 }
 
 @keyframes loaded {

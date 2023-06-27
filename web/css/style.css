@@ -155,3 +155,152 @@ button {
 .nick-glow {
     text-shadow: currentColor 0 0 10px;
 }
+
+.modal-overlay {
+    opacity: 0;
+    visibility: hidden;
+    
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 20;
+    transition: .3s all;
+}
+
+.modal {
+    opacity: 0;
+    visibility: hidden;
+
+    width: 100%;
+    max-width: 700px;
+    
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: scale(0.8, 0.8) translate(-65%, -65%);
+    z-index: 30;
+
+    color: #fff;
+
+    box-shadow: 0 3px 10px -.5px rgba(0, 0, 0, .2); 
+    text-align: center;
+    border-radius: 10px;
+    background-color: #171717;
+    transition: 0.3s all;
+}
+
+.trasparent {
+    background-color: transparent;
+    box-shadow: none; 
+}
+
+.flex-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.modal__title {
+    background-color: #202020;
+    border-radius: 10px 10px 0 0;
+
+    margin: 0;
+
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.modal__cross {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    fill: #444;
+    cursor: pointer;
+ }
+
+.modal.active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1, 1) translate(-50%, -50%);
+}
+.modal-overlay.active{
+   opacity: 1;
+   visibility: visible;
+}
+
+.post-message-box {
+    width: 80%;
+
+    font-size: 14px;
+    font-weight: normal;
+    font-family: inherit;
+
+    resize: none;
+
+    height: 20px;
+
+    padding: 15px;
+    margin: 10px;
+
+    margin-bottom: 0;
+
+    color: white;
+
+    background-color: #232323;
+    border: none;
+
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+
+    border-radius: 20px 20px 0 0;
+}
+
+.posting-block {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+    margin: 30px 0 30px 0;
+}
+
+.post-attachment {
+    width: 80%;
+
+    font-size: 14px;
+    font-weight: normal;
+    font-family: inherit;
+
+    resize: none;
+
+    height: 20px;
+
+    padding: 15px;
+
+    color: white;
+
+    background-color: #232323;
+    border: none;
+
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+
+    border-radius: 0 0 20px 20px;
+}
+
+.pic-preview {
+    width: 60%;
+    height: 60%;
+
+    border-radius: 10px;
+}
+
+.pic-preview-link {
+
+}

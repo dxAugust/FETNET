@@ -147,9 +147,53 @@ function registerUser(username, password, email) {
     request.send();
 }
 
+function modalCloseClick()
+{
+    const overlayModal = document.getElementById("overlay-modal");
+
+    document.querySelector(".modal").classList.remove("active");
+    overlayModal.classList.remove('active');
+}
+
 function postButtonClick()
 {
-    
+    let sessionToken = getCookie("accessToken");
+    if (sessionToken != null)
+    {
+        if (!document.getElementById("overlay-modal"))
+        {
+            const overlayModal = document.createElement("div");
+            overlayModal.id = "overlay-modal";
+            overlayModal.classList.add("modal-overlay");
+            overlayModal.classList.add("active");
+
+            overlayModal.addEventListener("click", modalCloseClick);
+
+            if (!document.querySelector(".modal"))
+            {
+                document.body.insertAdjacentElement("afterbegin", overlayModal);
+                document.body.insertAdjacentHTML("afterbegin", `
+                <div class="modal" id="postModal">
+                    <p class="modal__title">Запостить чё-нить</p>
+                    <svg class="modal__cross modal-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="#FFFFFF" d="M23.954 21.03l-9.184-9.095 9.092-9.174-2.832-2.807-9.09 9.179-9.176-9.088-2.81 2.81 9.186 9.105-9.095 9.184 2.81 2.81 9.112-9.192 9.18 9.1z"/>
+                    </svg>
+                    
+                    <div class="posting-block">
+                        <textarea type="text" class="post-message-box" maxlength="250" id="post-message-box" placeholder="О чём думаешь?"></textarea>
+                        <div class="post-attachment"></div>
+                    </div>
+                </div>
+                `);
+
+                document.querySelector(".modal").classList.add("active");
+                document.querySelector(".modal-close").addEventListener("click", modalCloseClick);
+            }
+        } else {
+            document.getElementById("overlay-modal").classList.add("active");
+            document.querySelector(".modal").classList.add("active");
+        }
+    }
 }
 
 let accessAPI = absoluteURL + "/api/user/access";
