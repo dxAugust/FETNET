@@ -33,7 +33,8 @@ router.get('/u/:username', function (request, response) {
                 };
 
                 let pageData = {
-                    userData: dataUser
+                    userData: dataUser,
+                    postData: []
                 }
 
                 if (fs.existsSync(postsDir + `users/posts_${row.id}.json`)) {
