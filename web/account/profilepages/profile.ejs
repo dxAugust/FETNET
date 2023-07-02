@@ -175,6 +175,26 @@
             <% } %>
         </ul>
         <% } %>
+
+        <% if (typeof adminData != "undefined") { %>
+            <%- `<div class="info-container" style="margin-top: 30px">` %>
+                <%- `<div class="info-block">` %>
+                    <%- `<div style="padding: 5%;">` %>
+                        <%- `<div class="stats-row"><div><div class="stats-title">Регистрационный IP-адрес:</div>${adminData.registerIP}</div></div>` %>
+                        <%- `<div class="stats-row"><div><div class="stats-title">Место регистрации:</div><div class="stats-block"><img src="../../img/flags/${adminData.place.country}.svg" width="32" height="32" style="margin-right: 5px"> ${adminData.place.city}, ${adminData.place.country}</div></div></div>` %>
+                    <%- `</div>` %>
+
+                    <%- `<div style="padding: 5%;">` %>
+                        <%- `<ul>` %>
+                            <%- `<div class="stats-title">Список аккаунтов ():</div>` %>
+                            <% adminData.accounts.forEach(function(account){ %>
+                                <%- `<li><a style="text-align: left; color: ${JSON.parse(account.name_color) ? JSON.parse(account.name_color).color : "#FFFFFF"}; padding: 10px 0 0 10px; display: flex; align-items: center;" href="../u/${account.name}"><img class="small-profile-picture" style="width: 32px; height: 32px; margin-right: 5px;" src="../../api/user/avatar/${account.id}">${account.name}</a></li>` %>
+                            <% }); %>
+                        <%- `</ul>` %>
+                    <%- `</div>` %>
+                <%- `</div>` %>
+            <%- `</div>` %>
+        <% } %>
     </div>
 
 </body>

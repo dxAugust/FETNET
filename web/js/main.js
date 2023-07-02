@@ -155,6 +155,16 @@ function modalCloseClick()
     overlayModal.classList.remove('active');
 }
 
+function processPost(event)
+{
+    event.target.classList.remove('animate');
+  
+    event.target.classList.add('animate');
+    setTimeout(function(){
+        event.target.classList.remove('animate');
+    },700);
+}
+
 function postButtonClick()
 {
     let sessionToken = getCookie("accessToken");
@@ -180,11 +190,26 @@ function postButtonClick()
                     </svg>
                     
                     <div class="posting-block">
-                        <textarea type="text" class="post-message-box" maxlength="250" id="post-message-box" placeholder="О чём думаешь?"></textarea>
-                        <div class="post-attachment"></div>
+                        <div class="post-message-box" id="post-message-box" contenteditable="true"></div>
+                        <div class="post-attachment">
+                            
+
+                            <button id="post-postButton" class="bubbly-button">Запостить</button>
+                        </div>
                     </div>
                 </div>
                 `);
+
+                let postMessageBox = document.getElementById("post-message-box");
+                document.getElementById("post-postButton").addEventListener("click", processPost);
+
+                postMessageBox.addEventListener("input", (event) => {
+                    postMessageBox.style.height = 0;
+                    postMessageBox.style.height = (postMessageBox.scrollHeight - 15) + "px";
+                    if (postMessageBox.style.height > document.body.height) {
+                        postMessageBox.style.overflowX = "visible";
+                    }
+                });
 
                 document.querySelector(".modal").classList.add("active");
                 document.querySelector(".modal-close").addEventListener("click", modalCloseClick);

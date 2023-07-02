@@ -7,6 +7,8 @@ const fs = require('fs')
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('database.db');
 
+const { lookup } = require('geoip-lite');
+
 const ejs = require('ejs');
 const cookieParser = require('cookie-parser');
 
@@ -34,7 +36,8 @@ router.get('/u/:username', function (request, response) {
 
                 let pageData = {
                     userData: dataUser,
-                    postData: []
+                    postData: [],
+                    adminData: undefined,
                 }
 
                 if (fs.existsSync(postsDir + `users/posts_${row.id}.json`)) {
@@ -55,19 +58,78 @@ router.get('/u/:username', function (request, response) {
                         if (Date.now() > banRow.until)
                         {
                             let timeDiff = Date.now() - banRow.until;
-                            let days = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); 
+                            let days = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
                             pageData.banData = {
                                 lastBanDays: days
                             };
-                            response.render(path.join(__dirname, '../web/account/profilepages/profile.ejs'), pageData);
+
+                            if (request.cookies.accessToken)
+                            {
+                                let adminQuery = `SELECT * FROM users WHERE accessToken='${request.cookies.accessToken}'`;
+                                db.get(adminQuery, function (err, adminRow) {
+                                    if (typeof adminRow != "undefined") {
+                                        if (adminRow.admin >= 1 && adminRow.admin > row.admin) {
+                                            pageData.adminData = {
+                                                registerIP: row.reg_ip,
+                                            };
+                                            response.render(path.join(__dirname, '../web/account/profilepages/profile.ejs'), pageData);
+                                        } else {
+                                            response.render(path.join(__dirname, '../web/account/profilepages/profile.ejs'), pageData);
+                                        }
+                                    } else {
+                                        response.render(path.join(__dirname, '../web/account/profilepages/profile.ejs'), pageData);
+                                    }
+                                });
+                            } else {
+                                response.render(path.join(__dirname, '../web/account/profilepages/profile.ejs'), pageData);
+                            }
                         } else {
                             response.render(path.join(__dirname, '../web/account/profilepages/profileBan.ejs'));
                         }
                     } else {
-                        response.render(path.join(__dirname, '../web/account/profilepages/profile.ejs'), pageData);
+                        if (request.cookies.accessToken)
+                        {
+                            let adminQuery = `SELECT * FROM users WHERE accessToken='${request.cookies.accessToken}'`;
+                            db.get(adminQuery, function (err, adminRow) {
+                                if (typeof adminRow != "undefined") {
+                                    if (adminRow.admin >= 1 && adminRow.admin > row.admin) {
+                                        pageData.adminData = {
+                                            registerIP: row.reg_ip,
+                                            place: lookup(row.reg_ip),
+                                            accounts: [],
+                                        };
+
+                                        let accountsQuery = `SELECT * FROM users WHERE reg_ip='${row.reg_ip}'`;
+                                        db.all(accountsQuery, function(err, accounts)
+                                        {
+                                            if (typeof accounts != "undefined")
+                                            {
+                                                if (accounts.length != 0)
+                                                {
+                                                    for (let i = 0; i < accounts.length; i++)
+                                                    {
+                                                        pageData.adminData.accounts.push({ id: accounts[i].id, name: accounts[i].username, name_color: accounts[i].name_color });
+
+                                                        if (i === accounts.length - 1)
+                                                        {
+                                                            response.render(path.join(__dirname, '../web/account/profilepages/profile.ejs'), pageData);
+                                                        }
+                                                    }  
+                                                }
+                                            }
+                                        });
+                                    } else {
+                                        response.render(path.join(__dirname, '../web/account/profilepages/profile.ejs'), pageData);
+                                    }
+                                } else {
+                                    response.render(path.join(__dirname, '../web/account/profilepages/profile.ejs'), pageData);
+                                }
+                            });
+                        } else {
+                            response.render(path.join(__dirname, '../web/account/profilepages/profile.ejs'), pageData);
+                        }
                     }
                 });
-                
             } else {
                 response.render(path.join(__dirname, '../web/account/profilepages/profileNotExist.ejs'));
             }
