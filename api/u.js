@@ -36,7 +36,7 @@ router.get('/u/:username', function (request, response) {
 
                 let pageData = {
                     userData: dataUser,
-                    postData: [],
+                    postData: { posts: [] },
                     adminData: undefined,
                 }
 
@@ -69,10 +69,34 @@ router.get('/u/:username', function (request, response) {
                                 db.get(adminQuery, function (err, adminRow) {
                                     if (typeof adminRow != "undefined") {
                                         if (adminRow.admin >= 1 && adminRow.admin > row.admin) {
+                                            let date = new Date(row.reg_date);
+
                                             pageData.adminData = {
                                                 registerIP: row.reg_ip,
+                                                place: lookup(row.reg_ip),
+                                                regDate: date.getDay() + "." + date.getMonth() + "." + date.getFullYear(),
+                                                accounts: [],
                                             };
-                                            response.render(path.join(__dirname, '../web/account/profilepages/profile.ejs'), pageData);
+
+                                            let accountsQuery = `SELECT * FROM users WHERE reg_ip='${row.reg_ip}'`;
+                                            db.all(accountsQuery, function(err, accounts)
+                                            {
+                                                if (typeof accounts != "undefined")
+                                                {
+                                                    if (accounts.length != 0)
+                                                    {
+                                                        for (let i = 0; i < accounts.length; i++)
+                                                        {
+                                                            pageData.adminData.accounts.push({ id: accounts[i].id, name: accounts[i].username, name_color: accounts[i].name_color });
+
+                                                            if (i === accounts.length - 1)
+                                                            {
+                                                                response.render(path.join(__dirname, '../web/account/profilepages/profile.ejs'), pageData);
+                                                            }
+                                                        }  
+                                                    }
+                                                }
+                                            });
                                         } else {
                                             response.render(path.join(__dirname, '../web/account/profilepages/profile.ejs'), pageData);
                                         }
@@ -93,9 +117,12 @@ router.get('/u/:username', function (request, response) {
                             db.get(adminQuery, function (err, adminRow) {
                                 if (typeof adminRow != "undefined") {
                                     if (adminRow.admin >= 1 && adminRow.admin > row.admin) {
+                                        let date = new Date(row.reg_date);
+
                                         pageData.adminData = {
                                             registerIP: row.reg_ip,
                                             place: lookup(row.reg_ip),
+                                            regDate: date.getDay() + "." + date.getMonth() + "." + date.getFullYear(),
                                             accounts: [],
                                         };
 
