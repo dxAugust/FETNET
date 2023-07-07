@@ -69,12 +69,14 @@ router.get('/u/:username', function (request, response) {
                                 db.get(adminQuery, function (err, adminRow) {
                                     if (typeof adminRow != "undefined") {
                                         if (adminRow.admin >= 1 && adminRow.admin > row.admin) {
-                                            let date = new Date(row.reg_date);
-
+                                            let date = new Date(Number(row.reg_date));
+                                            let dateDay = "0" + date.getDate();
+                                            let months = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
+    
                                             pageData.adminData = {
                                                 registerIP: row.reg_ip,
                                                 place: lookup(row.reg_ip),
-                                                regDate: date.getDay() + "." + date.getMonth() + "." + date.getFullYear(),
+                                                regDate: dateDay.substr(-2) + " " + months[date.getMonth()] + " " + date.getFullYear(),
                                                 accounts: [],
                                             };
 
@@ -117,12 +119,14 @@ router.get('/u/:username', function (request, response) {
                             db.get(adminQuery, function (err, adminRow) {
                                 if (typeof adminRow != "undefined") {
                                     if (adminRow.admin >= 1 && adminRow.admin > row.admin) {
-                                        let date = new Date(row.reg_date);
+                                        let date = new Date(Number(row.reg_date));
+                                        let dateDay = "0" + date.getDate();
+                                        let months = ['Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
 
                                         pageData.adminData = {
                                             registerIP: row.reg_ip,
                                             place: lookup(row.reg_ip),
-                                            regDate: date.getDay() + "." + date.getMonth() + "." + date.getFullYear(),
+                                            regDate: dateDay.substr(-2) + " " + months[date.getMonth()] + " " + date.getFullYear(),
                                             accounts: [],
                                         };
 
