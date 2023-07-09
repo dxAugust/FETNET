@@ -254,6 +254,8 @@ function showUserInfomation()
                             const bannerPic = document.getElementById("profileBannerPreview");
                             bannerPic.style = `background-image: url('../../api/user/banner/${userObject.data[0].id}');`;
 
+                            document.getElementById("category-subscription").remove();
+
                             let nameColor = JSON.parse(userObject.data[0].name_color);
                             if (nameColor)
                             {

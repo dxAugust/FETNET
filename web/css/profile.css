@@ -391,7 +391,7 @@
 
     opacity: 0;
     transform: translateY(100%);
-    animation: postLoaded 2s forwards;
+    animation: postLoaded 1s forwards;
 }
 
 .post-profile-block {
