@@ -29,13 +29,26 @@ function escapeHtml(html) {
     return result;
 }
 
+async function fetchUser(username) {
+    return new Promise((resolve, reject) => {
+        db.get(`SELECT * FROM users WHERE UPPER(username) LIKE UPPER('${username}')`, [], (err, row) => {
+            if (err) {
+                return reject(err);
+            }
+
+            resolve(row);
+        });
+    });
+}
+
+
 function placeMentions(messageText) {
     let message = messageText;
     let messageWords = message.split(" ");
 
     for (let i = 0; i < messageWords.length; i++) {
         if (messageWords[i].startsWith("@") && messageWords[i].substring(1).length > 0) {
-            messageWords[i] = '<a class="chat-message-user-mention" href="/u/' + messageWords[i].substring(1) + '">' + messageWords[i] + '</a>';
+            messageWords[i] = '<a class="chat-message-user-mention" href="/u/' + messageWords[i].substring(1) + '">' + messageWords[i].substring(1) + '</a>';
         }
     }
 

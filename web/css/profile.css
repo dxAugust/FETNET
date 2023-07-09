@@ -23,28 +23,22 @@
     height: 320px;
 
     opacity: 0;
-    transform: translateY(100%);
-    animation: loaded 2s forwards;
+    transform: translateY(-30%);
+    animation: profileAppear 2s forwards;
 }
 
-.profile-post-edit {
+.info-container {
     background-color: #1D1D1D;
 
     border-radius: 10px;
 
-    background-size: 100% 70%;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    flex-direction: column;
 
     padding: 5px 15px 5px 10px;
     margin: 0 auto;
 
-    margin-top: 30px;
+    margin-top: 10%;
 
     color: #FFFFFF;
 
@@ -52,8 +46,25 @@
     height: 320px;
 
     opacity: 0;
-    transform: translateY(100%);
-    animation: loaded 2s forwards;
+    transform: translateY(-30%);
+    animation: profileAppear 2s forwards;
+}
+
+.info-block {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+}
+
+@keyframes profileAppear {
+    0% {
+        transform: translateY(-30%); 
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0%); 
+        opacity: 1;
+    }
 }
 
 @keyframes loaded {
@@ -347,10 +358,18 @@
     transform: rotate(40deg);
 }
 
+
+
 @media screen and (max-width: 935px) {
     .exist-icon {
         width: 128px;
         height: 128px;
+    }
+}
+
+@media screen and (max-width: 560px) {
+    .info-block {
+        flex-direction: column;
     }
 }
 
@@ -406,37 +425,46 @@
     border-radius: 10px;
 }
 
-.postbox {
-    width: 90%;
+.eye-block {
+    position: absolute;
+    transform-style: flat;
+    transform: translate3d(-70%,0, 0) rotateX(0deg);
 
-    font-size: 14px;
-    font-weight: normal;
-    font-family: inherit;
-
-    resize: none;
-
-    height: 200px;
-
-    padding: 15px;
-
-    color: white;
-
-    background-color: #272727;
-    border: none;
-
-    border-radius: 10px 10px 0px 0px;
-
-    transition: 2s all;
 }
 
-.post-box-attach {
-    background-color: #272727;
-    width: 90%;
-    height: 15px;
+.eye-icon {
+    position:relative;
+    width:  28px;
+    height: 28px;
+    animation: eyeIconAnimation 4s infinite;
+}
 
-    padding: 15px;
+@keyframes eyeIconAnimation {
+    0%, 8% {
+        height: 32px;
+        transform:translate3d(0,0,0) rotateX(0deg);
+    }
+    10%, 12% {
+        height: 0;
+        transform: translate3d(0, -50%, 0) rotateX(90deg);
+    }
+    14%, 100% {
+        height: 32px;
+        transform:translate3d(0,0,0) rotateX(0deg);
+    }
+ }
 
-    border-radius: 0px 0px 10px 10px;
+.post-info-block {
+    display: flex;
+    justify-content: flex-end;
+
+    align-items: center;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    margin-top: 10px;
+    color: #606060;
 }
 
 @keyframes postLoaded {

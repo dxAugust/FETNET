@@ -110,60 +110,6 @@ function followButtonClick(event)
     }
 }
 
-function loadPosts(userObj)
-{
-    const postsRequest = new XMLHttpRequest(); 
-    const postsAPIURL = window.location.origin + `/api/posts/${userObj.id}`;
-
-    postsRequest.open("GET", postsAPIURL, true); 
-    postsRequest.setRequestHeader("Content-type", "application/json");
-    postsRequest.onloadend = function () {
-        if (postsRequest.readyState == postsRequest.DONE) {   
-            if (postsRequest.status === 200)
-            {
-                let postList = document.getElementById("postsList");
-                let jsonObject = JSON.parse(postsRequest.responseText);
-
-                let months = ['Января','Февраля','Марта','Апреля','Мая','Июня','Июля','Августа','Сентября','Октября','Ноября','Декабря'];
-
-                jsonObject.posts.sort(function(a, b) {
-                    return b.timestamp - a.timestamp;
-                });
-
-                let posts = "";
-                for (let i = 0; i < jsonObject.posts.length; i++)
-                {
-                    let postDate = new Date(jsonObject.posts[i].timestamp);
-                    let nowDate = new Date(Date.now());
-                    posts = posts + `
-                    <li class="post-list-item" data-id="${i}">
-                        <div class="post-profile-block">
-                            <img class="small-profile-picture" src="../api/user/avatar/${userObj.id}">
-                            <div class="post-profile-name 
-                            ${JSON.parse(userObj.name_color).effect ? JSON.parse(userObj.name_color).effect : "none"}"
-                            style="color: 
-                            ${JSON.parse(userObj.name_color).color ? JSON.parse(userObj.name_color).color : "#FFFFFF"}
-                            ">${userObj.username}</div>
-                            <time class="post-timestamp">
-                                ${postDate.getDate()} ${months[postDate.getMonth()]} ${postDate.getFullYear() == nowDate.getFullYear() ? "" : postDate.getFullYear()}
-                            </time>
-                        </div>
-
-                        <div class="post-profile-text">
-                            ${jsonObject.posts[i].post_body} 
-                        </div>
-                    </li>
-                    `;
-                }
-
-                postList.innerHTML = posts;
-            }
-        }
-    }
-
-    postsRequest.send();
-}
-
 window.addEventListener("DOMContentLoaded", (event) => {
     const absoluteURL = window.location.href;
     let urlParts = absoluteURL.split('/');
@@ -188,20 +134,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
                     fetchedUserID = userObject.data[0].id;
                     checkSubscription();
 
-                    const profileName = document.getElementById('profileName');
-                    profileName.textContent = userObject.data[0].username;
-
                     if (userObject.data[0].sub_until > Date.now())
                     {
-                        if (userObject.data[0].name_color)
-                        {
-                            profileName.style = `color: ${JSON.parse(userObject.data[0].name_color).color}`;
-                            JSON.parse(userObject.data[0].name_color).effect ? 
-                            profileName.classList.add(JSON.parse(userObject.data[0].name_color).effect) : 
-                            profileName.classList.add("none")
-                            ;
-                        }
-
                         const bannerRequest = new XMLHttpRequest(); 
                         bannerRequest.open("GET", window.location.origin + `/api/user/banner/${userObject.data[0].id}`, true); 
                         bannerRequest.onloadend = function () {
@@ -216,19 +150,13 @@ window.addEventListener("DOMContentLoaded", (event) => {
                         bannerRequest.send();
                     }
 
-                    const profileMood = document.getElementById('profileMood');
-                    profileMood.textContent = userObject.data[0].mood;
-                    
-                    const profilePic = document.getElementById('profilePic');
-                    profilePic.src = `../../api/user/avatar/${userObject.data[0].id}`;
-
                     const lastOnline = document.getElementById("lastOnline");
                     if (userObject.data[0].online !== "online")
                     {
                         const profileOnlineStatus = document.getElementById('onlineStatus');
                         profileOnlineStatus.classList.add("offline");
 
-                        let diff = Date.now() - userObject.data[0].online
+                        let diff = Date.now() - userObject.data[0].online;
                         let secondsBetween = diff / 1000;
                         let secondsBetweenDates = Math.abs(secondsBetween);
                         let offlineDays = Math.floor(secondsBetweenDates / (3600*24));
@@ -268,19 +196,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
                     } else {
                         document.getElementById("profileButtonFollow").remove();
                     }
-
-                    const profileBanStatus = document.getElementById('profileBanStatus');
-                    if (userObject.data[1])
-                    {
-                        profileBanStatus.innerHTML = `
-                        <img width="25" height="25" src="../../img/icons/icon-danger.svg">
-                        Дней с последней блокировки: ${userObject.data[1].lastBanDays}
-                        `;
-                    } else {
-                        profileBanStatus.remove();
-                    }
-
-                    loadPosts(userObject.data[0]);
                 }
             }
 

@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FETNET</title>
+    <%- `<title>${userData.username} — FETNET</title>` %>
 
     <link rel="icon" type="image/x-icon" href="../../img/favicon.ico">
 
@@ -116,7 +116,7 @@
                     Профиль
                 </li>
 
-                <li class="user-profile-menu-item" id="postButton">
+                <li class="user-profile-menu-item" id="postButtonMenu">
                     <img class="smaller-icon" src="../../img/icons/icon-feather.svg">
                     Запостить
                 </li>
@@ -135,7 +135,7 @@
 
     <div class="main-page">
         <div class="profile-container" id="profileContainer">
-            <div><img class="profile-pic" id="profilePic" src="../../api/user/avatar/0"></div>
+            <%- `<div><img class="profile-pic" id="profilePic" src="../../api/user/avatar/${userData.id}"></div>` %>
             <div class="profile-title">
                 <%- `<div class="profile-name-title ${JSON.parse(userData.name_color) ? JSON.parse(userData.name_color).effect : "none"}" id="profileName" style="color: ${JSON.parse(userData.name_color) ? JSON.parse(userData.name_color).color : "#FFFFFF"}">${userData.username}</div>` %>
                 <!--<img class="profile-country" id="profileCountry" src="../../img/flags/">-->
@@ -165,9 +165,44 @@
             </div>
         </div>
 
+        <% if (typeof postData != "undefined") { %>
         <ul id="postsList" class="post-list">
-            
+            <% let months = ['Января','Февраля','Марта','Апреля','Мая','Июня','Июля','Августа','Сентября','Октября','Ноября','Декабря']; %>
+            <% for (let i = 0; i < postData.posts.length; i++) { %>
+                <% let postDate = new Date(postData.posts[i].timestamp); %>
+                <% let nowDate = new Date(Date.now()); %>
+                <% let viewsAmount = 0; %>
+                <%- `<li class="post-list-item" data-id="${i}"><div class="post-profile-block"><img class="small-profile-picture" src="../api/user/avatar/${userData.id}"><div class="post-profile-name ${JSON.parse(userData.name_color) ? JSON.parse(userData.name_color).effect : "none"}" style="color: ${JSON.parse(userData.name_color) ? JSON.parse(userData.name_color).color : "FFFFFF"}">${userData.username}</div><time class="post-timestamp">${postDate.getDate()} ${months[postDate.getMonth()]} ${postDate.getFullYear() == nowDate.getFullYear() ? "" : postDate.getFullYear()}</time></div><div class="post-profile-text">${postData.posts[i].post_body}</div> <div class="post-info-block"> <div class="eye-block"><div class="eye-icon"><img src="../img/icons/postbox/icon-views.svg"></div></div> ${postData.posts[i].views.length} </div> </li>` %>
+            <% } %>
         </ul>
+        <% } %>
+
+        <% if (typeof adminData != "undefined") { %>
+            <%- `<div class="info-container" style="margin-top: 30px">` %>
+                <%- `<div class="info-block">` %>
+                    <%- `<div style="padding: 5%;">` %>
+                        <%- `<div class="stats-row"><div><div class="stats-title">Регистрационный IP-адрес:</div>${adminData.registerIP}</div></div>` %>
+                        <%- `<div class="stats-row"><div><div class="stats-title">Дата регистрации:</div>${adminData.regDate}</div></div>` %>
+                        <%- `<div class="stats-row"><div><div class="stats-title">Место регистрации:</div><div class="stats-block"><img src="../../img/flags/${adminData.place.country}.svg" width="32" height="32" style="margin-right: 5px"> ${adminData.place.city}, ${adminData.place.country}</div></div></div>` %>
+                    <%- `</div>` %>
+
+                    <%- `<div style="padding: 5%;">` %>
+                        <%- `<ul>` %>
+                            <%- `<div class="stats-title">Список аккаунтов (${adminData.accounts.length}):</div>` %>
+                            <% adminData.accounts.forEach(function(account){ %>
+                                <%- `<li><a style="text-align: left; color: ${JSON.parse(account.name_color) ? JSON.parse(account.name_color).color : "#FFFFFF"}; padding: 10px 0 0 10px; display: flex; align-items: center;" href="../u/${account.name}"><img class="small-profile-picture" style="width: 32px; height: 32px; margin-right: 5px;" src="../../api/user/avatar/${account.id}">${account.name}</a></li>` %>
+                            <% }); %>
+                        <%- `</ul>` %>
+                    <%- `</div>` %>
+                <%- `</div>` %>
+
+                <%- `<div class="info-block">` %>
+                    <%- `<div style="padding: 5%;">` %>
+                        <%- `<button id="admin-menu" class="red-button">Заблокировать</button>` %>
+                    <%- `</div>` %>
+                <%- `</div>` %>
+            <%- `</div>` %>
+        <% } %>
     </div>
 
 </body>
