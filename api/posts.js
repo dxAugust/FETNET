@@ -136,7 +136,7 @@ router.post('/', function (request, response) {
     });
 });
 
-router.get('/view/:userid/:post_id', function (request, response) {
+router.post('/view/:userid/:post_id', function (request, response) {
     
 });
 
