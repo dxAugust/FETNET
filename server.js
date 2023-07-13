@@ -31,6 +31,9 @@ app.use(API_ROOT + '/data', dataRoute);
 const postsRoute = require("./api/posts.js");
 app.use(API_ROOT + '/posts', postsRoute);
 
+const adminRoute = require("./api/admin.js");
+app.use(API_ROOT + '/admin', adminRoute);
+
 const searchRoute = require("./api/search.js");
 app.use('/search', searchRoute);
 /* ------------ */

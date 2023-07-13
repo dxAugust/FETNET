@@ -46,6 +46,34 @@ router.get('/u/:username', function (request, response) {
                     pageData.postData.posts.sort(function(a, b) {
                         return b.timestamp - a.timestamp;
                     });
+
+                    pageData.postData.posts.sort(function(a, b) {
+                        return (a.pinned === b.pinned) ? 0 : a.pinned? -1 : 1;
+                    });
+
+                    let alreadyViewed = false;
+                    for (let i = 0; i < pageData.postData.posts.length; i++)
+                    {
+                        if (pageData.postData.posts[i].views.length > 0)
+                        {
+                            pageData.postData.posts[i].views.forEach(viewer => {
+                                if (viewer.ip 
+                                === request.socket.remoteAddress.split(":")[3])
+                                {
+                                    alreadyViewed = true;
+                                }
+                            });
+
+                            if (!alreadyViewed)
+                            {
+                                pageData.postData.posts[i].views.push({ ip: request.socket.remoteAddress.split(":")[3] });
+                            }
+                        } else {
+                            pageData.postData.posts[i].views.push({ ip: request.socket.remoteAddress.split(":")[3] });
+                        }
+                    }
+
+                    fs.writeFileSync(postsDir + `users/posts_${row.id}.json`, JSON.stringify(pageData.postData));
                 } else {
                     fs.closeSync(fs.openSync(postsDir + `users/posts_${row.id}.json`, 'w'));
 

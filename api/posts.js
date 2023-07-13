@@ -136,4 +136,8 @@ router.post('/', function (request, response) {
     });
 });
 
+router.post('/view/:userid/:post_id', function (request, response) {
+    
+});
+
 module.exports = router;

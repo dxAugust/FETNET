@@ -21,6 +21,8 @@
     <%- `<meta property="og:title" content="FETNET — ${userData.username}"/>` %>
     <%- `<meta property="og:image" content="https://fetnet.us.to/api/user/avatar/${userData.id}"/>` %>
     <%- `<meta property="og:description" content="${userData.mood}"/>` %>
+
+    <%- `<meta id="userId" data-id="${userData.id}"/>` %>
     <meta name="theme-color" content="#38b000">
 
     <script src="../../js/main.js"></script>
@@ -165,18 +167,6 @@
             </div>
         </div>
 
-        <% if (typeof postData != "undefined") { %>
-        <ul id="postsList" class="post-list">
-            <% let months = ['Января','Февраля','Марта','Апреля','Мая','Июня','Июля','Августа','Сентября','Октября','Ноября','Декабря']; %>
-            <% for (let i = 0; i < postData.posts.length; i++) { %>
-                <% let postDate = new Date(postData.posts[i].timestamp); %>
-                <% let nowDate = new Date(Date.now()); %>
-                <% let viewsAmount = 0; %>
-                <%- `<li class="post-list-item" data-id="${i}"><div class="post-profile-block"><img class="small-profile-picture" src="../api/user/avatar/${userData.id}"><div class="post-profile-name ${JSON.parse(userData.name_color) ? JSON.parse(userData.name_color).effect : "none"}" style="color: ${JSON.parse(userData.name_color) ? JSON.parse(userData.name_color).color : "FFFFFF"}">${userData.username}</div><time class="post-timestamp">${postDate.getDate()} ${months[postDate.getMonth()]} ${postDate.getFullYear() == nowDate.getFullYear() ? "" : postDate.getFullYear()}   ${(postDate.getHours()) + ":" + ("0" + postDate.getMinutes()).substr(-2)}</time></div><div class="post-profile-text">${postData.posts[i].post_body}</div> <div class="post-info-block"> <div class="eye-block"><div class="eye-icon"><img src="../img/icons/postbox/icon-views.svg"></div></div> ${postData.posts[i].views.length} </div> </li>` %>
-            <% } %>
-        </ul>
-        <% } %>
-
         <% if (typeof adminData != "undefined") { %>
             <%- `<div class="info-container" style="margin-top: 30px">` %>
                 <%- `<div class="info-block">` %>
@@ -202,6 +192,18 @@
                     <%- `</div>` %>
                 <%- `</div>` %>
             <%- `</div>` %>
+        <% } %>
+
+        <% if (typeof postData != "undefined") { %>
+        <ul id="postsList" class="post-list">
+            <% let months = ['Января','Февраля','Марта','Апреля','Мая','Июня','Июля','Августа','Сентября','Октября','Ноября','Декабря']; %>
+            <% for (let i = 0; i < postData.posts.length; i++) { %>
+                <% let postDate = new Date(postData.posts[i].timestamp); %>
+                <% let nowDate = new Date(Date.now()); %>
+                <% let viewsAmount = 0; %>
+                <%- `<li class="post-list-item" data-id="${i}">${postData.posts[i].pinned ? `<div class="post-profile-block" style="justify-content: flex-end; margin-bottom: 0px;"><img class="small-icon" src="../../img/icons/postbox/icon-pin.svg"></div>` : ``}<div class="post-profile-block"><img class="small-profile-picture" src="../api/user/avatar/${userData.id}"><div class="post-profile-name ${JSON.parse(userData.name_color) ? JSON.parse(userData.name_color).effect : "none"}" style="color: ${JSON.parse(userData.name_color) ? JSON.parse(userData.name_color).color : "FFFFFF"}">${userData.username}</div><time class="post-timestamp">${postDate.getDate()} ${months[postDate.getMonth()]} ${postDate.getFullYear() == nowDate.getFullYear() ? "" : postDate.getFullYear()}   ${(postDate.getHours()) + ":" + ("0" + postDate.getMinutes()).substr(-2)}</time></div><div class="post-profile-text">${postData.posts[i].post_body}</div> <div class="post-info-block"> <div class="eye-block"><div class="eye-icon"><img src="../img/icons/postbox/icon-views.svg"></div></div> ${postData.posts[i].views.length} </div> </li>` %>
+            <% } %>
+        </ul>
         <% } %>
     </div>
 
